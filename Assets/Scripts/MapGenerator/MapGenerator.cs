@@ -88,7 +88,6 @@ public class MapGenerator
         }
     }
     List<string> walls=new();
-    //TODO: finish this to be working correctly 
     int ObtenirMurAutour(int posX, int posY)
     {
         int nbMur = 0;
@@ -108,7 +107,7 @@ public class MapGenerator
                     ++nbMur;
             }
         }
-        Debug.Log($"at the position {posX},{posY} there is {nbMur} wall");
+        // Debug.Log($"at the position {posX},{posY} there is {nbMur} wall");
         return nbMur;
     }
 
@@ -127,5 +126,17 @@ public class MapGenerator
             sb.AppendLine();
         }
         Debug.Log($"{sb}");
+    }
+
+    public Dictionary<Vector2,int> GenererPosTuiles(int[,] carte){
+        Dictionary<Vector2,int> pos=new();
+        for (int x = 0; x < dimension.x; x++)
+        {
+            for (int y = 0; y < dimension.y; y++)
+            {
+                pos.Add(new(x,y),carte[x,y]);
+            }
+        }
+        return pos;
     }
 }

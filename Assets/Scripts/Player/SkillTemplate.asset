@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad0fb62a9d473664fbffa45f1ae126cd, type: 3}
+  m_Name: SkillTemplate
+  m_EditorClassIdentifier: 
+  skillName: is this a name?
+  skillCost: 0
+  skillDescription: is this a good description of a skill?
+  bonusType: 0
+  statEffect: 0
+  statEffectValue: 8541894
+  skillEffect: 0

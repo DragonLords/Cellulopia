@@ -2,82 +2,85 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.AddressableAssets;
 
 public class GameManager : MonoBehaviour
 {
-    DataWorld data=new();
+    #region Singleton
+    private static GameManager instance = null;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+                instance = (GameManager)FindObjectOfType(typeof(GameManager));
+            return instance;
+        }
+    }
+    #endregion
+    DataWorld data = new();
+    SaveManager save = new();
+    #region Generation Monde
     [SerializeField] public MapGenerator mapGenerator;
-    SaveManager save=new();
-    public Renderer debugQuad;
+    AccesMat accesMat;
+    GameObject _carte;
+    #endregion
+
+    Player.Player player;
+    #region Upgrade Player event
+    public Player.Events.PlayerUpgradeStats AddStats = new();
+    public Player.Events.PlayerUpgradeSkill AddSkills = new();
+    #endregion
+
+    private void Awake()
+    {
+        player = FindObjectOfType<Player.Player>();
+        AddStats.AddListener(UpgradePlayerStats);
+        AddSkills.AddListener(UpgradePlayerSkills);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Generation();
-    }
-
-    private void Generation()
-    {
-        GenererCarte();
-        GenererCubesMap();
-        Sauvegarder();
+        GenererTotaliteMonde();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E)){
-            DetruireCubes();
-        }
+
     }
 
-    async void DetruireCubes(){
-        foreach(var cube in mapGenerator.cubes)
-            Destroy(cube);
-        mapGenerator.cubes.Clear();
-        await Task.Delay(1000*2);
-        Generation();
-    }
-
-    private void Vider()
+    #region Upgrade Player
+    void UpgradePlayerStats(Player.Skill.SkillTemplate skill)
     {
-        foreach(var cube in mapGenerator.cubes){
-            Destroy(cube);
-        }
-        mapGenerator.cubes.Clear();
+        player.UpgradeStats(skill);
     }
-
-    public void GenererCarte(){
-        data.carte=mapGenerator.GenererCarte();
-        ShowText(data.carte);
+    void UpgradePlayerSkills(Player.Skill.SkillTemplate skill)
+    {
+        player.DonnerCompetence(skill);
     }
+    #endregion
 
-    void ShowText(int[,] carte){
-        List<Color> colors=new();
-        for (int x = 0; x < mapGenerator.dimension.x; x++)
-        {
-            for (int y = 0; y < mapGenerator.dimension.y; y++)
-            {
-                colors.Add(carte[x,y]==0?Color.white:Color.black);
-            }
-        }
-        Texture2D tex=new(mapGenerator.dimension.x,mapGenerator.dimension.y);
-        tex.SetPixels(colors.ToArray());
-        tex.Apply();
-        debugQuad.sharedMaterial.mainTexture=tex;
-    }
 
-    public void InitialiserSauvegarde(){
+    #region Sauvegarde
+    public void InitialiserSauvegarde()
+    {
         save.Save();
     }
 
-    public void Sauvegarder(){
-        data.time=Time.time.ToString();
+    public void Sauvegarder()
+    {
+        data.time = Time.time.ToString();
         ConsoleDebugCarte();
         save.Sauvegarder(data);
-    }   
+    }
+    #endregion
 
+    #region Generation Monde
     void ConsoleDebugCarte()
     {
         System.Text.StringBuilder sb = new();
@@ -90,28 +93,97 @@ public class GameManager : MonoBehaviour
             }
             sb.AppendLine();
         }
-        data.ArrayMap=sb.ToString();
+        data.ArrayMap = sb.ToString();
     }
 
-    public void GenererCubesMap(){
-        for (int x = 0; x < mapGenerator.dimension.x; x++)
+    internal Transform GenererMeshes(AccesMat terme)
+    {
+        GameObject sol = new() { name = terme.ToString() };
+        foreach (KeyValuePair<Vector2, int> kvp in data.tuilesPos)
         {
-            for (int y = 0; y < mapGenerator.dimension.y; y++)
+            if (kvp.Value == ((int)terme))
             {
-                var cube=Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube),new(x,y),Quaternion.identity,transform);
-                cube.GetComponent<Renderer>().material.color=mapGenerator.carte[x,y]==0?Color.white:Color.black;
-                mapGenerator.cubes.Add(cube);
+                GameObject objet = new();
+                objet.transform.SetParent(sol.transform);
+                objet.transform.position = kvp.Key;
+                objet.AddComponent<MeshGenerator>().Init(data.carte, this);
             }
+        }
+        FusionerMeshes(sol.transform, terme);
+        return sol.transform;
+    }
+
+    void FusionerMeshes(Transform cible, AccesMat terme)
+    {
+        MeshFilter[] filters = cible.GetComponentsInChildren<MeshFilter>();
+        CombineInstance[] combine = new CombineInstance[filters.Length];
+        for (int i = 0; i < filters.Length; i++)
+        {
+            combine[i].mesh = filters[i].sharedMesh;
+            combine[i].transform = filters[i].transform.localToWorldMatrix;
+            filters[i].gameObject.SetActive(false);
+        }
+        MeshFilter filter = cible.gameObject.AddComponent<MeshFilter>();
+        filter.mesh = new() { name = $"Mesh finale {cible.name}" };
+        filter.sharedMesh.CombineMeshes(combine, true);
+        MeshCollider collider = cible.gameObject.AddComponent<MeshCollider>();
+        collider.sharedMesh = filter.sharedMesh;
+        MeshRenderer renderer = cible.gameObject.AddComponent<MeshRenderer>();
+        renderer.material = Addressables.LoadAssetAsync<Material>(terme.ToString()).WaitForCompletion();
+        Debug.Log(terme.ToString());
+        for (int i = 0; i < filters.Length; i++)
+        {
+            DestroyImmediate(filters[i].gameObject);
         }
     }
 
+    internal void GenererTotaliteMonde()
+    {
+        if (_carte is not null)
+            SupprimerMonde();
+        System.Diagnostics.Stopwatch TimerGenMonde = new();
+        TimerGenMonde.Start();
+        GameObject carte = new() { name = "Carte" };
+        this._carte = carte;
+        data.carte = mapGenerator.GenererCarte();
+        data.tuilesPos = mapGenerator.GenererPosTuiles(data.carte);
+        GenererMeshes(AccesMat.Sol).SetParent(carte.transform);
+        GenererMeshes(AccesMat.Mur).SetParent(carte.transform);
+        TimerGenMonde.Stop();
+        Debug.LogFormat("World generated in {0} ms", TimerGenMonde.ElapsedMilliseconds);
+        string pathSave = $"{Application.dataPath}/SaveData/save.json";
+        // save.CreerFichier(pathSave);
+        data.dimension = mapGenerator.dimension;
+        save.SaveDebug(data, pathSave);
+    }
+
+    internal void SupprimerMonde()
+    {
+        if (_carte is not null)
+        {
+            DestroyImmediate(_carte);
+        }
+    }
+    #endregion
+
     [System.Serializable]
-    public class DataWorld{
+    public class DataWorld
+    {
         public int[,] carte;
         public string time;
         public string ArrayMap;
+        public Vector2Int dimension;
+        public int[] mapContract;
+        public Dictionary<Vector2, int> tuilesPos = new();
+        public MapData mapData = new();
+        [System.Serializable]
+        public class MapData
+        {
+            public int[] carteFinal;
+        }
     }
 
 }
 
+internal enum AccesMat { Sol, Mur };
 
