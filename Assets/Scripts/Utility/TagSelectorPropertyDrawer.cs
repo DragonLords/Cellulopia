@@ -1,6 +1,7 @@
  using UnityEngine;
- using UnityEditor;
- using System.Collections.Generic; 
+ using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
  [CustomPropertyDrawer(typeof(TagSelectorAttribute))]
  
  [CustomPropertyDrawer(typeof(TagSelectorAttribute))]
@@ -72,3 +73,4 @@
          }
      }
  }
+#endif

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [RequireComponent(typeof(MeshRenderer),(typeof(MeshFilter)))]
 public class MeshGenerator : MonoBehaviour
@@ -42,4 +43,5 @@ public class MeshGenerator : MonoBehaviour
         v3[5]=new(1,1);
         return v3;
     }
+    
 }
