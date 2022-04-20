@@ -9,16 +9,22 @@ public class ButtonHandler : MonoBehaviour
     [SerializeField] TextMeshProUGUI text;
     public Button button;
     public Player.Skill.SkillTemplate skill;
-    public void Init(int value,Button button,Player.Skill.SkillTemplate skill){
+    public SkillTreeHandler skillTreeHandler;
+    public void Init(int value,Button button){
         text.text=skill.skillName;
         this.button=button;
-        this.skill=skill;
         this.button.onClick.AddListener(OnClick);
     }
 
     private void Awake()
     {
+        button=GetComponent<Button>();
         text=GetComponentInChildren<TextMeshProUGUI>();
+        button.onClick.AddListener(OnClick);
+        skill.button=button;
+        if(skill.skillRequirement is not null)
+            button.interactable=false;
+        skillTreeHandler=GetComponentInParent<SkillTreeHandler>();
     }
 
     public void OnClick(){
@@ -27,5 +33,7 @@ public class ButtonHandler : MonoBehaviour
         //attribute at the player the skill
         GameManager.Instance.AddStats.Invoke(skill);
         button.interactable=false;
+        // if(skill.skillRequirement is not null)
+        skillTreeHandler.skillRequirementUnlock(skill);
     }
 }

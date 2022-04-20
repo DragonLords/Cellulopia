@@ -88,7 +88,7 @@ public class MapGenerator
         }
     }
     List<string> walls=new();
-    int ObtenirMurAutour(int posX, int posY)
+    public int ObtenirMurAutour(int posX, int posY)
     {
         int nbMur = 0;
         //on regarde les murs autour dansun patern de 3X3

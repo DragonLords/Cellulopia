@@ -21,6 +21,10 @@ MonoBehaviour:
     m_Address: Food
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 9676949da05761d408608ebf6ed51c7c
+    m_Address: Malus
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: fa7730bc219dbc2428b9094001801031, type: 2}
   m_SchemaSet:

@@ -12,43 +12,49 @@ using System;
 public class SkillTreeHandler : MonoBehaviour
 {
     public Button[] buttons;
-    delegate void A();
-    public List<Player.Skill.SkillTemplate> skills=new();
-    public List<Player.Skill.SkillTemplate> final=new();
+    public List<SkillTemplate> skills=new();
+    // delegate void A();
+    // public List<Player.Skill.SkillTemplate> skills=new();
+    // public List<Player.Skill.SkillTemplate> final=new();
     private void Awake()
     {
-        List<string> keys=new(){"Skills"};
+        // List<string> keys=new(){"Skills"};
         //FIXME: skills appear not in order 
-        AsyncOperationHandle<IList<Player.Skill.SkillTemplate>> loadHandle=Addressables.LoadAssetsAsync<Player.Skill.SkillTemplate>("Skills",obj=>skills.Add(obj));
-        loadHandle.WaitForCompletion();
+        // AsyncOperationHandle<IList<Player.Skill.SkillTemplate>> loadHandle=Addressables.LoadAssetsAsync<Player.Skill.SkillTemplate>("Skills",obj=>skills.Add(obj));
+        // loadHandle.WaitForCompletion();
 
         buttons=GetComponentsInChildren<Button>(true);
-        // Debug.Log(buttons.Length);
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            buttons[i].GetComponent<ButtonHandler>().Init(i,
-            buttons[i] as Button,
-            skills[i]);
+        var handlers=GetComponentsInChildren<ButtonHandler>();
+        foreach(var item in handlers){
+            skills.Add(item.skill);
         }
+        // Debug.Log(buttons.Length);
+        // for (int i = 0; i < buttons.Length; i++)
+        // {
+        //     buttons[i].GetComponent<ButtonHandler>().Init(i,
+        //     buttons[i] as Button);
+        // }
+
+        
+
         // for(int i=0;i<3;++i)
         //     Debug.Log(buttons[i].name);
         // Debug.Log(buttons[0].name);
         // Debug.Log(buttons[1].name);
         // Debug.Log(buttons[2].name);
 
+        
+
+
         //on desactive lobject comme ca il nest pas obstruant a lecran
         gameObject.SetActive(false);
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    
+    internal void skillRequirementUnlock(SkillTemplate skillTemplate){
+        foreach(var skill in skills){
+            if(skill.skillRequirement==skillTemplate){
+                skill.button.interactable=true;
+            }
+        }        
     }
 }

@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0fb62a9d473664fbffa45f1ae126cd, type: 3}
   m_Name: SkillTemplate 2
   m_EditorClassIdentifier: 
+  grade: 2
+  skillRequirement: {fileID: 11400000, guid: 1c4cc993208cc6b4e81c5bd747a08f46, type: 2}
   skillName: is this a name?
+  skillOrder: 0
   skillCost: 0
   skillDescription: is this a good description of a skill?
   bonusType: 0

@@ -24,6 +24,7 @@ public class MeshGenerator : MonoBehaviour
         render=GetComponent<MeshRenderer>();
         filter=GetComponent<MeshFilter>();
         GenerateMesh();
+        render.material=UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<Material>("Sol").WaitForCompletion();
     }
 
     public void GenerateMesh(){

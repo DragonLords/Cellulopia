@@ -7,6 +7,9 @@ namespace Player.Skill{
 
 [CreateAssetMenu(fileName = "SkillTemplate", menuName = "Cellulopia/SkillTemplate", order = 0)]
 public class SkillTemplate : ScriptableObject {
+    public int grade=1;
+    public SkillTemplate skillRequirement;
+    internal UnityEngine.UI.Button button;
     [HideInInspector] public string skillName;
     [HideInInspector] public int skillOrder;
     [HideInInspector] public int skillCost;

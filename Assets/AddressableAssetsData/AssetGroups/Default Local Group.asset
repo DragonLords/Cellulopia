@@ -25,6 +25,18 @@ MonoBehaviour:
     m_Address: Mur
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 10f4b881e777ccf4898974a3ccfc1a3f
+    m_Address: PlayerInputAction
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0a507a2a77bf1b847bd2083bfcef7150
+    m_Address: FoodPath
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 08dbe1035aee6de42ab1bda4f88410c8
+    m_Address: Enemy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: fa7730bc219dbc2428b9094001801031, type: 2}
   m_SchemaSet:

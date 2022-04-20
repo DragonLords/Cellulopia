@@ -6,16 +6,18 @@ TagManager:
   tags:
   - Nourriture
   - Ennemy
+  - PlayerAttackZone
+  - Malus
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Nourriture
+  - Ennemy
+  - Malus
   - 
   - 
   - 

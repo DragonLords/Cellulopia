@@ -10,33 +10,32 @@ namespace TileMap
 
     public class TileMapGenerator : MonoBehaviour
     {
+        
         public Tilemap tileGround;
         public Tilemap tileWall;
         public TileBase ground;
         public TileBase wall;
-        public MapGenerator mapGenerator = new();
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+        int[,] carte;
+        public void Init(int[,] carte,TileBase ground,TileBase wall,Tilemap mapWall,Tilemap mapGround){
+            this.carte=carte;
+            this.tileGround=mapGround;
+            this.tileWall=mapWall;
+            this.ground=ground;
+            this.wall=wall;
+            Generate();
         }
 
         internal void Generate()
         {
             Empty();
-            int[,] carte=mapGenerator.GenererCarte();
             for (int x = 0; x < carte.GetLength(0); x++)
             {
                 for (int y = 0; y < carte.GetLength(1); y++)
                 {
-                    if (carte[x, y] == 0)
+                    if (carte[x, y] == 0){
                         tileGround.SetTile(new(x, y), ground);
+                        GameManager.Instance.emptyTiles.Add(new(x,y));
+                    }
                     else
                         tileWall.SetTile(new(x, y), wall);
                 }
@@ -52,6 +51,7 @@ namespace TileMap
 
     }
 
+#if UNITY_EDITOR
     [CustomEditor(typeof(TileMapGenerator))]
     public class TileMapGeneratorEditor : Editor
     {
@@ -68,6 +68,6 @@ namespace TileMap
             base.OnInspectorGUI();
         }
     }
-
+#endif
 
 }
