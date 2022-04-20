@@ -88,6 +88,7 @@ namespace Player
 
         void Awake()
         {
+            Cursor.lockState=CursorLockMode.Confined;
             controller = GetComponent<CharacterController>();
             try
             {
