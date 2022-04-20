@@ -78,7 +78,11 @@ namespace Enemy
         }
 
         public async Task CallbackSpawn(TypeForOthers typeOther){
-            
+            switch (typeOther)
+            {
+                case TypeForOthers.Baddy:break;
+                default:break;
+            }
             await Task.Yield();
         }
 
