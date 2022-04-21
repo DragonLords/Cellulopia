@@ -12,7 +12,7 @@ namespace Enemy.State{
         public override void InitState(Enemy enemy)
         {
             // FindFood(enemy).ConfigureAwait(false).GetAwaiter();
-            Debug.Log("im hungry");
+            // Debug.Log("im hungry");
         }
 
         async Task FindFood(Enemy enemy)
@@ -56,7 +56,7 @@ namespace Enemy.State{
         
         public override void EndState(Enemy enemy)
         {
-            Debug.Log("State ended");
+            // Debug.Log("State ended");
             enemy.StatePending().ConfigureAwait(true).GetAwaiter().GetResult();
         }
     }
