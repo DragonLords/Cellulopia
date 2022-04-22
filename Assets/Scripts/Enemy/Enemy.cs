@@ -19,7 +19,7 @@ namespace Enemy
         public LayerMask foodLayer;
         public float radius = 15f;
         internal bool alive = true;
-        internal Vector3[] bounds = { new(-5f, 0, -15f), new(35, 0, 25) };
+        public Vector3[] bounds = { new(-5f, 0, -15f), new(35, 0, 25) };
         internal Renderer rend;
         internal Collider _collider;
         public NavMeshAgent agent;
@@ -37,11 +37,13 @@ namespace Enemy
         public int Hunger { get => _hunger; set { _hunger = Mathf.Clamp(value, 0, MaxHunger); } }
         public int tresholdHungry = 10;
         public bool isHungry = false;
+        [SerializeField,Range(1f,10f),Tooltip("delay of seconds between each tick of the hunger loop *In Seconds*")] 
+        private float _delayTickHunger=1f;
 
         #region Social
         internal bool canSocialize = false;
         internal bool isSocalizing = false;
-        internal float radiusDetectionSocial = 15f;
+        internal float radiusDetectionSocial = 10f;
         [SerializeField] internal LayerMask othersLayer;
         internal int socialPoint = 15;
         [SerializeField, Tooltip("Time between each socialisation in seconds and must be integer")]
@@ -56,7 +58,9 @@ namespace Enemy
         internal bool isAttacking = false;
         internal bool readyToDefend = false;
         internal bool inRangeToAttack = false;
-        internal float attackRange = 5f;
+        internal float attackRange = 10f;
+        internal bool willingToAttack=false;
+        internal bool hasKilled=false;
         #endregion
 
         #region Flee
@@ -130,9 +134,9 @@ namespace Enemy
             await Task.Yield();
         }
 
-        internal void Init(actionState state)
+        internal void Init(Vector3[] bounds)
         {
-            _actionState = state;
+            this.bounds=bounds;
         }
 
         private void Awake()
@@ -155,7 +159,7 @@ namespace Enemy
             /// okay now apprently event that is an infinite loop
             /// im loosing my mind over it 
             /// it was fine right before
-            /// LoopHunger().ConfigureAwait(false);
+            LoopHunger().ConfigureAwait(false).GetAwaiter();
             #endregion
         }
 
@@ -249,6 +253,8 @@ namespace Enemy
             return false;
         }
 
+        internal Vector3 RandomPosBounds()=>new(Random.Range(bounds[0].x,bounds[1].x),0,Random.Range(bounds[0].z,bounds[1].z));
+
         async Task LoopHunger()
         {
             do
@@ -258,9 +264,8 @@ namespace Enemy
                 {
                     await Task.Yield();
                     isHungry = true;
-                    HungryManager();
                 }
-                await Task.Delay(50);
+                await Task.Delay(Mathf.RoundToInt(_delayTickHunger*1000));
             } while (alive);
         }
 
@@ -284,7 +289,7 @@ namespace Enemy
                 else
                 {
                     ChangeState(actionState.Attack);
-                    Debug.Log("here");
+                    // Debug.Log("here");
                 }
             }
             else
@@ -295,14 +300,19 @@ namespace Enemy
                 }
                 else
                 {
-                    if (inRangeToAttack = InRangeToAttack())
+                    if(Random.Range(0,2)==0)
+                        willingToAttack=true;
+                    // if (InRangeToAttack())
+                    if (inRangeToAttack=DetectRangeAction(attackRange,dangerLayers)&&willingToAttack)
                     {
                         ChangeState(actionState.Attack);
-                        Debug.Log("there");
+                        // Debug.Log("there");
                     }
                     else
                     {
-                        if (canSocialize = Physics.CheckSphere(transform.position, radiusDetectionSocial, othersLayer))
+                        // Debug.Log("insert");
+                        //heres the problem
+                        if (canSocialize = DetectRangeAction(radiusDetectionSocial,othersLayer))
                         {
                             ChangeState(actionState.Socialize);
                         }
@@ -317,10 +327,22 @@ namespace Enemy
 
         bool InRangeToAttack(){
             //change correctly the layer or do overlap and take out the self
-            gameObject.layer=noneLayer;
+            int selfLayer=gameObject.layer;
+            int layerDefault=LayerMask.NameToLayer("Default");
+            gameObject.layer=layerDefault;
             bool detection=Physics.CheckSphere(transform.position,attackRange,dangerLayers);
-            gameObject.layer=othersLayer;
-            return inRangeToAttack=detection;
+            gameObject.layer=selfLayer;
+            inRangeToAttack=detection;
+            return detection;
+        }
+
+        bool DetectRangeAction(float rangeDetection,LayerMask layerTarget){
+            int selfLayer=gameObject.layer;
+            int layerDefault=LayerMask.NameToLayer("Default");
+            gameObject.layer=layerDefault;
+            bool detection=Physics.CheckSphere(transform.position,rangeDetection,layerTarget);
+            gameObject.layer=selfLayer;
+            return detection;
         }
 
         async Task GiveFood(int value)
@@ -346,12 +368,21 @@ namespace Enemy
             {
                 Destroy(other.gameObject);
                 GiveFood(10).ConfigureAwait(false).GetAwaiter();
+                state.EndState(this);
             }
             else if (other.gameObject.CompareTag(tag) && isAttacking)
             {
-                Destroy(other.gameObject);
+                other.gameObject.GetComponent<Enemy>().Killed();
+                hasKilled=true;
+                state.EndState(this);
             }
         }
+
+        public void Killed(){
+            alive=false;
+            Destroy(gameObject);
+        }
+
 
         Task DestroyMe() => Task.Run(() => { Destroy(gameObject); });
 
@@ -361,10 +392,41 @@ namespace Enemy
             Destroy(what);
         });
 
+        /// <summary>
+        /// Called when the script is loaded or a value is changed in the
+        /// inspector (Called in the editor only).
+        /// </summary>
+        void OnValidate()
+        {
+            if(_actions.Count>0)
+                ChangeState(_actionState);
+        }
+
         internal Vector3 target = Vector3.zero;
         private void OnDrawGizmos()
         {
-            Gizmos.color = hungryState.foodFound ? Color.magenta : Color.green;
+            switch(_actionState){
+                case actionState.Walking:{
+                    Gizmos.color=Color.white;
+                }break;
+                case actionState.Attack:{
+                    Gizmos.color=Color.red;
+
+                }break;
+                case actionState.Hungry:{
+                    Gizmos.color=Color.magenta;
+
+                }break;
+                case actionState.Flee:{
+                    Gizmos.color=Color.yellow;
+
+                }break;
+                case actionState.Socialize:{
+                    Gizmos.color=Color.cyan;
+
+                }break;
+            }
+            // Gizmos.color = hungryState.foodFound ? Color.magenta : Color.green;
             // Gizmos.DrawWireSphere(transform.position,radius);
             Gizmos.DrawWireSphere(transform.position, radiusDetectionDanger);
             if (target != Vector3.zero)

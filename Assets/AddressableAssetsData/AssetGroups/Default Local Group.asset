@@ -45,6 +45,10 @@ MonoBehaviour:
     m_Address: Food3D
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 0866e406da1df554681aa3fbd0d66984
+    m_Address: Proj
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: fa7730bc219dbc2428b9094001801031, type: 2}
   m_SchemaSet:

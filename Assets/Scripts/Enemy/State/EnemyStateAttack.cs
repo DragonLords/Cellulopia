@@ -25,16 +25,19 @@ namespace Enemy.State
             else
             {
                 enemy.isAttacking=true;
+                bool targetIsAlive=colls[0].gameObject.GetComponent<Enemy>().alive;
                 do
                 {
                     Vector3 target=colls[0].transform.position;
                     await Task.Yield();
                     enemy.agent.SetDestination(target);
-                } while (enemy.alive&&enemy.isAttacking&&enemy.agent.remainingDistance>1);
+                } while (enemy.alive&&enemy.isAttacking&&enemy.agent.remainingDistance>1&&targetIsAlive&&!enemy.hasKilled);
             } 
+            // Debug.Log("break");
             await Task.Yield();
             enemy.isAttacking=false;
             enemy.agent.isStopped=true;
+            EndState(enemy);
         }
 
         public override void UpdateState(Enemy enemy)
@@ -48,6 +51,8 @@ namespace Enemy.State
             enemy.isAttacking=false;
             enemy.readyToDefend=false;
             enemy.inRangeToAttack=false;
+            enemy.willingToAttack=false;
+            enemy.hasKilled=false;
             enemy.RequestNewState();
         }
     }

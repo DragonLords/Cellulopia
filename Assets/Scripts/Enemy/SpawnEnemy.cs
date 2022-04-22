@@ -16,6 +16,8 @@ public class SpawnEnemy : MonoBehaviour
     [Range(1000,15000)]public int delay=1000;
     public GameObject plane;
     public Vector3[] posSpawn;
+    int max=10;
+    bool useMax=true;
     private void Start()
     {
         Spawn().ConfigureAwait(false).GetAwaiter();
@@ -27,6 +29,7 @@ public class SpawnEnemy : MonoBehaviour
         posSpawn=new Vector3[2];
         posSpawn[0]=bounds.min;
         posSpawn[1]=bounds.max;
+        int act=0;
         do
         {
             await Task.Delay(delay);
@@ -34,6 +37,10 @@ public class SpawnEnemy : MonoBehaviour
             var en=enemyTemp.InstantiateAsync(target,Quaternion.identity,transform);
             en.WaitForCompletion();
             en.Completed+=Spawn_Completed;
+            ++act;
+            if(useMax&&act==max)
+                break;
+            await Task.Yield();
         } while (UnityEditor.EditorApplication.isPlaying);        
     }
 
@@ -44,11 +51,7 @@ public class SpawnEnemy : MonoBehaviour
             var en=a.GetComponent<Enemy.Enemy>();
             int rnd=Random.Range(0,en._actions.Count);
             int rndType=Random.Range(0,3);
-            en.typeForOthers=(Enemy.TypeForOthers)rndType;
-            en._actionState=(Enemy.actionState)rnd;
-            a.name=$"{(Enemy.actionState)rnd}_{(Enemy.TypeForOthers)rndType}";
-            enemies.Add(a);
-            en.Init((Enemy.actionState)rnd);
+            en.Init(posSpawn);
         }
         // obj.Result.GetComponent<Enemy.Enemy>().CallbackSpawn(Enemy.TypeForOthers.Neutral).ConfigureAwait(false);
     }

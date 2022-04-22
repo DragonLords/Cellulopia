@@ -29,7 +29,7 @@ public class SpawnTester : MonoBehaviour
         {
             Vector3 target=new(Random.Range(posSpawn[0].x,posSpawn[1].x),0f,Random.Range(posSpawn[0].z,posSpawn[1].z));
             Instantiate(food,target,Quaternion.identity,transform);
-            await Task.Delay(5000);
+            await Task.Delay(500);
         } while (UnityEditor.EditorApplication.isPlaying);
     }
 }
