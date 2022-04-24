@@ -1267,7 +1267,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722171484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.66, y: 0, z: -0.29}
+  m_LocalPosition: {x: -0.44, y: 0, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1527,7 +1527,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 807341684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.74, y: 0, z: -2.99}
+  m_LocalPosition: {x: 3.74, y: 0, z: -4.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1561,9 +1561,15 @@ MonoBehaviour:
   offset: {x: 0.5, y: 0, z: 0.5}
   pos: {x: 0, y: 0, z: 0}
   radius: 5
+  projKey: 
   DebugSphere: {fileID: 333743255}
   head: {fileID: 87509821}
   canAttack: 1
+  radiusProj: 5
+  angle: 0
+  stepAngle: 0
+  numberProj: 25
+  projLaunchOrder: []
 --- !u!195 &807341694
 NavMeshAgent:
   m_ObjectHideFlags: 0
