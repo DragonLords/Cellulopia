@@ -34,7 +34,7 @@ namespace Boss
         {
             LoadAsset();
             _agent = GetComponent<NavMeshAgent>();
-            holderProj=new GameObject("holder_porjcetile").transform;
+            holderProj=new GameObject("holder_porjectile").transform;
             holderProj.SetParent(transform);
             searchingForPlayer=true;
             // FindPlayer().ConfigureAwait(false);

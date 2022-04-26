@@ -72,6 +72,11 @@ namespace Enemy
         internal float rangeFlee = 40f;
         #endregion
 
+        #region Additionnal trait
+            private int aggressivityTendancy=0;
+            public int AggressivityTendancy{get=>aggressivityTendancy;set{aggressivityTendancy=Mathf.Clamp(value,0,100);}}
+        #endregion
+
 
         #region State
         State.EnemyStateBase state;
@@ -143,6 +148,7 @@ namespace Enemy
         {
             FillDict();
             fov = GetComponent<EnemyFOV>();
+            AggressivityTendancy=Random.Range(0,101);
         }
 
         // Start is called before the first frame update
