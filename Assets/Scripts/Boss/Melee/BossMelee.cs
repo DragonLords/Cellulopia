@@ -13,21 +13,29 @@ using System.Runtime.InteropServices;
 public class BossMelee : MonoBehaviour
 {
     public NavMeshAgent agent;
-    public Action[] possibleActions;
-    public int hungryLevel=30;
-    public bool isHungry=false;
-    private int _hunger=100;
-    public int Hunger{get=>_hunger;set{_hunger=Mathf.Clamp(value,0,100);}}
-    public int _aggressivityLevel=0;
-    public int AggressivityLevel{get=>_aggressivityLevel;set{_aggressivityLevel=Mathf.Clamp(value,0,100);}}
+    bool alive=false;
+    public LayerMask foodLayer;
+    // public int hungryLevel=30;
+    // public bool isHungry=false;
+    // private int _hunger=100;
+    // public int Hunger{get=>_hunger;set{_hunger=Mathf.Clamp(value,0,100);}}
+    // public int _aggressivityLevel=0;
+    // public int AggressivityLevel{get=>_aggressivityLevel;set{_aggressivityLevel=Mathf.Clamp(value,0,100);}}
     
     #region GOAP
-    public List<Action> actions;
+    public List<Action> actions=new();
+    public Dictionary<SubGoal,int> goals=new();
+    Planner planner;
+    Queue<Action> actionQueue;
+    public Action currentAction;
+    SubGoal currentSubGoal;
+    public Action[] acts;
     #endregion
     
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
+        #region Get__Agent
         if (agent is null)
         {
             try
@@ -39,80 +47,98 @@ public class BossMelee : MonoBehaviour
                 agent = gameObject.AddComponent<NavMeshAgent>();
             }
         }
-        // TesConst().ConfigureAwait(false);
+        #endregion
+        
+        alive=true;    
+        acts=GetComponents<Action>();
+        foreach(var a in acts){
+            actions.Add(a);
+        }
+        LoopDetection().ConfigureAwait(false);
     }
 
-    void DefineInitialValue(){
-        AggressivityLevel=Random.Range(0,101);
-        Hunger=100;
+    // void DefineInitialValue(){
+        // AggressivityLevel=Random.Range(0,101);
+        // Hunger=100;
+    // }
+
+
+    bool invoked=false;
+    internal float radiusFoodDetection=50f;
+
+    void CompleteAction(){
+        currentAction.running=false;
+        currentAction.PostPerform();
+        invoked=false;
     }
 
-
-
-    private void Update()
+    private async Task LoopDetection()
     {
+        do
+        {
+            
+        if(currentAction is not null && currentAction.running){
+            if(currentAction.agent.hasPath&&currentAction.agent.remainingDistance<1f){
+                await Task.Yield();
+                if(!invoked){
+                    await Task.Delay(Mathf.RoundToInt(currentAction.duration));
+                    CompleteAction();
+                    // Invoke("CompleteAction",currentAction.duration);
+                    invoked=true;
+                }
+            }
+            await Task.Yield();
+            return;
+        }
+        await Task.Yield();
+        if(planner is null || actionQueue is null){
+            planner=new();
 
+            await Task.Yield();
+            var sortedGoal = from entry in goals orderby entry.Value descending select entry;
+            Debug.LogFormat("goals count:{0} goal:{1} {2}",goals.Count,goals.First().Key,goals.First().Value);
+            foreach(var kvp in sortedGoal){
+                await Task.Yield();
+                actionQueue=planner.plan(actions,kvp.Key.subGoals,null);
+                if(actionQueue is not null){
+                    currentSubGoal=kvp.Key;
+                    await Task.Yield();
+                    break;
+                }
+            }
+        }
+
+        if(actionQueue is not null && actionQueue.Count==0)
+        {
+            if(currentSubGoal.remove){
+                goals.Remove(currentSubGoal);
+            }
+            planner=null;
+        }
+
+        if(actionQueue is not null && actionQueue.Count>0)
+        {
+            currentAction=actionQueue.Dequeue();
+            if(currentAction.PrePerform(this))
+            {
+                if(currentAction.target==null && currentAction.targetTag is not ""){
+                    currentAction.target=GameObject.FindGameObjectWithTag(currentAction.targetTag);
+                }
+                if(currentAction.target is not null){
+                    currentAction.running=true;
+                    currentAction.agent.SetDestination(currentAction.target.transform.position);
+                }
+            }else{
+                actionQueue=null;
+            }
+        }
+        await Task.Yield();
+        } while (alive);
     }
 }
 public enum Goal{Eat,Attack,Flee,Social}
 
 
-//Start of implementing thew GOAP using tutorial of Unity
-
-[System.Serializable]
-public abstract class Action
-{
-    public string actionName;
-    public Goal actionGoal;
-    public float ActionCost = 1.0f;
-    public GameObject target;
-    public GameObject targetTag;
-    public float duration=0f;
-    public  WorldState[] preConditions;
-    public WorldState[] afterEffects;
-    public NavMeshAgent agent;
-    public Dictionary<string,int> preconditions;
-    public Dictionary<string,int> effects;
-    public WorldStates agentPlaces;
-    public bool running=false;
-    public bool Acheivable=true;
-
-    public Action(NavMeshAgent agent)
-    {
-        this.agent=agent;
-        this.preconditions =new();
-        this.effects = new();
-    }
-
-    public void Awake(){
-        if(preConditions!=null){
-            foreach(var WorldState in preConditions){
-                preconditions.Add(WorldState.Key,WorldState.Value);
-            }
-        }
-        if(afterEffects!=null){
-            foreach(var WorldState in preConditions){
-                effects.Add(WorldState.Key,WorldState.Value);
-            }
-        }
-    }
-
-    public bool IsAchievable(){
-        return true;
-    }
-
-    public bool IsAchievableGiven(Dictionary<string,int> conditions){
-        foreach (var condition in conditions)
-        {
-            if(!conditions.ContainsKey(condition.Key))
-                return false;
-        }
-        return true;
-    }
-
-    public abstract bool PrePerform();
-    public abstract bool PostPerform();
-}
 
 [System.Serializable]
 public class SubGoal{
@@ -150,10 +176,11 @@ public class Node
 }
 
 [System.Serializable]
-public class Planner : System.IDisposable
+public class Planner 
+// : System.IDisposable
 {
-    System.Runtime.InteropServices.SafeHandle _safeHandle = new SafeFileHandle(System.IntPtr.Zero, true);
-    private bool disposedValue;
+    // System.Runtime.InteropServices.SafeHandle _safeHandle = new SafeFileHandle(System.IntPtr.Zero, true);
+    // private bool disposedValue;
     public Queue<Action> plan(List<Action> actions,Dictionary<string,int> goal,WorldStates states){
         List<Action> usableActions=new();
         foreach(var action in actions){
@@ -165,6 +192,7 @@ public class Planner : System.IDisposable
         Node start=new(null,0,World.Instance.GetWorld().GetStates(),null);
         bool success=BuildGraph(start,leaves,usableActions,goal);
         if(!success){
+            // Debug.LogFormat("node:{0} cost:{1} value:{2} action:{3}",start.parent,start.cost,start.state.First().Value,start.action);
             Debug.Log("<color=red>No Plan!</color>");
             return null;
         }
@@ -202,29 +230,39 @@ public class Planner : System.IDisposable
 
     private bool BuildGraph(Node start, List<Node> leaves, List<Action> usableActions, Dictionary<string, int> goal)
     {
+        Debug.LogFormat("leaves:{0} actions:{1} goals:{2}",leaves.Count,usableActions.Count,goal.Count);
         bool foundPath=false;
         foreach(var action in usableActions){
             if(action.IsAchievableGiven(start.state)){
+                Debug.LogFormat("achgiv:{0}",action.IsAchievableGiven(start.state));
                 Dictionary<string,int> currentState=new(start.state);
+                Debug.LogFormat("curr state:{0} ___effects:{1}___",currentState.Count,action.effects.Count);
                 foreach(var kvp in action.effects){
                     if(!currentState.ContainsKey(kvp.Key))
                         currentState.Add(kvp.Key,kvp.Value);
                 }
                 Node node=new(start,start.cost+action.ActionCost,currentState,action);
+                
+                Debug.LogFormat("<color=pink>goal:{0} curr:{1} </color>",goal.First().Value,currentState.First().Value);
+
                 if(GoalAchieved(goal,currentState)){
+                    Debug.Log("here");
                     leaves.Add(node);
                     foundPath=true;
                 }else{
                     List<Action> subset=ActionSubset(usableActions,action);
+                    Debug.LogFormat("subset:{0}",subset.Count);
                     //create a recusive call to find the final plan
                     bool found=BuildGraph(node,leaves,subset,goal);
+                    Debug.LogFormat("found:{0}",found);
                     if(found){
                         foundPath=true;
                     }
                 }
             }
+            Debug.LogFormat("found Path:{0}",foundPath);
         }
-        return true;
+        return foundPath;
     }
 
     //will not add the action to the next subset
@@ -249,49 +287,39 @@ public class Planner : System.IDisposable
         return true;
     }
 
-    public Planner(){
-        Debug.Log("created");
-    }
-    public List<Action> DoAPlanning(Goal goal,BossMelee boss){
-        List<Action> actions=new();
-        actions.Add(boss.possibleActions[0]);
-        // actions.Add();
-        return actions;
-    }
-
     #region Dispose
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!disposedValue)
-        {
-            if (disposing)
-            {
-                // TODO: supprimer l'état managé (objets managés)
-                Debug.Log("dispose started");
-                _safeHandle.Dispose();
-            }
+    // protected virtual void Dispose(bool disposing)
+    // {
+    //     if (!disposedValue)
+    //     {
+    //         if (disposing)
+    //         {
+    //             // TODO: supprimer l'état managé (objets managés)
+    //             Debug.Log("dispose started");
+    //             _safeHandle.Dispose();
+    //         }
 
-            // TODO: libérer les ressources non managées (objets non managés) et substituer le finaliseur
-            // TODO: affecter aux grands champs une valeur null
-            disposedValue = true;
-            Debug.Log("disposing");
-        }
-    }
+    //         // TODO: libérer les ressources non managées (objets non managés) et substituer le finaliseur
+    //         // TODO: affecter aux grands champs une valeur null
+    //         disposedValue = true;
+    //         Debug.Log("disposing");
+    //     }
+    // }
 
-    // // TODO: substituer le finaliseur uniquement si 'Dispose(bool disposing)' a du code pour libérer les ressources non managées
-    ~Planner()
-    {
-        // Ne changez pas ce code. Placez le code de nettoyage dans la méthode 'Dispose(bool disposing)'
-        Debug.Log("disposed");
-        Dispose(disposing: false);
-    }
+    // // // TODO: substituer le finaliseur uniquement si 'Dispose(bool disposing)' a du code pour libérer les ressources non managées
+    // ~Planner()
+    // {
+    //     // Ne changez pas ce code. Placez le code de nettoyage dans la méthode 'Dispose(bool disposing)'
+    //     Debug.Log("disposed");
+    //     Dispose(disposing: false);
+    // }
 
-    public void Dispose()
-    {
-        // Ne changez pas ce code. Placez le code de nettoyage dans la méthode 'Dispose(bool disposing)'
-        Dispose(disposing: true);
-        System.GC.SuppressFinalize(this);
-    }
+    // public void Dispose()
+    // {
+    //     // Ne changez pas ce code. Placez le code de nettoyage dans la méthode 'Dispose(bool disposing)'
+    //     Dispose(disposing: true);
+    //     System.GC.SuppressFinalize(this);
+    // }
     #endregion
 }
 
@@ -319,24 +347,26 @@ public class WorldStates{
     }
 
     public void ModifyState(string key,int value){
-        if(states.ContainsKey(key)){
+        if(HasState(key)){
             states[key]+=value;
         }else{
-            states.Add(key,value);
+            AddStates(key,value);
         }
     }
 
     public void RemoveState(string key){
-        if(states.ContainsKey(key)){
+        if(HasState(key)){
             states.Remove(key);
         }
     }
 
     public void SetState(string key,int value){
-        if(states.ContainsKey(key)){
-            states[key]=value;
+        if(HasState(key)){
+            states[key]+=value;
+            if(states[key]<=0)
+                RemoveState(key);
         }else{
-            states.Add(key,value);
+            AddStates(key,value);
         }
     }
 

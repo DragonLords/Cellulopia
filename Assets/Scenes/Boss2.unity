@@ -1332,7 +1332,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669976465}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42.8, y: 11.06258, z: -12.5}
+  m_LocalPosition: {x: 42.8, y: 0.48, z: -12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4687,8 +4687,9 @@ GameObject:
   - component: {fileID: 2131305871}
   - component: {fileID: 2131305870}
   - component: {fileID: 2131305869}
-  - component: {fileID: 2131305868}
   - component: {fileID: 2131305873}
+  - component: {fileID: 2131305875}
+  - component: {fileID: 2131305874}
   m_Layer: 7
   m_Name: boss
   m_TagString: Ennemy
@@ -4696,33 +4697,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2131305868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131305867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff1a1408a9a6cb8428b766934cd0da5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 2131305873}
-  Todo: 0
-  actionsList: []
-  possibleActions:
-  - actionGoal: 3
-    ActionCost: 5
-  - actionGoal: 0
-    ActionCost: 10
-  - actionGoal: 2
-    ActionCost: 15
-  - actionGoal: 1
-    ActionCost: 30
-  hungryLevel: 30
-  isHungry: 0
-  _aggressivityLevel: 0
 --- !u!136 &2131305869
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4824,3 +4798,47 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2131305874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131305867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1629ac44e61d0504cb25748df19d4e58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: Get_Food
+  actionGoal: 0
+  ActionCost: 1
+  target: {fileID: 0}
+  targetTag: Nourriture
+  duration: 0
+  preConditions: []
+  afterEffects:
+  - Key: isWaiting
+    Value: 1
+  agent: {fileID: 0}
+  running: 0
+  Acheivable: 1
+--- !u!114 &2131305875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131305867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc00eac78c012f4a9aee8528a73cfe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 2131305873}
+  foodLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  actions: []
+  currentAction: {fileID: 0}
+  acts: []
