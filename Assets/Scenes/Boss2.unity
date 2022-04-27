@@ -123,6 +123,117 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &10143895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 10143900}
+  - component: {fileID: 10143899}
+  - component: {fileID: 10143898}
+  - component: {fileID: 10143897}
+  - component: {fileID: 10143896}
+  m_Layer: 6
+  m_Name: Cube (44)
+  m_TagString: Nourriture
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &10143896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10143895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
+--- !u!65 &10143897
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10143895}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &10143898
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10143895}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &10143899
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10143895}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &10143900
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10143895}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 22.4, y: 0.5, z: -25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &18929616
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +246,7 @@ GameObject:
   - component: {fileID: 18929620}
   - component: {fileID: 18929619}
   - component: {fileID: 18929618}
+  - component: {fileID: 18929621}
   m_Layer: 6
   m_Name: Cube (26)
   m_TagString: Nourriture
@@ -190,7 +302,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -220,6 +332,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18929616}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &18929621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18929616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &88687654
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +357,7 @@ GameObject:
   - component: {fileID: 88687658}
   - component: {fileID: 88687657}
   - component: {fileID: 88687656}
+  - component: {fileID: 88687659}
   m_Layer: 6
   m_Name: Cube (8)
   m_TagString: Nourriture
@@ -287,7 +413,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -317,6 +443,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88687654}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &88687659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88687654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &153098721
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,6 +499,7 @@ GameObject:
   - component: {fileID: 183067649}
   - component: {fileID: 183067648}
   - component: {fileID: 183067647}
+  - component: {fileID: 183067650}
   m_Layer: 6
   m_Name: Cube (35)
   m_TagString: Nourriture
@@ -415,7 +555,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -445,6 +585,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 183067645}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &183067650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183067645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &226175659
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +610,7 @@ GameObject:
   - component: {fileID: 226175663}
   - component: {fileID: 226175662}
   - component: {fileID: 226175661}
+  - component: {fileID: 226175664}
   m_Layer: 6
   m_Name: Cube (11)
   m_TagString: Nourriture
@@ -512,7 +666,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -542,6 +696,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226175659}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &226175664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226175659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &227141427
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,6 +787,7 @@ GameObject:
   - component: {fileID: 355293973}
   - component: {fileID: 355293972}
   - component: {fileID: 355293971}
+  - component: {fileID: 355293974}
   m_Layer: 6
   m_Name: Cube (14)
   m_TagString: Nourriture
@@ -675,7 +843,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -705,6 +873,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 355293969}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &355293974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355293969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &376911363
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,6 +898,7 @@ GameObject:
   - component: {fileID: 376911367}
   - component: {fileID: 376911366}
   - component: {fileID: 376911365}
+  - component: {fileID: 376911368}
   m_Layer: 6
   m_Name: Cube (34)
   m_TagString: Nourriture
@@ -772,7 +954,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -802,6 +984,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376911363}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &376911368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376911363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &392534061
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +1009,7 @@ GameObject:
   - component: {fileID: 392534065}
   - component: {fileID: 392534064}
   - component: {fileID: 392534063}
+  - component: {fileID: 392534066}
   m_Layer: 6
   m_Name: Cube (32)
   m_TagString: Nourriture
@@ -869,7 +1065,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -899,6 +1095,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392534061}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &392534066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392534061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &428501821
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,6 +1238,7 @@ GameObject:
   - component: {fileID: 560486054}
   - component: {fileID: 560486053}
   - component: {fileID: 560486052}
+  - component: {fileID: 560486055}
   m_Layer: 6
   m_Name: Cube (15)
   m_TagString: Nourriture
@@ -1084,7 +1294,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1114,6 +1324,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 560486050}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &560486055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560486050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &561361055
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,6 +1349,7 @@ GameObject:
   - component: {fileID: 561361059}
   - component: {fileID: 561361058}
   - component: {fileID: 561361057}
+  - component: {fileID: 561361060}
   m_Layer: 6
   m_Name: Cube (41)
   m_TagString: Nourriture
@@ -1181,7 +1405,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1211,6 +1435,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561361055}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &561361060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561361055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &582142054
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,6 +1460,7 @@ GameObject:
   - component: {fileID: 582142058}
   - component: {fileID: 582142057}
   - component: {fileID: 582142056}
+  - component: {fileID: 582142059}
   m_Layer: 6
   m_Name: Cube (18)
   m_TagString: Nourriture
@@ -1278,7 +1516,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1308,6 +1546,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582142054}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &582142059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582142054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &669976465
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,7 +1574,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &669976466
 Transform:
   m_ObjectHideFlags: 0
@@ -1393,6 +1644,7 @@ GameObject:
   - component: {fileID: 672255642}
   - component: {fileID: 672255641}
   - component: {fileID: 672255640}
+  - component: {fileID: 672255643}
   m_Layer: 6
   m_Name: Cube (27)
   m_TagString: Nourriture
@@ -1448,7 +1700,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1478,6 +1730,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 672255638}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &672255643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672255638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &721177669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1490,6 +1755,7 @@ GameObject:
   - component: {fileID: 721177673}
   - component: {fileID: 721177672}
   - component: {fileID: 721177671}
+  - component: {fileID: 721177674}
   m_Layer: 6
   m_Name: Cube (2)
   m_TagString: Nourriture
@@ -1545,7 +1811,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1575,6 +1841,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721177669}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &721177674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721177669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &726334335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1587,6 +1866,7 @@ GameObject:
   - component: {fileID: 726334339}
   - component: {fileID: 726334338}
   - component: {fileID: 726334337}
+  - component: {fileID: 726334340}
   m_Layer: 6
   m_Name: Cube (36)
   m_TagString: Nourriture
@@ -1642,7 +1922,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1672,6 +1952,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 726334335}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &726334340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726334335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &727097499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1684,6 +1977,7 @@ GameObject:
   - component: {fileID: 727097503}
   - component: {fileID: 727097502}
   - component: {fileID: 727097501}
+  - component: {fileID: 727097504}
   m_Layer: 6
   m_Name: Cube (6)
   m_TagString: Nourriture
@@ -1739,7 +2033,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1769,6 +2063,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 727097499}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &727097504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727097499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &850377832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1781,6 +2088,7 @@ GameObject:
   - component: {fileID: 850377836}
   - component: {fileID: 850377835}
   - component: {fileID: 850377834}
+  - component: {fileID: 850377837}
   m_Layer: 6
   m_Name: Cube (5)
   m_TagString: Nourriture
@@ -1836,7 +2144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1866,6 +2174,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 850377832}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &850377837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850377832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &871759605
 GameObject:
   m_ObjectHideFlags: 0
@@ -1878,6 +2199,7 @@ GameObject:
   - component: {fileID: 871759609}
   - component: {fileID: 871759608}
   - component: {fileID: 871759607}
+  - component: {fileID: 871759610}
   m_Layer: 6
   m_Name: Cube (38)
   m_TagString: Nourriture
@@ -1933,7 +2255,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1963,6 +2285,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 871759605}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &871759610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871759605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &875589664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1975,6 +2310,7 @@ GameObject:
   - component: {fileID: 875589668}
   - component: {fileID: 875589667}
   - component: {fileID: 875589666}
+  - component: {fileID: 875589669}
   m_Layer: 6
   m_Name: Cube (3)
   m_TagString: Nourriture
@@ -2030,7 +2366,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2060,6 +2396,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 875589664}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &875589669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875589664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &949321502
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,6 +2440,174 @@ Transform:
   m_Father: {fileID: 227141428}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &962957087
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 962957092}
+  - component: {fileID: 962957091}
+  - component: {fileID: 962957090}
+  - component: {fileID: 962957089}
+  - component: {fileID: 962957088}
+  m_Layer: 6
+  m_Name: Cube (42)
+  m_TagString: Nourriture
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &962957088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962957087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
+--- !u!65 &962957089
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962957087}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &962957090
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962957087}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &962957091
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962957087}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &962957092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962957087}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -13.15, y: 0.48, z: -4.03}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &977433741
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2131305872}
+    m_Modifications:
+    - target: {fileID: 8066341439948161844, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_Name
+      value: Get_Food
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.45186
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 22.421558
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 27.60623
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
 --- !u!1 &1065894236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2103,6 +2620,7 @@ GameObject:
   - component: {fileID: 1065894240}
   - component: {fileID: 1065894239}
   - component: {fileID: 1065894238}
+  - component: {fileID: 1065894241}
   m_Layer: 6
   m_Name: Cube (37)
   m_TagString: Nourriture
@@ -2158,7 +2676,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2188,6 +2706,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065894236}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1065894241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065894236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1074405436
 GameObject:
   m_ObjectHideFlags: 0
@@ -2200,6 +2731,7 @@ GameObject:
   - component: {fileID: 1074405440}
   - component: {fileID: 1074405439}
   - component: {fileID: 1074405438}
+  - component: {fileID: 1074405441}
   m_Layer: 6
   m_Name: Cube (24)
   m_TagString: Nourriture
@@ -2255,7 +2787,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2285,6 +2817,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074405436}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1074405441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074405436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1152391877
 GameObject:
   m_ObjectHideFlags: 0
@@ -2297,6 +2842,7 @@ GameObject:
   - component: {fileID: 1152391881}
   - component: {fileID: 1152391880}
   - component: {fileID: 1152391879}
+  - component: {fileID: 1152391882}
   m_Layer: 6
   m_Name: Cube (19)
   m_TagString: Nourriture
@@ -2352,7 +2898,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2382,6 +2928,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152391877}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1152391882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152391877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1177287008
 GameObject:
   m_ObjectHideFlags: 0
@@ -2394,6 +2953,7 @@ GameObject:
   - component: {fileID: 1177287012}
   - component: {fileID: 1177287011}
   - component: {fileID: 1177287010}
+  - component: {fileID: 1177287013}
   m_Layer: 6
   m_Name: Cube (9)
   m_TagString: Nourriture
@@ -2449,7 +3009,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2479,6 +3039,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177287008}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1177287013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177287008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1215355867
 GameObject:
   m_ObjectHideFlags: 0
@@ -2491,6 +3064,7 @@ GameObject:
   - component: {fileID: 1215355871}
   - component: {fileID: 1215355870}
   - component: {fileID: 1215355869}
+  - component: {fileID: 1215355872}
   m_Layer: 6
   m_Name: Cube (17)
   m_TagString: Nourriture
@@ -2546,7 +3120,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2576,6 +3150,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215355867}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1215355872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215355867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1296774057
 GameObject:
   m_ObjectHideFlags: 0
@@ -2588,6 +3175,7 @@ GameObject:
   - component: {fileID: 1296774061}
   - component: {fileID: 1296774060}
   - component: {fileID: 1296774059}
+  - component: {fileID: 1296774062}
   m_Layer: 6
   m_Name: Cube (40)
   m_TagString: Nourriture
@@ -2643,7 +3231,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2673,6 +3261,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1296774057}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1296774062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296774057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1362298966
 GameObject:
   m_ObjectHideFlags: 0
@@ -2685,6 +3286,7 @@ GameObject:
   - component: {fileID: 1362298970}
   - component: {fileID: 1362298969}
   - component: {fileID: 1362298968}
+  - component: {fileID: 1362298971}
   m_Layer: 6
   m_Name: Cube (7)
   m_TagString: Nourriture
@@ -2740,7 +3342,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2770,6 +3372,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1362298966}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1362298971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362298966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1377873360
 GameObject:
   m_ObjectHideFlags: 0
@@ -2782,6 +3397,7 @@ GameObject:
   - component: {fileID: 1377873364}
   - component: {fileID: 1377873363}
   - component: {fileID: 1377873362}
+  - component: {fileID: 1377873365}
   m_Layer: 6
   m_Name: Cube (29)
   m_TagString: Nourriture
@@ -2837,7 +3453,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2867,6 +3483,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377873360}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1377873365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377873360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1455010825
 GameObject:
   m_ObjectHideFlags: 0
@@ -2879,6 +3508,7 @@ GameObject:
   - component: {fileID: 1455010829}
   - component: {fileID: 1455010828}
   - component: {fileID: 1455010827}
+  - component: {fileID: 1455010830}
   m_Layer: 6
   m_Name: Cube (25)
   m_TagString: Nourriture
@@ -2934,7 +3564,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2964,6 +3594,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455010825}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1455010830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455010825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1456666551
 GameObject:
   m_ObjectHideFlags: 0
@@ -2976,6 +3619,7 @@ GameObject:
   - component: {fileID: 1456666555}
   - component: {fileID: 1456666554}
   - component: {fileID: 1456666553}
+  - component: {fileID: 1456666556}
   m_Layer: 6
   m_Name: Cube (31)
   m_TagString: Nourriture
@@ -3031,7 +3675,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3061,6 +3705,130 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456666551}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1456666556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456666551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
+--- !u!1 &1461273053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1461273058}
+  - component: {fileID: 1461273057}
+  - component: {fileID: 1461273056}
+  - component: {fileID: 1461273055}
+  - component: {fileID: 1461273054}
+  m_Layer: 6
+  m_Name: Cube (46)
+  m_TagString: Nourriture
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1461273054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461273053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
+--- !u!65 &1461273055
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461273053}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1461273056
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461273053}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1461273057
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461273053}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1461273058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461273053}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -17.73, y: 0.5, z: -4.03}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1487930358
 GameObject:
   m_ObjectHideFlags: 0
@@ -3104,6 +3872,7 @@ GameObject:
   - component: {fileID: 1531831408}
   - component: {fileID: 1531831407}
   - component: {fileID: 1531831406}
+  - component: {fileID: 1531831409}
   m_Layer: 6
   m_Name: Cube (13)
   m_TagString: Nourriture
@@ -3159,7 +3928,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3189,6 +3958,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531831404}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1531831409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531831404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1568411776
 GameObject:
   m_ObjectHideFlags: 0
@@ -3201,6 +3983,7 @@ GameObject:
   - component: {fileID: 1568411780}
   - component: {fileID: 1568411779}
   - component: {fileID: 1568411778}
+  - component: {fileID: 1568411781}
   m_Layer: 6
   m_Name: Cube
   m_TagString: Nourriture
@@ -3256,7 +4039,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3286,6 +4069,241 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1568411776}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1568411781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568411776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
+--- !u!1 &1571250759
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1571250764}
+  - component: {fileID: 1571250763}
+  - component: {fileID: 1571250762}
+  - component: {fileID: 1571250761}
+  - component: {fileID: 1571250760}
+  m_Layer: 6
+  m_Name: Cube (43)
+  m_TagString: Nourriture
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1571250760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571250759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
+--- !u!65 &1571250761
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571250759}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1571250762
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571250759}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1571250763
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571250759}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1571250764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571250759}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -13.15, y: 0.5, z: -15.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1575415352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1575415357}
+  - component: {fileID: 1575415356}
+  - component: {fileID: 1575415355}
+  - component: {fileID: 1575415354}
+  - component: {fileID: 1575415353}
+  m_Layer: 6
+  m_Name: Cube (45)
+  m_TagString: Nourriture
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1575415353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575415352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
+--- !u!65 &1575415354
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575415352}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1575415355
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575415352}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1575415356
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575415352}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1575415357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575415352}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.68, y: 0.5, z: 8.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1632691851
 GameObject:
   m_ObjectHideFlags: 0
@@ -3298,6 +4316,7 @@ GameObject:
   - component: {fileID: 1632691855}
   - component: {fileID: 1632691854}
   - component: {fileID: 1632691853}
+  - component: {fileID: 1632691856}
   m_Layer: 6
   m_Name: Cube (22)
   m_TagString: Nourriture
@@ -3353,7 +4372,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3383,6 +4402,65 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1632691851}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1632691856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632691851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
+--- !u!1 &1675157814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1675157816}
+  - component: {fileID: 1675157815}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1675157815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675157814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e4dcbcc3975a4341b877a9cc83ba737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs: {fileID: 2978920762297125082, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+  plane: {fileID: 1828749610}
+--- !u!4 &1675157816
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675157814}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.45186, y: 22.421558, z: 27.60623}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1707745004
 GameObject:
   m_ObjectHideFlags: 0
@@ -3395,6 +4473,7 @@ GameObject:
   - component: {fileID: 1707745008}
   - component: {fileID: 1707745007}
   - component: {fileID: 1707745006}
+  - component: {fileID: 1707745009}
   m_Layer: 6
   m_Name: Cube (16)
   m_TagString: Nourriture
@@ -3450,7 +4529,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3480,6 +4559,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1707745004}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1707745009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707745004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1711274382
 GameObject:
   m_ObjectHideFlags: 0
@@ -3492,6 +4584,7 @@ GameObject:
   - component: {fileID: 1711274386}
   - component: {fileID: 1711274385}
   - component: {fileID: 1711274384}
+  - component: {fileID: 1711274387}
   m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Nourriture
@@ -3547,7 +4640,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3577,6 +4670,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1711274382}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1711274387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711274382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1724462037
 GameObject:
   m_ObjectHideFlags: 0
@@ -3589,6 +4695,7 @@ GameObject:
   - component: {fileID: 1724462041}
   - component: {fileID: 1724462040}
   - component: {fileID: 1724462039}
+  - component: {fileID: 1724462042}
   m_Layer: 6
   m_Name: Cube (23)
   m_TagString: Nourriture
@@ -3644,7 +4751,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3674,6 +4781,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724462037}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1724462042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724462037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1765794633
 GameObject:
   m_ObjectHideFlags: 0
@@ -3686,6 +4806,7 @@ GameObject:
   - component: {fileID: 1765794637}
   - component: {fileID: 1765794636}
   - component: {fileID: 1765794635}
+  - component: {fileID: 1765794638}
   m_Layer: 6
   m_Name: Cube (28)
   m_TagString: Nourriture
@@ -3741,7 +4862,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3771,6 +4892,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1765794633}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1765794638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765794633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1795688240
 GameObject:
   m_ObjectHideFlags: 0
@@ -3783,6 +4917,7 @@ GameObject:
   - component: {fileID: 1795688244}
   - component: {fileID: 1795688243}
   - component: {fileID: 1795688242}
+  - component: {fileID: 1795688245}
   m_Layer: 6
   m_Name: Cube (33)
   m_TagString: Nourriture
@@ -3838,7 +4973,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3868,6 +5003,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1795688240}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1795688245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795688240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1799932898
 GameObject:
   m_ObjectHideFlags: 0
@@ -3880,6 +5028,7 @@ GameObject:
   - component: {fileID: 1799932902}
   - component: {fileID: 1799932901}
   - component: {fileID: 1799932900}
+  - component: {fileID: 1799932903}
   m_Layer: 6
   m_Name: Cube (20)
   m_TagString: Nourriture
@@ -3935,7 +5084,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3965,6 +5114,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1799932898}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1799932903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799932898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1819914084
 GameObject:
   m_ObjectHideFlags: 0
@@ -3977,6 +5139,7 @@ GameObject:
   - component: {fileID: 1819914088}
   - component: {fileID: 1819914087}
   - component: {fileID: 1819914086}
+  - component: {fileID: 1819914089}
   m_Layer: 6
   m_Name: Cube (39)
   m_TagString: Nourriture
@@ -4032,7 +5195,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4062,6 +5225,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1819914084}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1819914089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819914084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1828749610
 GameObject:
   m_ObjectHideFlags: 0
@@ -4202,6 +5378,7 @@ GameObject:
   - component: {fileID: 1858448539}
   - component: {fileID: 1858448538}
   - component: {fileID: 1858448537}
+  - component: {fileID: 1858448540}
   m_Layer: 6
   m_Name: Cube (12)
   m_TagString: Nourriture
@@ -4257,7 +5434,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4287,6 +5464,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1858448535}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1858448540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858448535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &1920015814
 GameObject:
   m_ObjectHideFlags: 0
@@ -4299,6 +5489,7 @@ GameObject:
   - component: {fileID: 1920015818}
   - component: {fileID: 1920015817}
   - component: {fileID: 1920015816}
+  - component: {fileID: 1920015819}
   m_Layer: 6
   m_Name: Cube (10)
   m_TagString: Nourriture
@@ -4354,7 +5545,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4384,6 +5575,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920015814}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1920015819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920015814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &2033845312
 GameObject:
   m_ObjectHideFlags: 0
@@ -4396,6 +5600,7 @@ GameObject:
   - component: {fileID: 2033845316}
   - component: {fileID: 2033845315}
   - component: {fileID: 2033845314}
+  - component: {fileID: 2033845317}
   m_Layer: 6
   m_Name: Cube (30)
   m_TagString: Nourriture
@@ -4451,7 +5656,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4481,6 +5686,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2033845312}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2033845317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033845312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &2052202324
 GameObject:
   m_ObjectHideFlags: 0
@@ -4493,6 +5711,7 @@ GameObject:
   - component: {fileID: 2052202328}
   - component: {fileID: 2052202327}
   - component: {fileID: 2052202326}
+  - component: {fileID: 2052202329}
   m_Layer: 6
   m_Name: Cube (21)
   m_TagString: Nourriture
@@ -4548,7 +5767,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4578,6 +5797,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2052202324}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2052202329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052202324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
 --- !u!1 &2097718895
 GameObject:
   m_ObjectHideFlags: 0
@@ -4590,6 +5822,7 @@ GameObject:
   - component: {fileID: 2097718899}
   - component: {fileID: 2097718898}
   - component: {fileID: 2097718897}
+  - component: {fileID: 2097718900}
   m_Layer: 6
   m_Name: Cube (4)
   m_TagString: Nourriture
@@ -4645,7 +5878,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5195427c0d27644ed90d87ebe86d468a, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4675,7 +5908,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097718895}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2131305867
+--- !u!114 &2097718900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097718895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
+--- !u!1 &2113143433
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4683,41 +5929,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2131305872}
-  - component: {fileID: 2131305871}
-  - component: {fileID: 2131305870}
-  - component: {fileID: 2131305869}
-  - component: {fileID: 2131305873}
-  - component: {fileID: 2131305875}
-  - component: {fileID: 2131305874}
-  m_Layer: 7
-  m_Name: boss
-  m_TagString: Ennemy
+  - component: {fileID: 2113143438}
+  - component: {fileID: 2113143437}
+  - component: {fileID: 2113143436}
+  - component: {fileID: 2113143435}
+  - component: {fileID: 2113143434}
+  m_Layer: 6
+  m_Name: Cube (47)
+  m_TagString: Nourriture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!136 &2131305869
-CapsuleCollider:
+--- !u!114 &2113143434
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131305867}
+  m_GameObject: {fileID: 2113143433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c32747741e8a4f9a8470633e70ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodSaturation: 15
+--- !u!65 &2113143435
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113143433}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &2131305870
+--- !u!23 &2113143436
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131305867}
+  m_GameObject: {fileID: 2113143433}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -4731,7 +5987,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1c028272f840c114eab83545de915471, type: 2}
+  - {fileID: 2100000, guid: 56a496910d1e1584481c75066aefb837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4753,92 +6009,157 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &2131305871
+--- !u!33 &2113143437
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131305867}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &2131305872
+  m_GameObject: {fileID: 2113143433}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &2113143438
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131305867}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.3, z: 0}
+  m_GameObject: {fileID: 2113143433}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 24.7, y: 0.5, z: -4.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!195 &2131305873
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!4 &2131305872 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+  m_PrefabInstance: {fileID: 2978920760334658897}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131305867}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &2131305874
-MonoBehaviour:
+--- !u!1001 &2978920760334658897
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131305867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1629ac44e61d0504cb25748df19d4e58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionName: Get_Food
-  actionGoal: 0
-  ActionCost: 1
-  target: {fileID: 0}
-  targetTag: Nourriture
-  duration: 0
-  preConditions: []
-  afterEffects:
-  - Key: isWaiting
-    Value: 1
-  agent: {fileID: 0}
-  running: 0
-  Acheivable: 1
---- !u!114 &2131305875
-MonoBehaviour:
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2978920762297125056, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_Speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125057, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125058, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: objectives.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978920762297125058, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: objectives.Array.data[0]
+      value: 
+      objectReference: {fileID: 8066341439948161844, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+    - target: {fileID: 2978920762297125082, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+      propertyPath: m_Name
+      value: Agent
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+--- !u!1001 &4282823057076063451
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131305867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cc00eac78c012f4a9aee8528a73cfe1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 2131305873}
-  foodLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  actions: []
-  currentAction: {fileID: 0}
-  acts: []
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.45186
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 22.421558
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 27.60623
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282823058485303948, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
+      propertyPath: m_Name
+      value: Kill
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}

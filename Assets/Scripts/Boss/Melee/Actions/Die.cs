@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KillTheBaddy : Action
+public class Die : Action
 {
     public override bool PostPerform()
     {
-        throw new System.NotImplementedException();
+        // Destroy(gameObject);
+        Debug.Log("i want to die");
+        return true;
     }
 
     public override bool PrePerform(BossMelee caller, GameObject target = null)
     {
-        return caller.DetectRangeAction(caller.radiusFoodDetection,caller.layerEnemey);
+        return true;
     }
 
     public override bool TargetExistance(GameObject target)

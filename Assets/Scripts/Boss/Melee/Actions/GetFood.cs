@@ -15,5 +15,9 @@ public class GetFood : Action
         // return true;
     }
 
+    public override bool TargetExistance(GameObject target){
+        return target!=null;
+    }
+
 
 }
