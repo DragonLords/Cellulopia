@@ -4,18 +4,39 @@ using UnityEngine;
 
 public class KillTheBaddy : Action
 {
+    BossMelee caller;
     public override bool PostPerform()
     {
-        throw new System.NotImplementedException();
+        StartCoroutine(caller.ActionFinished());
+        return true;
     }
 
     public override bool PrePerform(BossMelee caller, GameObject target = null)
     {
-        return caller.DetectRangeAction(caller.radiusFoodDetection,caller.layerEnemey);
+        this.caller=caller;
+        var potentials=GetTarget(caller.transform,caller.radiusFoodDetection,caller.enemyLayer);
+        Debug.Log(potentials.Length);
+        bool found=potentials.Length>0;
+        if(found){
+            base.target=target;
+            target=base.target;
+            Debug.Log("blob");
+        }
+        Debug.LogFormat("found:{0} target:{1}",found,base.target);
+        return found; 
     }
 
-    public override bool TargetExistance(GameObject target)
+        Collider[] GetTarget(Transform self,float range,LayerMask targetLayer){
+        int selfLayer=gameObject.layer;
+        int layerDefault=LayerMask.NameToLayer("Default");
+        gameObject.layer=layerDefault;
+        var colls=Physics.OverlapSphere(self.position,range,targetLayer);
+        gameObject.layer=selfLayer;
+        return colls;
+    }
+
+    public override bool TargetExistance()
     {
-        throw new System.NotImplementedException();
+        return base.target!=null;
     }
 }

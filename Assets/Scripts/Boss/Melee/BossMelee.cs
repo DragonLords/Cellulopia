@@ -6,38 +6,44 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using Enemy;
+using TMPro;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 using Microsoft.Win32.SafeHandles;
 using System.Runtime.InteropServices;
 
 public class BossMelee : MonoBehaviour
 {
+    public GOAPTester tester;
     public NavMeshAgent agent;
-    bool alive=false;
+    bool alive = false;
     public LayerMask foodLayer;
-    public LayerMask layerEnemey;
-    public int hungryLevel=30;
-    public bool isHungry=false;
+    public LayerMask enemyLayer;
+    public int hungryLevel = 30;
+    public bool isHungry = false;
     [SerializeField] private int _hunger = 100;
     public int Hunger { get => _hunger; set { _hunger = Mathf.Clamp(value, 0, 100); } }
-    public float _delayTickHunger=1;
+    public float _delayTickHunger = 1;
     private int tickHunger;
-    public int DelayTickHunger{get=>tickHunger;set{tickHunger=Mathf.RoundToInt(_delayTickHunger*1000);}}
-    public int _aggressivityLevel=0;
-    public int AggressivityLevel{get=>_aggressivityLevel;set{_aggressivityLevel=Mathf.Clamp(value,0,100);}}
-    
+    public int DelayTickHunger { get => tickHunger; set { tickHunger = Mathf.RoundToInt(_delayTickHunger * 1000); } }
+    public int _aggressivityLevel = 0;
+    public int AggressivityLevel { get => _aggressivityLevel; set { _aggressivityLevel = Mathf.Clamp(value, 0, 100); } }
+
 
     #region GOAP
-    public List<Action> actions=new();
-    public Dictionary<SubGoal,int> goals=new();
+    public List<Action> actions = new();
+    public Dictionary<SubGoal, int> goals = new();
     Planner planner;
-    Queue<Action> actionQueue;
+    public Queue<Action> actionQueue;
     public Action currentAction;
-    SubGoal currentSubGoal;
+    public SubGoal currentSubGoal;
     public Action[] acts;
     public GameObject[] objectives;
     #endregion
-    
+    public Coroutine routineLoopAction;
+    public List<Action> Subs = new();
     // Start is called before the first frame update
     public void OnStart()
     {
@@ -57,24 +63,34 @@ public class BossMelee : MonoBehaviour
         DefineInitialValue();
 
 
-        alive=true;    
-        acts=GetComponentsInChildren<Action>();
-        foreach(var a in acts){
-            actions.Add(a);
-        }
+        alive = true;
+        // acts = GetComponentsInChildren<Action>();
+        // foreach (var a in acts)
+        // {
+        //     actions.Add(a);
+        // }
 
         // LoopDetection().ConfigureAwait(false);
-        LoopHunger().ConfigureAwait(false);
+        // LoopHunger().ConfigureAwait(false);
+        // routineLoopAction = StartCoroutine(LoopDetection());
     }
 
-    void DefineInitialValue(){
-    tickHunger=Mathf.RoundToInt(_delayTickHunger);
-    AggressivityLevel=Random.Range(0,101);
-    Hunger=100;
+    internal void HardReset()
+    {
+        planner = null;
+        actionQueue = null;
     }
 
-    public void GiveFood(int valueFood){
-        Hunger+=valueFood;
+    void DefineInitialValue()
+    {
+        tickHunger = Mathf.RoundToInt(_delayTickHunger);
+        AggressivityLevel = Random.Range(0, 101);
+        Hunger = 100;
+    }
+
+    public void GiveFood(int valueFood)
+    {
+        Hunger += valueFood;
     }
 
     public bool DetectRangeAction(float rangeDetection, LayerMask layerTarget)
@@ -87,10 +103,11 @@ public class BossMelee : MonoBehaviour
         return detection;
     }
 
-    async Task LoopHunger(){
-        Debug.LogFormat("delay is:{0} | {1}",DelayTickHunger,tickHunger);
-        DelayTickHunger=5;
-        Debug.LogFormat("delay is:{0} | {1}",DelayTickHunger,tickHunger);
+    async Task LoopHunger()
+    {
+        // Debug.LogFormat("delay is:{0} | {1}", DelayTickHunger, tickHunger);
+        DelayTickHunger = 5;
+        // Debug.LogFormat("delay is:{0} | {1}", DelayTickHunger, tickHunger);
         do
         {
             --Hunger;
@@ -98,204 +115,469 @@ public class BossMelee : MonoBehaviour
         } while (alive);
     }
 
-    async Task CheckTarget(){
+    async Task CheckTarget()
+    {
         do
         {
             // Debug.LogFormat("YeP bOi!1! {0} {1}",currentAction.target.name,currentAction.TargetExistance(currentAction.target));
-            await Task.Yield();            
-        } while (currentAction.target != null&&alive);
+            await Task.Yield();
+        } while (currentAction.target != null && alive);
         // Debug.Log("target lost... mission failed... we will get them next time");
         CancelAction();
     }
 
-    void CancelAction(){
-        currentAction.Achievable=false;
+    void CancelAction()
+    {
+        currentAction.Achievable = false;
         CompleteAction();
     }
 
-    async Task DeleteAllActions(){
-        actionQueue=null;
-        planner=null;
-        var old=GetComponentInChildren<Action>();
-        // Destroy(GetComponent(typeof(Action)));
-        UnityEngine.AddressableAssets.Addressables.InstantiateAsync(objectives[Random.Range(0,objectives.Length)],transform).WaitForCompletion();
-        await Task.Yield();
-        acts=GetComponentsInChildren<Action>();
-        foreach(var a in acts){
-        actions.Add(a);
-        }
-    }
-
-
-    bool invoked=false;
-    internal float radiusFoodDetection=50f;
-
-    void CompleteAction(){
-        currentAction.running=false;
-        currentAction.PostPerform();
-        //really important line since it is that line who will make the lack of action to trigger to get a new set of action
-        currentAction=null;
-        invoked=false;
-    }
-
-    private void LateUpdate()
+    async Task DeleteAllActions()
     {
-        if(currentAction is null){
-            Debug.Log("achieve");
+        actionQueue = null;
+        planner = null;
+        var old = GetComponentInChildren<Action>();
+        // Destroy(GetComponent(typeof(Action)));
+        UnityEngine.AddressableAssets.Addressables.InstantiateAsync(objectives[Random.Range(0, objectives.Length)], transform).WaitForCompletion();
+        await Task.Yield();
+        acts = GetComponentsInChildren<Action>();
+        foreach (var a in acts)
+        {
+            actions.Add(a);
         }
-        if(currentAction is not null){
-            if(!currentAction.Achievable){
-                Debug.Log("i need to stop");
+    }
+
+    void DeleteAllActionsSync()
+    {
+        actionQueue = null;
+        planner = null;
+        var old = GetComponentInChildren<Action>();
+        // Destroy(GetComponent(typeof(Action)));
+        UnityEngine.AddressableAssets.Addressables.InstantiateAsync("Get_Food", transform).WaitForCompletion();
+        acts = GetComponentsInChildren<Action>();
+        foreach (var a in acts)
+        {
+            actions.Add(a);
+        }
+    }
+
+
+    bool invoked = false;
+    internal float radiusFoodDetection = 50f;
+
+    void CompleteAction()
+    {
+        currentAction.running = false;
+        // currentAction.PostPerform();
+        // currentAction = null;
+        invoked = false;
+    }
+    bool doingAction = false;
+    IEnumerator DoingTheAction()
+    {
+        doingAction = true;
+        do
+        {
+            Debug.Log("<color=olive>AAA</color>");
+            if (currentAction.target == null)
+            {
+                Debug.Log("wsiugdsif");
+            }
+            yield return null;
+        } while (doingAction && agent.remainingDistance > 1f && currentAction.target is not null);
+        currentAction.PostPerform();
+        doingAction = false;
+        Debug.Log(goals.Count);
+        if (actionQueue.Count == 0)
+        {
+            actions.Clear();
+            Debug.Log("<color=red>STOP</color>");
+            //reroll action
+            StopCoroutine(routineLoopAction);
+            doingAction = false;
+            acts = GetComponentsInChildren<Action>();
+            foreach (var a in acts)
+            {
+                actions.Add(a);
+            }
+            routineLoopAction = StartCoroutine(LoopDetection());
+        }
+    }
+
+    private void Update()
+    {
+        if (Keyboard.current.aKey.wasPressedThisFrame)
+            DeleteAllActionsSync();
+    }
+
+
+
+    IEnumerator DoAction()
+    {
+        doingAction = true;
+        currentAction = actionQueue.Dequeue();
+        // Debug.LogFormat("Doing: {0} target:{1}", currentAction,currentAction.target.name);
+        Debug.LogFormat("target found:{0}",currentAction.PrePerform(this));
+        if (currentAction.PrePerform(this))
+        {
+            if(currentAction.target is not null){
+                agent.SetDestination(currentAction.target.transform.position);
+                yield return new WaitUntil(() => agent.remainingDistance < 1f);
             }
         }
-        if(currentAction is not null && currentAction.running){
-            // CheckTarget().ConfigureAwait(false).GetAwaiter();
-            if(currentAction.agent.hasPath&&currentAction.agent.remainingDistance<1f){
-                if(!invoked){
-                    // await Task.Delay(Mathf.RoundToInt(currentAction.duration));
-                    // CompleteAction();
-                    Invoke("CompleteAction",currentAction.duration);
-                    invoked=true;
-                }
-            }
-            return;
+        Debug.Log("finished");
+        // UnityEditor.EditorApplication.isPaused=true;
+        doingAction = false;
+        yield return StartCoroutine(ActionFinished());
+        // currentAction.PostPerform();
+    }
+
+    internal IEnumerator ActionFinished()
+    {
+        yield return null;
+        if (currentAction is not null)
+        {
+            actions.Remove(currentAction);
+            // currentAction.PostPerform();
+            goals.Remove(currentSubGoal);
+            Debug.Log("removed");
         }
-        if(planner is null || actionQueue is null){
-            planner=new();
-            Debug.Log("whyyyyy");
+        if (actionQueue.Count == 0)
+        {
+            Debug.Log("need new queue");
+            // StartCoroutine(tester.Redo());
+            StartCoroutine(RedoIntern());
+        }
+    }
+
+    internal IEnumerator InitQueue()
+    {
+        if (planner is null)
+        {
+            planner = new();
+            tester.OnSetGoal();
             var sortedGoal = from entry in goals orderby entry.Value descending select entry;
-            Debug.LogFormat("coutn:{0}",sortedGoal.ToList().Count);
-            if(sortedGoal.ToList().Count==0){
-                //heres the problem and the crash so
-                //FIXME: make unity crash and aslo due to 1 time completition
-                //the end is near for the agent
-                //need to recreate new action and then loop over them
-                DeleteAllActions().ConfigureAwait(false).GetAwaiter().GetResult();
-                // Debug.LogFormat("goals count:{0} goal:{1} {2}",goals.Count,goals.First().Key,goals.First().Value);
-            }
-            foreach(var kvp in sortedGoal){
-                actionQueue=planner.plan(actions,kvp.Key.subGoals,null);
-                if(actionQueue is not null){
-                    currentSubGoal=kvp.Key;
+            Debug.Log(sortedGoal.Count());
+            foreach (var kvp in sortedGoal)
+            {
+                actionQueue = planner.plan(actions, kvp.Key.subGoals, null);
+                if (actionQueue is not null)
+                {
+                    currentSubGoal = kvp.Key;
                     break;
                 }
             }
-        }
-
-        if(actionQueue is not null && actionQueue.Count==0)
-        {
-            if(currentSubGoal.remove){
-                goals.Remove(currentSubGoal);
-            }
-            Debug.Log("here");
-            planner=null;
-        }
-
-        if(actionQueue is not null && actionQueue.Count>0)
-        {
-            currentAction=actionQueue.Dequeue();
-            if(currentAction.PrePerform(this))
+            if (actionQueue is null)
             {
-                if(currentAction.target==null && currentAction.targetTag is not ""){
-                    currentAction.target=GameObject.FindGameObjectWithTag(currentAction.targetTag);
-                }
-                if(currentAction.target is not null){
-                    currentAction.running=true;
-                    currentAction.agent.SetDestination(currentAction.target.transform.position);
-                }
-            }else{
-                actionQueue=null;
+                Debug.Log("Queue is null");
             }
-            Debug.LogFormat("Queue:{0}",actionQueue.Count);
+            else
+            {
+                Debug.Log(actionQueue.Count);
+            }
         }
-        // Debug.Log("test test this is a test WRIIIIIII");
+        
+        yield return null;
+        // Highlight();
     }
 
-    private async Task LoopDetection()
+    void Highlight(){
+        currentAction=actionQueue.Dequeue();
+        Selection.objects=new Object[] {currentAction.target};
+    }
+
+    internal IEnumerator FinalDetection()
     {
         do
         {
-            
-        if(currentAction is not null && currentAction.running){
-            // CheckTarget().ConfigureAwait(false).GetAwaiter();
-            if(currentAction.agent.hasPath&&currentAction.agent.remainingDistance<1f){
-                await Task.Yield();
-                if(!invoked){
-                    // await Task.Delay(Mathf.RoundToInt(currentAction.duration));
-                    // CompleteAction();
-                    Invoke("CompleteAction",currentAction.duration);
-                    invoked=true;
-                }
-            }
-            await Task.Yield();
-            return;
-        }
-        await Task.Yield();
-        if(planner is null || actionQueue is null){
-            planner=new();
 
-            await Task.Yield();
-            var sortedGoal = from entry in goals orderby entry.Value descending select entry;
-            // Debug.LogFormat("goals count:{0} goal:{1} {2}",goals.Count,goals.First().Key,goals.First().Value);
-            foreach(var kvp in sortedGoal){
-                await Task.Yield();
-                actionQueue=planner.plan(actions,kvp.Key.subGoals,null);
-                if(actionQueue is not null){
-                    currentSubGoal=kvp.Key;
-                    await Task.Yield();
-                    break;
-                }
-            }
-        }
-
-        if(actionQueue is not null && actionQueue.Count==0)
-        {
-            if(currentSubGoal.remove){
-                goals.Remove(currentSubGoal);
-            }
-            planner=null;
-        }
-
-        if(actionQueue is not null && actionQueue.Count>0)
-        {
-            currentAction=actionQueue.Dequeue();
-            if(currentAction.PrePerform(this))
+            if (planner is null)
             {
-                if(currentAction.target==null && currentAction.targetTag is not ""){
-                    currentAction.target=GameObject.FindGameObjectWithTag(currentAction.targetTag);
+                planner = new();
+                var sortedGoal = from entry in goals orderby entry.Value descending select entry;
+                Debug.Log(sortedGoal.Count());
+                foreach (var kvp in sortedGoal)
+                {
+                    actionQueue = planner.plan(actions, kvp.Key.subGoals, null);
+                    if (actionQueue is not null)
+                    {
+                        currentSubGoal = kvp.Key;
+                        break;
+                    }
                 }
-                if(currentAction.target is not null){
-                    currentAction.running=true;
-                    currentAction.agent.SetDestination(currentAction.target.transform.position);
+                if (actionQueue is null)
+                {
+                    Debug.Log("Queue is null");
                 }
-            }else{
-                actionQueue=null;
+                else
+                {
+                    Debug.Log(actionQueue.Count);
+                }
             }
-        }
-        Debug.Log("test test this is a test WRIIIIIII");
-        await Task.Yield();
+
+            if (actionQueue is not null)
+            {
+                if (actionQueue.Count > 0)
+                {
+                    yield return StartCoroutine(DoAction());
+                    yield return new WaitWhile(() => doingAction == true);
+
+                }
+            }
+
+            if (currentAction is not null)
+            {
+                if (!currentAction.TargetExistance())
+                {
+                    currentAction.Achieved = true;
+                }
+                if (currentAction.Achieved)
+                {
+                    CompleteAction();
+                }
+            }
+
+
+
+            yield return null;
         } while (alive);
     }
+
+    internal void SetGoal()
+    {
+        actions.Clear();
+        goals.Clear();
+        Debug.Log(goals.Count);
+        acts = GetComponentsInChildren<Action>();
+        foreach (var a in acts)
+        {
+            actions.Add(a);
+        }
+        for (int i = 0; i < actions.Count; i++)
+        {
+            SubGoal s1 = new($"bob{i}", 1, true);
+            goals.Add(s1, 5);
+        }
+    }
+
+    internal IEnumerator RedoIntern(){
+        if(routineLoopAction is not null)
+            StopCoroutine(routineLoopAction);
+        yield return StartCoroutine(tester.SelectNewObjective());
+        SetGoal();
+        HardReset();
+        yield return StartCoroutine(InitQueue());
+        if(actionQueue is null){
+            do
+            {
+                Debug.Log("retry");
+                StartCoroutine(InitQueue());
+                yield return null;
+            } while (actionQueue is null);
+        }
+        routineLoopAction=StartCoroutine(FinalDetection());
+    }
+
+
+    private void LateUpdate()
+    {
+        #region Test
+        // if(currentAction is null){
+        //     Debug.Log("achieve");
+        // }
+        // if(currentAction is not null){
+        //     if(!currentAction.Achievable){
+        //         Debug.Log("i need to stop");
+        //     }
+        // }
+        // if(currentAction is not null && currentAction.running){
+        //     // CheckTarget().ConfigureAwait(false).GetAwaiter();
+        //     if(currentAction.agent.hasPath&&currentAction.agent.remainingDistance<1f){
+        //         if(!invoked){
+        //             // await Task.Delay(Mathf.RoundToInt(currentAction.duration));
+        //             // CompleteAction();
+        //             Invoke("CompleteAction",currentAction.duration);
+        //             invoked=true;
+        //         }
+        //     }
+        //     return;
+        // }
+        // if(planner is null || actionQueue is null){
+        //     planner=new();
+        //     Debug.Log("whyyyyy");
+        //     var sortedGoal = from entry in goals orderby entry.Value descending select entry;
+        //     Debug.LogFormat("coutn:{0}",sortedGoal.ToList().Count);
+        //     if(sortedGoal.ToList().Count==0){
+        //         //heres the problem and the crash so
+        //         //FIXME: make unity crash and aslo due to 1 time completition
+        //         //the end is near for the agent
+        //         //need to recreate new action and then loop over them
+        //         DeleteAllActions().ConfigureAwait(false).GetAwaiter().GetResult();
+        //         // Debug.LogFormat("goals count:{0} goal:{1} {2}",goals.Count,goals.First().Key,goals.First().Value);
+        //     }
+        //     foreach(var kvp in sortedGoal){
+        //         actionQueue=planner.plan(actions,kvp.Key.subGoals,null);
+        //         if(actionQueue is not null){
+        //             currentSubGoal=kvp.Key;
+        //             break;
+        //         }
+        //     }
+        // }
+
+        // if(actionQueue is not null && actionQueue.Count==0)
+        // {
+        //     if(currentSubGoal.remove){
+        //         goals.Remove(currentSubGoal);
+        //     }
+        //     Debug.Log("here");
+        //     planner=null;
+        // }
+
+        // if(actionQueue is not null && actionQueue.Count>0)
+        // {
+        //     currentAction=actionQueue.Dequeue();
+        //     if(currentAction.PrePerform(this))
+        //     {
+        //         if(currentAction.target==null && currentAction.targetTag is not ""){
+        //             currentAction.target=GameObject.FindGameObjectWithTag(currentAction.targetTag);
+        //         }
+        //         if(currentAction.target is not null){
+        //             currentAction.running=true;
+        //             currentAction.agent.SetDestination(currentAction.target.transform.position);
+        //         }
+        //     }else{
+        //         actionQueue=null;
+        //     }
+        //     Debug.LogFormat("Queue:{0}",actionQueue.Count);
+        // }
+        // Debug.Log("test test this is a test WRIIIIIII");
+        #endregion
+    }
+    private IEnumerator LoopDetection()
+    {
+        do
+        {
+            yield return null;
+            if (currentAction is not null && currentAction.running)
+            {
+                // CheckTarget().ConfigureAwait(false).GetAwaiter();
+                if (currentAction.agent.hasPath && currentAction.agent.remainingDistance < 1f)
+                {
+                    if (!invoked)
+                    {
+                        // await Task.Delay(Mathf.RoundToInt(currentAction.duration));
+                        yield return new WaitUntil(() => doingAction == false);
+                        yield return new WaitForSeconds(currentAction.duration);
+                        CompleteAction();
+                        // Invoke("CompleteAction", currentAction.duration);
+                        invoked = true;
+                    }
+                }
+                yield return null;
+            }
+            if (planner is null || actionQueue is null)
+            {
+                planner = new();
+                var sortedGoal = from entry in goals orderby entry.Value descending select entry;
+                Debug.LogFormat("coutn:{0}", sortedGoal.ToList().Count);
+                // if(sortedGoal.ToList().Count==0){
+                //     //heres the problem and the crash so
+                //     //FIXME: make unity crash and aslo due to 1 time completition
+                //     //the end is near for the agent
+                //     //need to recreate new action and then loop over them
+                //     DeleteAllActionsSync();
+                //     // Debug.LogFormat("goals count:{0} goal:{1} {2}",goals.Count,goals.First().Key,goals.First().Value);
+                // }
+                foreach (var kvp in sortedGoal)
+                {
+                    actionQueue = planner.plan(actions, kvp.Key.subGoals, null);
+                    if (actionQueue is not null)
+                    {
+                        currentSubGoal = kvp.Key;
+                        break;
+                    }
+                }
+            }
+
+            if (actionQueue is not null && actionQueue.Count == 0)
+            {
+                if (currentSubGoal.remove)
+                {
+                    Debug.Log("aaa");
+                    goals.Remove(currentSubGoal);
+                }
+                Debug.Log("here");
+                planner = null;
+                yield return null;
+            }
+
+            //do the action here
+            #region Action Doing
+
+            if (actionQueue is not null && actionQueue.Count > 0)
+            {
+                currentAction = actionQueue.Dequeue();
+                if (currentAction.PrePerform(this))
+                {
+                    if (currentAction.target == null && currentAction.targetTag is not "")
+                    {
+                        currentAction.target = GameObject.FindGameObjectWithTag(currentAction.targetTag);
+                    }
+                    if (currentAction.target is not null)
+                    {
+                        currentAction.running = true;
+                        currentAction.agent.SetDestination(currentAction.target.transform.position);
+                        // doingAction=true;
+                        // StartCoroutine(DoingTheAction());
+                    }
+                }
+                else
+                {
+                    actionQueue = null;
+                }
+                yield return null;
+                Debug.LogFormat("Queue:{0}", actionQueue.Count);
+            }
+
+            #endregion
+
+            if (currentAction is not null)
+            {
+                if (currentAction.Achieved)
+                {
+                    Debug.Log("action achieved");
+                }
+            }
+            if (goals.Count == 0)
+            {
+                Debug.Log("break");
+                break;
+            }
+
+        } while (alive && !doingAction);
+    }
 }
-public enum Goal{Eat,Attack,Flee,Social}
+public enum Goal { Eat, Attack, Flee, Social }
 
 
 
 [System.Serializable]
-public class SubGoal{
-    public Dictionary<string,int> subGoals;
+public class SubGoal
+{
+    public Dictionary<string, int> subGoals;
     public bool remove;
 
-    public SubGoal(string key,int value, bool remove)
+    public SubGoal(string key, int value, bool remove)
     {
-        this.subGoals=new();
-        this.subGoals.Add(key,value);
+        this.subGoals = new();
+        this.subGoals.Add(key, value);
         this.remove = remove;
     }
 }
 
 [System.Serializable]
-public class ActionResult{
+public class ActionResult
+{
     public bool result;
 }
 
@@ -317,53 +599,63 @@ public class Node
 }
 
 [System.Serializable]
-public class Planner 
+public class Planner
 // : System.IDisposable
 {
     // System.Runtime.InteropServices.SafeHandle _safeHandle = new SafeFileHandle(System.IntPtr.Zero, true);
     // private bool disposedValue;
-    public Queue<Action> plan(List<Action> actions,Dictionary<string,int> goal,WorldStates states){
-        List<Action> usableActions=new();
-        foreach(var action in actions){
-            if(action.IsAchievable()){
+    public Queue<Action> plan(List<Action> actions, Dictionary<string, int> goal, WorldStates states)
+    {
+        List<Action> usableActions = new();
+        foreach (var action in actions)
+        {
+            if (action.IsAchievable())
+            {
                 usableActions.Add(action);
             }
         }
-        List<Node> leaves=new();
-        Node start=new(null,0,World.Instance.GetWorld().GetStates(),null);
-        bool success=BuildGraph(start,leaves,usableActions,goal);
-        if(!success){
-            Debug.LogFormat("node:{0} cost:{1} value:{2} action:{3}",start.parent,start.cost,start.state.First().Value,start.action);
-            // Debug.Log("<color=red>No Plan!</color>");
+        List<Node> leaves = new();
+        Node start = new(null, 0, World.Instance.GetWorld().GetStates(), null);
+        bool success = BuildGraph(start, leaves, usableActions, goal);
+        if (!success)
+        {
+            Debug.LogFormat("node:{0} cost:{1} value:{2} action:{3}", start.parent, start.cost, start.state.First().Value, start.action);
+            Debug.Log("<color=red>No Plan!</color>");
             return null;
         }
-        Node cheapest=null;
-        foreach(Node leaf in  leaves){
-            if(cheapest is null){
-                cheapest=leaf;
+        Node cheapest = null;
+        foreach (Node leaf in leaves)
+        {
+            if (cheapest is null)
+            {
+                cheapest = leaf;
             }
-            else{
-                if(leaf.cost<cheapest.cost)
+            else
+            {
+                if (leaf.cost < cheapest.cost)
                 {
-                    cheapest=leaf;    
+                    cheapest = leaf;
                 }
             }
         }
-        List<Action> result=new();
-        Node n=cheapest;
-        while(n!=null){
-            if(n.action!=null){
-                result.Insert(0,n.action);
+        List<Action> result = new();
+        Node n = cheapest;
+        while (n != null)
+        {
+            if (n.action != null)
+            {
+                result.Insert(0, n.action);
             }
-            n=n.parent;
+            n = n.parent;
         }
-        Queue<Action> queue=new();
+        Queue<Action> queue = new();
         foreach (var action in actions)
         {
             queue.Enqueue(action);
         }
         // Debug.Log("the plan is: ");
-        foreach(var item in queue){
+        foreach (var item in queue)
+        {
             // Debug.Log("Q "+item.actionName);
         }
         return queue;
@@ -372,46 +664,59 @@ public class Planner
     private bool BuildGraph(Node start, List<Node> leaves, List<Action> usableActions, Dictionary<string, int> goal)
     {
         // Debug.LogFormat("leaves:{0} actions:{1} goals:{2}",leaves.Count,usableActions.Count,goal.Count);
-        bool foundPath=false;
-        foreach(var action in usableActions){
-            if(action.IsAchievableGiven(start.state)){
-                // Debug.LogFormat("achgiv:{0}",action.IsAchievableGiven(start.state));
-                Dictionary<string,int> currentState=new(start.state);
-                // Debug.LogFormat("curr state:{0} ___effects:{1}___",currentState.Count,action.effects.Count);
-                foreach(var kvp in action.effects){
-                    if(!currentState.ContainsKey(kvp.Key))
-                        currentState.Add(kvp.Key,kvp.Value);
-                }
-                Node node=new(start,start.cost+action.ActionCost,currentState,action);
-                
-                // Debug.LogFormat("<color=pink>goal:{0} curr:{1} </color>",goal.First().Value,currentState.First().Value);
+        bool foundPath = false;
+        if(!foundPath){
+            foreach (var action in usableActions)
+            {
+                if (action.IsAchievableGiven(start.state))
+                {
+                    // Debug.LogFormat("achgiv:{0}",action.IsAchievableGiven(start.state));
+                    Dictionary<string, int> currentState = new(start.state);
+                    // Debug.LogFormat("curr state:{0} ___effects:{1}___",currentState.Count,action.effects.Count);
+                    foreach (var kvp in action.effects)
+                    {
+                        if (!currentState.ContainsKey(kvp.Key))
+                            currentState.Add(kvp.Key, kvp.Value);
+                    }
+                    Node node = new(start, start.cost + action.ActionCost, currentState, action);
 
-                if(GoalAchieved(goal,currentState)){
-                    // Debug.Log("here");
-                    leaves.Add(node);
-                    foundPath=true;
-                }else{
-                    List<Action> subset=ActionSubset(usableActions,action);
-                    // Debug.LogFormat("subset:{0}",subset.Count);
-                    //create a recusive call to find the final plan
-                    bool found=BuildGraph(node,leaves,subset,goal);
-                    // Debug.LogFormat("found:{0}",found);
-                    if(found){
-                        foundPath=true;
+                    // Debug.LogFormat("<color=pink>goal:{0} curr:{1} </color>",goal.First().Value,currentState.First().Value);
+
+                    if (GoalAchieved(goal, currentState))
+                    {
+                        Debug.Log("here");
+                        leaves.Add(node);
+                        foundPath = true;
+                    }
+                    else
+                    {
+                        List<Action> subset = ActionSubset(usableActions, action);
+                        Debug.LogFormat("subset:{0}",subset.Count);
+                        //create a recusive call to find the final plan
+                        bool found = BuildGraph(node, leaves, subset, goal);
+                        Debug.LogFormat("found:{0}",found);
+                        if (found)
+                        {
+                            foundPath = true;
+                            Debug.Log("it will be true");
+                        }
                     }
                 }
+                // Debug.LogFormat("found Path:{0}",foundPath);
             }
-            // Debug.LogFormat("found Path:{0}",foundPath);
         }
         return foundPath;
+        // return true;
     }
 
     //will not add the action to the next subset
     private List<Action> ActionSubset(List<Action> usableActions, Action action)
     {
-        List<Action> subset=new();
-        foreach(var item in usableActions){
-            if(!item.Equals(action)){
+        List<Action> subset = new();
+        foreach (var item in usableActions)
+        {
+            if (!item.Equals(action))
+            {
                 subset.Add(item);
             }
         }
@@ -420,8 +725,10 @@ public class Planner
 
     private bool GoalAchieved(Dictionary<string, int> goal, Dictionary<string, int> currentState)
     {
-        foreach(var kvp in goal){
-            if(!currentState.ContainsKey(kvp.Key)){
+        foreach (var kvp in goal)
+        {
+            if (currentState.ContainsKey(kvp.Key))
+            {
                 return false;
             }
         }
@@ -436,14 +743,14 @@ public class Planner
     //         if (disposing)
     //         {
     //             // TODO: supprimer l'état managé (objets managés)
-                // Debug.Log("dispose started");
+    // Debug.Log("dispose started");
     //             _safeHandle.Dispose();
     //         }
 
     //         // TODO: libérer les ressources non managées (objets non managés) et substituer le finaliseur
     //         // TODO: affecter aux grands champs une valeur null
     //         disposedValue = true;
-            // Debug.Log("disposing");
+    // Debug.Log("disposing");
     //     }
     // }
 
@@ -451,7 +758,7 @@ public class Planner
     // ~Planner()
     // {
     //     // Ne changez pas ce code. Placez le code de nettoyage dans la méthode 'Dispose(bool disposing)'
-        // Debug.Log("disposed");
+    // Debug.Log("disposed");
     //     Dispose(disposing: false);
     // }
 
@@ -465,67 +772,84 @@ public class Planner
 }
 
 [System.Serializable]
-public class WorldState{
+public class WorldState
+{
     public string Key;
     public int Value;
 }
 
 [System.Serializable]
-public class WorldStates{
-    public Dictionary<string,int> states;
+public class WorldStates
+{
+    public Dictionary<string, int> states;
 
     public WorldStates()
     {
-        this.states=new();
+        this.states = new();
     }
 
-    public bool HasState(string Key){
+    public bool HasState(string Key)
+    {
         return states.ContainsKey(Key);
     }
 
-    void AddStates(string key,int value){
-        states.Add(key,value);
+    void AddStates(string key, int value)
+    {
+        states.Add(key, value);
     }
 
-    public void ModifyState(string key,int value){
-        if(HasState(key)){
-            states[key]+=value;
-        }else{
-            AddStates(key,value);
+    public void ModifyState(string key, int value)
+    {
+        if (HasState(key))
+        {
+            states[key] += value;
+        }
+        else
+        {
+            AddStates(key, value);
         }
     }
 
-    public void RemoveState(string key){
-        if(HasState(key)){
+    public void RemoveState(string key)
+    {
+        if (HasState(key))
+        {
             states.Remove(key);
         }
     }
 
-    public void SetState(string key,int value){
-        if(HasState(key)){
-            states[key]+=value;
-            if(states[key]<=0)
+    public void SetState(string key, int value)
+    {
+        if (HasState(key))
+        {
+            states[key] += value;
+            if (states[key] <= 0)
                 RemoveState(key);
-        }else{
-            AddStates(key,value);
+        }
+        else
+        {
+            AddStates(key, value);
         }
     }
 
-    public Dictionary<string,int> GetStates()=>states;
+    public Dictionary<string, int> GetStates() => states;
 }
 
-public sealed class World{
-    private static readonly World instance=new();
+public sealed class World
+{
+    private static readonly World instance = new();
     private static WorldStates world;
-    static World(){
-        world=new();
+    static World()
+    {
+        world = new();
     }
 
-    private World(){
+    private World()
+    {
 
     }
 
-    public static World Instance{get=>instance;}
+    public static World Instance { get => instance; }
 
-    public WorldStates GetWorld()=>world;
-} 
+    public WorldStates GetWorld() => world;
+}

@@ -1,22 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GetFood : Action
 {
+    BossMelee caller;
     public override bool PostPerform()
     {
+        StartCoroutine(caller.ActionFinished());
+        // Destroy(this.gameObject);
         return true;
     }
 
     public override bool PrePerform(BossMelee caller,GameObject target=null)
     {
-        return Physics.CheckSphere(caller.transform.position,caller.radiusFoodDetection,caller.foodLayer);
+        this.caller=caller;
+        var potentials=Physics.OverlapSphere(caller.transform.position,caller.radiusFoodDetection,caller.foodLayer);
+        bool found=potentials.Length>0;
+        if(found){
+            base.target=potentials.First().gameObject;
+            target=base.target;
+        }
+        Debug.LogFormat("found:{0} target:{1}",found,base.target);
         // return true;
+        return found;
     }
 
-    public override bool TargetExistance(GameObject target){
-        return target!=null;
+    public override bool TargetExistance(){
+        return base.target!=null;
     }
 
 

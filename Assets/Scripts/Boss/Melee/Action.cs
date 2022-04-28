@@ -22,6 +22,7 @@ public abstract class Action : MonoBehaviour
     public WorldStates agentPlaces;
     public bool running = false;
     public bool Achievable = true;
+    public bool Achieved=false;
 
     public Action()
     {
@@ -69,7 +70,34 @@ public abstract class Action : MonoBehaviour
         return true;
     }
 
+    public Collider[] GetTargetIgnoreSelf(Transform self,float range,LayerMask targetLayer){
+        int selfLayer=gameObject.layer;
+        int layerDefault=LayerMask.NameToLayer("Default");
+        gameObject.layer=layerDefault;
+        var colls=Physics.OverlapSphere(self.position,range,targetLayer);
+        gameObject.layer=selfLayer;
+        return colls;
+    }
+
+    public GameObject GetClosestTarget(Collider[] targetsColl){
+        List<Transform> targets=new();
+        foreach(var t in targetsColl){
+            targets.Add(t.transform);
+        }
+        float dst=float.MaxValue;
+        Transform bestTarget=null;
+        for (int i = 0; i < targets.Count; i++)
+        {
+            float distance=Vector3.Distance(transform.position,targets[i].position);
+            if(distance<dst){
+                bestTarget=targets[i];
+                dst=distance;
+            }
+        }
+        return bestTarget.gameObject;
+    }
+
     public abstract bool PrePerform(BossMelee caller, GameObject target = null);
     public abstract bool PostPerform();
-    public abstract bool TargetExistance(GameObject target);
+    public abstract bool TargetExistance();
 }

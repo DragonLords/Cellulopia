@@ -14,7 +14,7 @@ public class ActionsTemplate : Action
         return true;
     }
 
-    public override bool TargetExistance(GameObject target)
+    public override bool TargetExistance()
     {
         throw new System.NotImplementedException();
     }

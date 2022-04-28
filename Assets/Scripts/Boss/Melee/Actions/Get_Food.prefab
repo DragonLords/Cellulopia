@@ -57,3 +57,4 @@ MonoBehaviour:
   agent: {fileID: 0}
   running: 0
   Achievable: 1
+  Achieved: 0
