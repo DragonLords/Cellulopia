@@ -8,6 +8,7 @@ public class GetFood : Action
     BossMelee caller;
     public override bool PostPerform()
     {
+        StartCoroutine(caller.tester.CoolDownSocializing());
         StartCoroutine(caller.ActionFinished());
         // Destroy(this.gameObject);
         return true;
@@ -15,6 +16,9 @@ public class GetFood : Action
 
     public override bool PrePerform(BossMelee caller,GameObject target=null)
     {
+        caller.isAttacking=false;
+        caller.isAttacking=false;
+        caller.canSocialize=false;
         this.caller=caller;
         var potentials=Physics.OverlapSphere(caller.transform.position,caller.radiusFoodDetection,caller.foodLayer);
         bool found=potentials.Length>0;
@@ -22,7 +26,7 @@ public class GetFood : Action
             base.target=potentials.First().gameObject;
             target=base.target;
         }
-        Debug.LogFormat("found:{0} target:{1}",found,base.target);
+        // Debug.LogFormat("found:{0} target:{1}",found,base.target);
         // return true;
         return found;
     }

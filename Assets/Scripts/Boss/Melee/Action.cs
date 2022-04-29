@@ -97,6 +97,21 @@ public abstract class Action : MonoBehaviour
         return bestTarget.gameObject;
     }
 
+    public void Duplicate(GOAPTester tester){
+        // Debug.LogFormat("GO:{0}",this.gameObject.transform.parent.name);
+        // Debug.LogFormat("GO:{0}",tester.gameObject.name);
+        var other=tester.gameObject;
+        Vector3 pos=RandomPosDuplicate(tester);
+        if(Physics.CheckSphere(pos,1f,LayerMask.NameToLayer("Ground"))){
+            // Debug.LogFormat("pos is:{0}",pos);
+            var newAgent=Instantiate(other,pos,Quaternion.identity);
+        }
+        tester.isSocializing=false;
+        Achieved=true;
+    }
+
+    Vector3 RandomPosDuplicate(GOAPTester tester)=>new(Random.Range(transform.position.x-tester.offset.x,transform.position.x+tester.offset.x),tester.transform.position.y,Random.Range(transform.position.z-tester.offset.z,transform.position.z+tester.offset.z));
+
     public abstract bool PrePerform(BossMelee caller, GameObject target = null);
     public abstract bool PostPerform();
     public abstract bool TargetExistance();

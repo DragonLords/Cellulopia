@@ -53,6 +53,10 @@ MonoBehaviour:
     m_Address: Get_Food
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 8f09a356463f9a64a98e506e05c7bc98
+    m_Address: GOAP
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: fa7730bc219dbc2428b9094001801031, type: 2}
   m_SchemaSet:

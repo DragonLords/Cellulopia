@@ -18,7 +18,7 @@ public class BossMelee : MonoBehaviour
 {
     public GOAPTester tester;
     public NavMeshAgent agent;
-    bool alive = false;
+    internal bool alive = false;
     public LayerMask foodLayer;
     public LayerMask enemyLayer;
     public int hungryLevel = 30;
@@ -30,8 +30,7 @@ public class BossMelee : MonoBehaviour
     public int DelayTickHunger { get => tickHunger; set { tickHunger = Mathf.RoundToInt(_delayTickHunger * 1000); } }
     public int _aggressivityLevel = 0;
     public int AggressivityLevel { get => _aggressivityLevel; set { _aggressivityLevel = Mathf.Clamp(value, 0, 100); } }
-
-
+    int tickAggressivityDown=3000;
     #region GOAP
     public List<Action> actions = new();
     public Dictionary<SubGoal, int> goals = new();
@@ -44,9 +43,15 @@ public class BossMelee : MonoBehaviour
     #endregion
     public Coroutine routineLoopAction;
     public List<Action> Subs = new();
+    public Collider[] enemiesClose;
+    public bool isSocializing=false;
+    public bool isAttacking=false;
+    public bool canSocialize=true;
+    public GoapSpawner spawner;
     // Start is called before the first frame update
     public void OnStart()
     {
+        spawner=FindObjectOfType<GoapSpawner>();
         #region Get__Agent
         if (agent is null)
         {
@@ -64,15 +69,17 @@ public class BossMelee : MonoBehaviour
 
 
         alive = true;
-        // acts = GetComponentsInChildren<Action>();
-        // foreach (var a in acts)
-        // {
-        //     actions.Add(a);
-        // }
+        LoopHunger().ConfigureAwait(false);
+        LoopAggresivity().ConfigureAwait(false);
+    }
 
-        // LoopDetection().ConfigureAwait(false);
-        // LoopHunger().ConfigureAwait(false);
-        // routineLoopAction = StartCoroutine(LoopDetection());
+    private async Task LoopAggresivity()
+    {
+        do
+        {
+            --AggressivityLevel;
+            await Task.Delay(tickAggressivityDown);
+        } while (alive);
     }
 
     internal void HardReset()
@@ -91,39 +98,37 @@ public class BossMelee : MonoBehaviour
     public void GiveFood(int valueFood)
     {
         Hunger += valueFood;
-    }
-
-    public bool DetectRangeAction(float rangeDetection, LayerMask layerTarget)
-    {
-        int selfLayer = gameObject.layer;
-        int layerDefault = LayerMask.NameToLayer("Default");
-        gameObject.layer = layerDefault;
-        bool detection = Physics.CheckSphere(transform.position, rangeDetection, layerTarget);
-        gameObject.layer = selfLayer;
-        return detection;
+        isHungry=Hunger>hungryLevel;
     }
 
     async Task LoopHunger()
     {
-        // Debug.LogFormat("delay is:{0} | {1}", DelayTickHunger, tickHunger);
+        int countDownHungerless=5;
         DelayTickHunger = 5;
-        // Debug.LogFormat("delay is:{0} | {1}", DelayTickHunger, tickHunger);
         do
         {
             --Hunger;
+            if(Hunger<=hungryLevel){
+                isHungry=true;
+            }
             await Task.Delay(DelayTickHunger);
+            if(Hunger==0){
+                --countDownHungerless;
+                if(countDownHungerless==0){
+                    StartCoroutine(tester.Death());
+                }
+            }
         } while (alive);
     }
 
-    async Task CheckTarget()
-    {
-        do
-        {
-            // Debug.LogFormat("YeP bOi!1! {0} {1}",currentAction.target.name,currentAction.TargetExistance(currentAction.target));
-            await Task.Yield();
-        } while (currentAction.target != null && alive);
-        // Debug.Log("target lost... mission failed... we will get them next time");
-        CancelAction();
+
+
+    public void GetEnemiesClose(){
+        var DefaultLayer=LayerMask.NameToLayer("Default");
+        var selfLayer=this.gameObject.layer;
+        this.gameObject.layer=DefaultLayer;
+        enemiesClose=Physics.OverlapSphere(transform.position,radiusFoodDetection,enemyLayer);
+        this.gameObject.layer=selfLayer;
     }
 
     void CancelAction()
@@ -131,36 +136,6 @@ public class BossMelee : MonoBehaviour
         currentAction.Achievable = false;
         CompleteAction();
     }
-
-    async Task DeleteAllActions()
-    {
-        actionQueue = null;
-        planner = null;
-        var old = GetComponentInChildren<Action>();
-        // Destroy(GetComponent(typeof(Action)));
-        UnityEngine.AddressableAssets.Addressables.InstantiateAsync(objectives[Random.Range(0, objectives.Length)], transform).WaitForCompletion();
-        await Task.Yield();
-        acts = GetComponentsInChildren<Action>();
-        foreach (var a in acts)
-        {
-            actions.Add(a);
-        }
-    }
-
-    void DeleteAllActionsSync()
-    {
-        actionQueue = null;
-        planner = null;
-        var old = GetComponentInChildren<Action>();
-        // Destroy(GetComponent(typeof(Action)));
-        UnityEngine.AddressableAssets.Addressables.InstantiateAsync("Get_Food", transform).WaitForCompletion();
-        acts = GetComponentsInChildren<Action>();
-        foreach (var a in acts)
-        {
-            actions.Add(a);
-        }
-    }
-
 
     bool invoked = false;
     internal float radiusFoodDetection = 50f;
@@ -178,20 +153,20 @@ public class BossMelee : MonoBehaviour
         doingAction = true;
         do
         {
-            Debug.Log("<color=olive>AAA</color>");
+            // Debug.Log("<color=olive>AAA</color>");
             if (currentAction.target == null)
             {
-                Debug.Log("wsiugdsif");
+                // Debug.Log("wsiugdsif");
             }
             yield return null;
         } while (doingAction && agent.remainingDistance > 1f && currentAction.target is not null);
         currentAction.PostPerform();
         doingAction = false;
-        Debug.Log(goals.Count);
+        // Debug.Log(goals.Count);
         if (actionQueue.Count == 0)
         {
             actions.Clear();
-            Debug.Log("<color=red>STOP</color>");
+            // Debug.Log("<color=red>STOP</color>");
             //reroll action
             StopCoroutine(routineLoopAction);
             doingAction = false;
@@ -204,28 +179,23 @@ public class BossMelee : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Keyboard.current.aKey.wasPressedThisFrame)
-            DeleteAllActionsSync();
-    }
-
-
 
     IEnumerator DoAction()
     {
+        agent.isStopped=true;
         doingAction = true;
         currentAction = actionQueue.Dequeue();
+        agent.isStopped=false;
         // Debug.LogFormat("Doing: {0} target:{1}", currentAction,currentAction.target.name);
-        Debug.LogFormat("target found:{0}",currentAction.PrePerform(this));
+        // Debug.LogFormat("target found:{0}",currentAction.PrePerform(this));
         if (currentAction.PrePerform(this))
         {
-            if(currentAction.target is not null){
+            if(currentAction.target != null){
                 agent.SetDestination(currentAction.target.transform.position);
-                yield return new WaitUntil(() => agent.remainingDistance < 1f);
+                yield return new WaitUntil(() => agent.remainingDistance < 1f||currentAction.Achieved);
             }
         }
-        Debug.Log("finished");
+        // Debug.Log("finished");
         // UnityEditor.EditorApplication.isPaused=true;
         doingAction = false;
         yield return StartCoroutine(ActionFinished());
@@ -240,11 +210,11 @@ public class BossMelee : MonoBehaviour
             actions.Remove(currentAction);
             // currentAction.PostPerform();
             goals.Remove(currentSubGoal);
-            Debug.Log("removed");
+            // Debug.Log("removed");
         }
         if (actionQueue.Count == 0)
         {
-            Debug.Log("need new queue");
+            // Debug.Log("need new queue");
             // StartCoroutine(tester.Redo());
             StartCoroutine(RedoIntern());
         }
@@ -257,7 +227,7 @@ public class BossMelee : MonoBehaviour
             planner = new();
             tester.OnSetGoal();
             var sortedGoal = from entry in goals orderby entry.Value descending select entry;
-            Debug.Log(sortedGoal.Count());
+            // Debug.Log(sortedGoal.Count());
             foreach (var kvp in sortedGoal)
             {
                 actionQueue = planner.plan(actions, kvp.Key.subGoals, null);
@@ -269,11 +239,11 @@ public class BossMelee : MonoBehaviour
             }
             if (actionQueue is null)
             {
-                Debug.Log("Queue is null");
+                // Debug.Log("Queue is null");
             }
             else
             {
-                Debug.Log(actionQueue.Count);
+                // Debug.Log(actionQueue.Count);
             }
         }
         
@@ -295,7 +265,7 @@ public class BossMelee : MonoBehaviour
             {
                 planner = new();
                 var sortedGoal = from entry in goals orderby entry.Value descending select entry;
-                Debug.Log(sortedGoal.Count());
+                // Debug.Log(sortedGoal.Count());
                 foreach (var kvp in sortedGoal)
                 {
                     actionQueue = planner.plan(actions, kvp.Key.subGoals, null);
@@ -307,11 +277,11 @@ public class BossMelee : MonoBehaviour
                 }
                 if (actionQueue is null)
                 {
-                    Debug.Log("Queue is null");
+                    // Debug.Log("Queue is null");
                 }
                 else
                 {
-                    Debug.Log(actionQueue.Count);
+                    // Debug.Log(actionQueue.Count);
                 }
             }
 
@@ -347,7 +317,7 @@ public class BossMelee : MonoBehaviour
     {
         actions.Clear();
         goals.Clear();
-        Debug.Log(goals.Count);
+        // Debug.Log(goals.Count);
         acts = GetComponentsInChildren<Action>();
         foreach (var a in acts)
         {
@@ -370,7 +340,7 @@ public class BossMelee : MonoBehaviour
         if(actionQueue is null){
             do
             {
-                Debug.Log("retry");
+                // Debug.Log("retry");
                 StartCoroutine(InitQueue());
                 yield return null;
             } while (actionQueue is null);
@@ -479,7 +449,7 @@ public class BossMelee : MonoBehaviour
             {
                 planner = new();
                 var sortedGoal = from entry in goals orderby entry.Value descending select entry;
-                Debug.LogFormat("coutn:{0}", sortedGoal.ToList().Count);
+                // Debug.LogFormat("coutn:{0}", sortedGoal.ToList().Count);
                 // if(sortedGoal.ToList().Count==0){
                 //     //heres the problem and the crash so
                 //     //FIXME: make unity crash and aslo due to 1 time completition
@@ -503,10 +473,10 @@ public class BossMelee : MonoBehaviour
             {
                 if (currentSubGoal.remove)
                 {
-                    Debug.Log("aaa");
+                    // Debug.Log("aaa");
                     goals.Remove(currentSubGoal);
                 }
-                Debug.Log("here");
+                // Debug.Log("here");
                 planner = null;
                 yield return null;
             }
@@ -536,7 +506,7 @@ public class BossMelee : MonoBehaviour
                     actionQueue = null;
                 }
                 yield return null;
-                Debug.LogFormat("Queue:{0}", actionQueue.Count);
+                // Debug.LogFormat("Queue:{0}", actionQueue.Count);
             }
 
             #endregion
@@ -545,12 +515,12 @@ public class BossMelee : MonoBehaviour
             {
                 if (currentAction.Achieved)
                 {
-                    Debug.Log("action achieved");
+                    // Debug.Log("action achieved");
                 }
             }
             if (goals.Count == 0)
             {
-                Debug.Log("break");
+                // Debug.Log("break");
                 break;
             }
 
@@ -619,8 +589,8 @@ public class Planner
         bool success = BuildGraph(start, leaves, usableActions, goal);
         if (!success)
         {
-            Debug.LogFormat("node:{0} cost:{1} value:{2} action:{3}", start.parent, start.cost, start.state.First().Value, start.action);
-            Debug.Log("<color=red>No Plan!</color>");
+            // Debug.LogFormat("node:{0} cost:{1} value:{2} action:{3}", start.parent, start.cost, start.state.First().Value, start.action);
+            // Debug.Log("<color=red>No Plan!</color>");
             return null;
         }
         Node cheapest = null;
@@ -684,21 +654,21 @@ public class Planner
 
                     if (GoalAchieved(goal, currentState))
                     {
-                        Debug.Log("here");
+                        // Debug.Log("here");
                         leaves.Add(node);
                         foundPath = true;
                     }
                     else
                     {
                         List<Action> subset = ActionSubset(usableActions, action);
-                        Debug.LogFormat("subset:{0}",subset.Count);
+                        // Debug.LogFormat("subset:{0}",subset.Count);
                         //create a recusive call to find the final plan
                         bool found = BuildGraph(node, leaves, subset, goal);
-                        Debug.LogFormat("found:{0}",found);
+                        // Debug.LogFormat("found:{0}",found);
                         if (found)
                         {
                             foundPath = true;
-                            Debug.Log("it will be true");
+                            // Debug.Log("it will be true");
                         }
                     }
                 }
