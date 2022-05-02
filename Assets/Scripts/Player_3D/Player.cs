@@ -12,15 +12,17 @@ namespace Player.Rework{
         [SerializeField] Rigidbody _rb;
         InputAction _movePress;
         PlayerInput playerInput;
-        float _moveSpeed=1f;
+        [SerializeField] float _moveSpeed=1f;
         float _speed;
         Camera _mainCamera;
         public Vector2 moveInput;
         public Vector2 mousePos;
         public Vector3 mousePosWorld;
+        public Vector3 force;
         public bool mousePress=false;
         public bool KeyPress=false;
         [SerializeField] Danger.PlayerDanger danger;
+        public Events.EventsPlayer.PlayerGiveFood PlayerGiveFood=new();
 
         #region UI
         [SerializeField] GameObject _uiSkill;
@@ -75,33 +77,33 @@ namespace Player.Rework{
         void Awake()
         {
             //TODO: finish implementing here
-            // Faim = 10f;
-            // if (_sliderFaim is not null)
-            // {
-            //     _sliderFaim.interactable = false;
-            //     UpdateSlider();
-            // }
-            // if (_sliderVie is not null)
-            //     _sliderVie.interactable = false;
-            //     InitEvent();
-            // InitializeValue();
-            // GetEvolutionGrade(0);
+            Faim = 10f;
+            if (_sliderFaim is not null)
+            {
+                _sliderFaim.interactable = false;
+                UpdateSlider();
+            }
+            if (_sliderVie is not null)
+                _sliderVie.interactable = false;
+            InitEvent();
+            InitializeValue();
+            GetEvolutionGrade(0);
         }
 
         private void InitEvent()
         {
             //FIXME: not found the event
-            // Events.playerGiveFood.AddListener(GiveFood);
+            PlayerGiveFood.AddListener(GiveFood);
         }
 
         void InitializeValue()
         {
             Faim = 5;
-            // Vitesse = 15f;
-            levelSettings=ScriptableObject.CreateInstance<LevelSettings>();
+            _moveSpeed = 15f;
+            levelSettings =ScriptableObject.CreateInstance<LevelSettings>();
             levelSettings.InitTable().Wait();
-            // UpdateSlider();
-            // UpdateSliderXP();
+            UpdateSlider();
+            UpdateSliderXP();
         }
 
         void ChangeSpeed(float Value)
@@ -249,6 +251,8 @@ namespace Player.Rework{
             _mainCamera=Camera.main;
             playerInput=GetComponent<PlayerInput>();
             Cursor.lockState=CursorLockMode.Confined;
+            LoopAction();
+            
         }
 
 #region InputEvent
@@ -260,7 +264,7 @@ namespace Player.Rework{
             if(mousePress){
                 mousePos=ctx.ReadValue<Vector2>();
                 mousePosWorld=_mainCamera.ScreenToWorldPoint(mousePos);
-                moveInput=mousePosWorld;
+                moveInput=new(mousePosWorld[0],mousePosWorld[2]);
             }else{
                 moveInput=Vector2.zero;
             }
@@ -279,11 +283,12 @@ namespace Player.Rework{
                 ++_moveSpeed;
             else if(Keyboard.current.oKey.wasPressedThisFrame)
                 --_moveSpeed;
-            MoveCharacter();
-            if(!mousePress){
-                mousePos=Vector2.zero;
-                mousePosWorld=Vector3.zero;
+
+            if (mousePress)
+            {
+                MoveCharacter();
             }
+
             #if UNITY_EDITOR
             if(Keyboard.current.f1Key.wasPressedThisFrame)
                 UnityEditor.EditorApplication.isPlaying=false;
@@ -292,8 +297,11 @@ namespace Player.Rework{
 
         void MoveCharacter(){
             if(moveInput!=Vector2.zero){
+                Debug.Log("if");
                 _speed=_moveSpeed;
-                _rb.AddForce(new Vector3(Mathf.Clamp01(moveInput[0]),0f,Mathf.Clamp01(moveInput[1]))*_speed);
+                force = new((mousePosWorld[0] - transform.position[0]) * _speed, 0f, (mousePosWorld[2]-transform.position[2])*_speed);
+                //force = new Vector3(Mathf.Clamp(moveInput[0],-1f,1f), 0f, Mathf.Clamp(moveInput[1],-1f,1f))*_speed;
+                _rb.AddForce(force,ForceMode.Force);
                 RotateTowardTarget();
             }
         }

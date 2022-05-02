@@ -19,6 +19,8 @@ public class GoapSpawner : MonoBehaviour
     public int numberToSpawnOnStartEnemies=10;
     public int numberToSpawnOnStartFoods=20;
     public bool SpawnRuntime=false;
+    public bool spawnFood=true;
+    public bool SpawnEnemy = false;
 
     IEnumerator Spawn(){
         do
@@ -45,11 +47,17 @@ public class GoapSpawner : MonoBehaviour
         CapperEntities.Start();
         goapHolder=FindObjectOfType<HolderGOAP>();
         InitPos();
-        SpawnOnStartEn();
-        SpawnOnStartFood();
-        if(SpawnRuntime)
-            StartCoroutine(Spawn());
-        StartCoroutine(SpawnFood());
+        if (SpawnEnemy)
+        {
+            SpawnOnStartEn();
+            if(SpawnRuntime)
+                StartCoroutine(Spawn());
+        }
+        if (spawnFood)
+        {
+            SpawnOnStartFood();
+            StartCoroutine(SpawnFood());
+        }
     }
 
     void SpawnOnStartEn(){
@@ -74,6 +82,6 @@ public class GoapSpawner : MonoBehaviour
         pos=new Vector3[2]{b.min,b.max};
     }
 
-    internal Vector3 RandomPos()=>new(Random.Range(pos[0].x,pos[1].x),0f,Random.Range(pos[0].z,pos[1].z));
+    internal Vector3 RandomPos()=>new(Random.Range(pos[0].x,pos[1].x),1f,Random.Range(pos[0].z,pos[1].z));
 
 }

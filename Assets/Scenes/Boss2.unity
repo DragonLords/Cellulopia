@@ -422,7 +422,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428501821}
   m_LocalRotation: {x: 0.70707315, y: 0.006896846, z: -0.006896846, w: 0.70707315}
-  m_LocalPosition: {x: 0, y: 9.12, z: 0}
+  m_LocalPosition: {x: 0, y: 16.59, z: 1.3147273}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -638,7 +638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 8.61, z: 0}
+  m_FollowOffset: {x: 0, y: 16.14, z: -0.4}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -686,13 +686,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 728283621}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.51, z: 0}
+  m_LocalPosition: {x: 0, y: 0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1239187181}
   - {fileID: 543450652360012988}
   - {fileID: 1743784442}
+  - {fileID: 340566586712472932}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -821,6 +822,7 @@ MonoBehaviour:
   ohFuck: 0
   RangeDetectionFoodDanger: 2
   increaseDanger: 10
+  foodSaturation: 30
 --- !u!4 &830428215
 Transform:
   m_ObjectHideFlags: 0
@@ -900,7 +902,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239187180}
   m_LocalRotation: {x: 0.70707315, y: 0.006896846, z: -0.006896846, w: 0.70707315}
-  m_LocalPosition: {x: 0, y: 8.61, z: 0}
+  m_LocalPosition: {x: 0, y: 16.14, z: 1.3147273}
   m_LocalScale: {x: 0.54995435, y: 0.43004566, z: 0.55}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -927,7 +929,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 3745622627002249177}
+  m_Follow: {fileID: 1891006519}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -937,7 +939,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7782805, y: 1}
+    m_SensorSize: {x: 1.7771587, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1032,7 +1034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1599870381
 Transform:
   m_ObjectHideFlags: 0
@@ -1041,7 +1043,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1599870380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.422432, y: 4.631378, z: -28.944908}
+  m_LocalPosition: {x: 21.422432, y: 0, z: -28.944908}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1064,7 +1066,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1675157815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1085,6 +1087,8 @@ MonoBehaviour:
   numberToSpawnOnStartEnemies: 10
   numberToSpawnOnStartFoods: 20
   SpawnRuntime: 0
+  spawnFood: 1
+  SpawnEnemy: 0
 --- !u!4 &1675157816
 Transform:
   m_ObjectHideFlags: 0
@@ -1269,8 +1273,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1828749610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_LocalPosition: {x: 0, y: 0.18, z: 0}
+  m_LocalScale: {x: 5, y: 1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1287,6 +1291,7 @@ GameObject:
   - component: {fileID: 1891006519}
   - component: {fileID: 1891006520}
   - component: {fileID: 1891006521}
+  - component: {fileID: 1891006522}
   m_Layer: 0
   m_Name: Danger
   m_TagString: PlayerAttackZone
@@ -1302,7 +1307,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1891006518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6.57}
+  m_LocalPosition: {x: 0, y: 0, z: -6.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1335,8 +1340,24 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0, y: 0, z: 0}
+  m_Size: {x: 12, y: 4, z: 9}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1891006522
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891006518}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &340566586346526448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,6 +1664,7 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   playerInput: {fileID: 0}
+  _vitesse: 5
   radiusDetectFood: 20
   level: 0
   levelSettings: {fileID: 11400000, guid: ed02c3031b9563f4aad057554e1351ec, type: 2}
@@ -2705,8 +2727,8 @@ RectTransform:
   - {fileID: 340566586691603838}
   - {fileID: 340566587860401679}
   - {fileID: 340566587901686206}
-  m_Father: {fileID: 543450652360012988}
-  m_RootOrder: 7
+  m_Father: {fileID: 728283622}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4780,8 +4802,8 @@ Transform:
   m_GameObject: {fileID: 919132148356558342}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.55, y: 0.55, z: 0.43}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.18, y: 0.18, z: 0.14072728}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3745622627002249177}
   - {fileID: 4083501150089399034}
@@ -4790,7 +4812,6 @@ Transform:
   - {fileID: 4865064392683545272}
   - {fileID: 543450652422008473}
   - {fileID: 1891006519}
-  - {fileID: 340566586712472932}
   m_Father: {fileID: 728283622}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
@@ -4802,7 +4823,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148353825608}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.028985929, y: -5.96, z: 1.7}
+  m_LocalPosition: {x: -0.028985929, y: -6.29, z: 0.42}
   m_LocalScale: {x: 1.4492755, y: 1.2942706, z: 1.4791666}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4927,19 +4948,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 919132148356558343}
+  _moveSpeed: 14.04
   moveInput: {x: 0, y: 0}
   mousePos: {x: 0, y: 0}
   mousePosWorld: {x: 0, y: 0, z: 0}
+  force: {x: 0, y: 0, z: 0}
   mousePress: 0
   KeyPress: 0
-  danger: {fileID: 0}
-  _uiSkill: {fileID: 0}
-  _sliderFaim: {fileID: 0}
-  _sliderVie: {fileID: 0}
-  _sliderXP: {fileID: 0}
+  danger: {fileID: 1891006520}
+  _uiSkill: {fileID: 340566588233311176}
+  _sliderFaim: {fileID: 5084543979038428859}
+  _sliderVie: {fileID: 340566586483141835}
+  _sliderXP: {fileID: 340566586436359381}
   level: 0
-  levelSettings: {fileID: 0}
-  _textPoint: {fileID: 0}
+  levelSettings: {fileID: 11400000, guid: ed02c3031b9563f4aad057554e1351ec, type: 2}
+  _textPoint: {fileID: 340566586691603837}
   radiusDetectFood: 20
   questActive: []
 --- !u!114 &919132148356558345
@@ -5351,7 +5374,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832149485544022323}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.68, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

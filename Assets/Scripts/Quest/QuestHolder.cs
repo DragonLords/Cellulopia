@@ -55,7 +55,8 @@ namespace Quest
                 .GetComponent<QuestEvent>().Init(quest,this);
             }
             //give quest here
-            FindObjectOfType<Player.Player>().SetQuest(questActive);
+            FindObjectOfType<Player.Rework.Player>().SetQuest(questActive);
+            //FindObjectOfType<Player.Player>().SetQuest(questActive);
         }
 
         internal void SpawnSelectedQuest(QuestTemplate quest){

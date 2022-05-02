@@ -17,6 +17,7 @@ public class GOAPTester : BossMelee
     public bool ohFuck = false;
     public float RangeDetectionFoodDanger = 2;
     public int increaseDanger=10;
+    public int foodSaturation = 30;
     // Start is called before the first frame update
     void Start()
     {
@@ -285,6 +286,7 @@ public class GOAPTester : BossMelee
             }
             else if (this.isAttacking)
             {
+                base.GiveFood(other.gameObject.GetComponent<GOAPTester>().foodSaturation);
                 Destroy(other.gameObject);
                 Debug.Log("EXPLOSIONS!?!");
             }

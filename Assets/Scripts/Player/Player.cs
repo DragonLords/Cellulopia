@@ -24,7 +24,7 @@ namespace Player
         Vector2 _directionDeplacement = Vector2.zero;
         CharacterController controller;
         Rigidbody2D _rb;
-        float _vitesse = 5f;
+        [SerializeField] float _vitesse = 5f;
         const float _maxVitesse = 50f;
         [property: SerializeField] public float Vitesse { get => _vitesse; set => _vitesse = Mathf.Clamp(value, .5f, _maxVitesse); }
         float _life = 100f;

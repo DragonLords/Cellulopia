@@ -1,4 +1,7 @@
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Player.Rework.Danger
 {
@@ -8,32 +11,65 @@ namespace Player.Rework.Danger
         [SerializeField, TagSelector] string foodTag;
         [SerializeField, TagSelector] string enemyTag;
         [SerializeField] Vector3 detectionSize=new(6,1,2);
+        Collider Collider;
         /// <summary>
         /// Awake is called when the script instance is being loaded.
         /// </summary>
         void Awake()
         {
+            Collider = GetComponent<Collider>();
             player=GetComponentInParent<Player>();
-            GetComponent<BoxCollider>().size=detectionSize;
+            SetIgnore();
+        }
+
+        internal void SetCollider()
+        {
+            GetComponent<BoxCollider>().size=detectionSize*2;
         }
 
         private void OnCollisionEnter(Collision other)
         {
             if(other.gameObject.CompareTag(foodTag)){
                 //do srtuff about food here
-                Debug.Log("got food");
+                player.PlayerGiveFood.Invoke(other.gameObject.GetComponent<Food>().FoodSaturation);
+                //Debug.Log("got food");
                 Destroy(other.gameObject);
             }else if(other.gameObject.CompareTag(enemyTag)){
                 //do stuff about enemy here
-                Debug.Log("Killed");
+                //Debug.Log("Killed");
+                player.PlayerGiveFood.Invoke(other.gameObject.GetComponent<GOAPTester>().foodSaturation);
                 Destroy(other.gameObject);
+            }
+        }
+
+        void SetIgnore()
+        {
+            var objs = GameObject.FindGameObjectsWithTag("Player");
+            foreach(var obj in objs)
+            {
+                if (obj.TryGetComponent(out Collider collider)) {
+                    Physics.IgnoreCollision(collider,Collider);
+                }
             }
         }
 
         private void OnDrawGizmos()
         {
             Gizmos.color=Color.magenta;
-            Gizmos.DrawWireCube(transform.position,detectionSize);
         }
     }
+
+#if UNITY_EDITOR
+
+    [CustomEditor(typeof(PlayerDanger))]
+    class PlayerDangerEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            PlayerDanger danger= (PlayerDanger)target;
+
+            base.OnInspectorGUI();
+        }
+    }
+#endif
 }
