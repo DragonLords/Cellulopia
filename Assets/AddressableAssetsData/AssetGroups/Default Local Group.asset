@@ -57,6 +57,10 @@ MonoBehaviour:
     m_Address: GOAP
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 4b4389393838f6f49a0d1d3d8b1b4d8c
+    m_Address: EnemyHolder_3D
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: fa7730bc219dbc2428b9094001801031, type: 2}
   m_SchemaSet:

@@ -7,8 +7,12 @@ using System.Linq;
 
 public class GOAPTester : BossMelee
 {
-    [TagSelector, SerializeField] string foodTag;
-    [TagSelector, SerializeField] string enemyTag;
+    private int _life=2;
+    public int maxLife=2;
+    public int Life{get=>_life;set{_life=Mathf.Clamp(value,0,maxLife);}}
+    [SerializeField] bool Move=true;
+    [TagSelector, SerializeField] internal string foodTag;
+    [TagSelector, SerializeField] internal string enemyTag;
     public int hunger;
     List<SubGoal> subs = new();
     public Vector3 offset = new(1, 1, 1);
@@ -18,36 +22,25 @@ public class GOAPTester : BossMelee
     public float RangeDetectionFoodDanger = 2;
     public int increaseDanger=10;
     public int foodSaturation = 30;
-    // Start is called before the first frame update
+
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         RangeDetectionFoodDanger *= radiusFoodDetection;
-        // var newObj=objectives[1];
         SelectAction();
-        // Debug.Log(newObj.name);
         #region test
         acts = GetComponentsInChildren<Action>();
         foreach (var a in acts)
         {
             actions.Add(a);
         }
-        // acts = GetComponentsInChildren<Action>();
-        // foreach (var a in acts)
-        // {
-        //     actions.Add(a);
-        // }
-        // for (int i = 0; i < acts.Length; i++)
-        // {
-        //     SubGoal s1=new("isWaiting",1,true);
-        //     goals.Add(s1,3);
-        // }
-        // // Redo();
         hunger = base.Hunger;
         tester = this;
         base.OnStart();
-        Init();
-        // // SetGoal();
-        // routineLoopAction=StartCoroutine(FinalDetection());
+        if(Move)
+            Init();
         #endregion
         if (spawner is null)
             spawner = FindObjectOfType<GoapSpawner>();
@@ -124,6 +117,13 @@ public class GOAPTester : BossMelee
         }
         StartCoroutine(InitQueue());
         routineLoopAction = StartCoroutine(FinalDetection());
+    }
+
+    internal void TakeDamage(int value){
+        Life-=value;
+        if(Life==0){
+            StartCoroutine(Death());
+        }
     }
 
     internal void OnSetGoal()
@@ -253,14 +253,17 @@ public class GOAPTester : BossMelee
 
     }
     int youTriggerMeNow = 0;
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag(foodTag))
+
+    internal void CollsionFood(Collision other){
+if (other.gameObject.CompareTag(foodTag))
         {
             base.GiveFood(other.gameObject.GetComponent<Food>().FoodSaturation);
             Destroy(other.gameObject);
         }
-        if (other.gameObject.CompareTag(enemyTag))
+    }
+
+    internal void CollsionEnemy(Collision other){
+if (other.gameObject.CompareTag(enemyTag))
         {
             if (other.gameObject.GetComponent<GOAPTester>().isSocializing && canSocialize || this.isSocializing && canSocialize)
             {

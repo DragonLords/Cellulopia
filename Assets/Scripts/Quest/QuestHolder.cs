@@ -12,6 +12,7 @@ namespace Quest
 {
     public class QuestHolder : MonoBehaviour
     {
+        Player.Rework.Player player;
         string templateQuestKey="QuestButton";
         [SerializeField] Transform holderQuest;
         [SerializeField] Quest.QuestTemplate[] quests;
@@ -21,21 +22,29 @@ namespace Quest
         // [SerializeField] List<TDictionnary> questStatus=new();
         Dictionary<QuestTemplate,QuestSate> QuestStatus=new();
         [SerializeField] List<QuestTemplate> questPending=new();
+        public OrderQuest questOrder;
+        Queue<QuestTemplate> questsOrdered=new();
         // Start is called before the first frame update
         void Start()
         {
+            player=FindObjectOfType<Player.Rework.Player>();
             #if UNITY_EDITOR
             UnityEditor.EditorApplication.playModeStateChanged+=BackUpAllQuest;
             #endif
-            foreach (var quest in quests)
-            {
-                // questStatus.Add(new(quest.state,quest));
-                QuestStatus.Add(quest,quest.state);
-                if(maxQuestActive>questActive.Count)
-                    OnQuestActive(quest);
-                else 
-                    questPending.Add(quest);
+
+            foreach(var quest in questOrder.orderQuest){
+                questsOrdered.Enqueue(quest);
             }
+
+            // foreach (var quest in quests)
+            // {
+            //     // questStatus.Add(new(quest.state,quest));
+            //     QuestStatus.Add(quest,quest.state);
+            //     if(maxQuestActive>questActive.Count)
+            //         OnQuestActive(quest);
+            //     else 
+            //         questPending.Add(quest);
+            // }
             
             // StringBuilder sb=new();
             // foreach (var kvp in QuestStatus)
@@ -50,14 +59,25 @@ namespace Quest
         }
 
         void SpawnQuest(){
-            foreach(var quest in questActive){
+            var quest=NextQuest();
+            questActive.Clear();
+            questActive.Add(quest);
+            // foreach(var quest in questActive){
                 Addressables.InstantiateAsync(templateQuestKey,holderQuest).WaitForCompletion()
                 .GetComponent<QuestEvent>().Init(quest,this);
-            }
+            // }
             //give quest here
-            FindObjectOfType<Player.Rework.Player>().SetQuest(questActive);
+            // FindObjectOfType<Player.Rework.Player>().SetQuest(questActive);
             //FindObjectOfType<Player.Player>().SetQuest(questActive);
+            player.SetActiveQuest(quest);
         }
+
+        internal void ReceiveNewQuest(){
+            SpawnQuest();
+        }
+
+        internal QuestTemplate NextQuest()=>questsOrdered.Dequeue();
+        internal bool QuestLeft()=>questsOrdered.Count>0;
 
         internal void SpawnSelectedQuest(QuestTemplate quest){
             Addressables.InstantiateAsync(templateQuestKey,holderQuest).WaitForCompletion().GetComponent<QuestEvent>().Init(quest,this);

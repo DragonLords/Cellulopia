@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ShowSkillTree : MonoBehaviour
 {
-    Button button;
+    public Button button;
     [SerializeField] GameObject skillTreeHolder;
     private void Awake()
     {
@@ -15,7 +15,9 @@ public class ShowSkillTree : MonoBehaviour
             skillTreeHolder=FindObjectOfType<SkillTreeHandler>().gameObject;
     }
 
-    void OnClick(){
+    public void OnClick(){
         skillTreeHolder.SetActive(!skillTreeHolder.activeSelf);
+        Debug.Log("click");
+        GameManager.Instance.PauseGame();
     }
 }

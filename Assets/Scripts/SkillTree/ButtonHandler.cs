@@ -10,6 +10,7 @@ public class ButtonHandler : MonoBehaviour
     public Button button;
     public Player.Skill.SkillTemplate skill;
     public SkillTreeHandler skillTreeHandler;
+
     public void Init(int value,Button button){
         text.text=skill.skillName;
         this.button=button;
@@ -25,6 +26,7 @@ public class ButtonHandler : MonoBehaviour
         if(skill.skillRequirement is not null)
             button.interactable=false;
         skillTreeHandler=GetComponentInParent<SkillTreeHandler>();
+        text.text=skill.name;
     }
 
     public void OnClick(){

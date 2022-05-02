@@ -10,7 +10,7 @@ namespace Quest
     [CreateAssetMenu(fileName = "QuestTemplate", menuName = "")]
     public class QuestTemplate : ScriptableObject
     {
-        [SerializeField] internal QuestSate state=QuestSate.Incomplete;
+        [SerializeField] internal QuestSate state = QuestSate.Incomplete;
         internal GameObject questButton;
         internal QuestEvent buttonSc;
         public string QuestName = "";
@@ -34,19 +34,27 @@ namespace Quest
                 }
             }
         }
-        
 
-        
+        public bool IsSkillQuest = false;
+
+
 
         void ValidateNumber()
         {
-            // Debug.Log("validation");
-            buttonSc.progress.value=numberCollected;
-            // Debug.LogFormat("dpiong great he {}",NumberCollected,numbert);
-            if (numberToCollect <= numberCollected)
+            if (IsSkillQuest)
             {
-                Debug.Log("quest ended");
-                questButton.GetComponent<QuestEvent>().OnCompletion();
+                
+            }
+            else
+            {
+                // Debug.Log("validation");
+                buttonSc.progress.value = numberCollected;
+                // Debug.LogFormat("dpiong great he {}",NumberCollected,numbert);
+                if (numberToCollect <= numberCollected)
+                {
+                    Debug.Log("quest ended");
+                    questButton.GetComponent<QuestEvent>().OnCompletion();
+                }
             }
         }
 

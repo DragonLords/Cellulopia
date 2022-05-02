@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a78756d1ca503a4a9187ad137201cf4, type: 3}
-  m_Name: food 1
+  m_Name: GetSkill
   m_EditorClassIdentifier: 
   state: 2
-  QuestName: Eat food
-  QuestDescription: Eat 5 food
-  objectToCollect: {fileID: 6415458547068861241, guid: d366d2e7bcf0393438a6e1b8f85b06fd, type: 3}
-  xpReward: 500
-  numberToCollect: 5
+  QuestName: Buy a Skill
+  QuestDescription: 
+  objectToCollect: {fileID: 0}
+  xpReward: 0
+  numberToCollect: 0
   numberCollected: 0

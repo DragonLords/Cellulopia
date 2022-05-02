@@ -6,23 +6,28 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 
-namespace Player.Rework{
+namespace Player.Rework
+{
     public class Player : MonoBehaviour
     {
+        public int DamageValue = 1;
+        [SerializeField, TagSelector] internal string portalTag;
+        public Quest.QuestTemplate activeQuest;
+        bool alive = true;
         [SerializeField] Rigidbody _rb;
         InputAction _movePress;
         PlayerInput playerInput;
-        [SerializeField] float _moveSpeed=1f;
+        [SerializeField] float _moveSpeed = 1f;
         float _speed;
         Camera _mainCamera;
         public Vector2 moveInput;
         public Vector2 mousePos;
         public Vector3 mousePosWorld;
         public Vector3 force;
-        public bool mousePress=false;
-        public bool KeyPress=false;
+        public bool mousePress = false;
+        public bool KeyPress = false;
         [SerializeField] Danger.PlayerDanger danger;
-        public Events.EventsPlayer.PlayerGiveFood PlayerGiveFood=new();
+        public Events.EventsPlayer.PlayerGiveFood PlayerGiveFood = new();
 
         #region UI
         [SerializeField] GameObject _uiSkill;
@@ -31,12 +36,12 @@ namespace Player.Rework{
         [SerializeField] Slider _sliderXP;
         #endregion
         #region Evolution
-        int _evolutionPoints=0;
-        public int EvolutionPoints{get=>_evolutionPoints;set=>_evolutionPoints=Mathf.Clamp(value,0,int.MaxValue);}
-        int _skillPoint=0;
-        public int SkillPoint{get=>_skillPoint;set=>_skillPoint=Mathf.Clamp(value,0,99);}
-        public int level=0;
-        public int MaxLevel{get=>levelSettings.levelRequirement.Count-1;}
+        int _evolutionPoints = 0;
+        public int EvolutionPoints { get => _evolutionPoints; set => _evolutionPoints = Mathf.Clamp(value, 0, int.MaxValue); }
+        int _skillPoint = 0;
+        public int SkillPoint { get => _skillPoint; set => _skillPoint = Mathf.Clamp(value, 0, 99); }
+        public int level = 0;
+        public int MaxLevel { get => levelSettings.levelRequirement.Count - 1; }
         public LevelSettings levelSettings;
         [SerializeField] TextMeshProUGUI _textPoint;
         /// <summary>
@@ -45,7 +50,7 @@ namespace Player.Rework{
         /// the value number of xp to have
         /// </summary>
         /// <returns></returns>
-        Dictionary<int,int> tableEvolution=new(){
+        Dictionary<int, int> tableEvolution = new(){
             {1,50},{2,100},{3,200}
         };
         #endregion
@@ -68,9 +73,11 @@ namespace Player.Rework{
         float _life = 100f;
         float _maxLife = 100f;
         [property: SerializeField] public float Life { get => _life; set => _life = Mathf.Clamp(value, 0, _maxLife); }
-        internal bool hasQuest=false;
-        public List<Quest.QuestTemplate> questActive=new();
-        
+        internal bool hasQuest = false;
+        public List<Quest.QuestTemplate> questActive = new();
+        public Quest.OrderQuest questOrder;
+        public Quest.QuestHolder questHolder;
+
         /// <summary>
         /// Awake is called when the script instance is being loaded.
         /// </summary>
@@ -100,7 +107,7 @@ namespace Player.Rework{
         {
             Faim = 5;
             _moveSpeed = 15f;
-            levelSettings =ScriptableObject.CreateInstance<LevelSettings>();
+            levelSettings = ScriptableObject.CreateInstance<LevelSettings>();
             levelSettings.InitTable().Wait();
             UpdateSlider();
             UpdateSliderXP();
@@ -121,41 +128,49 @@ namespace Player.Rework{
             UpdateSlider();
         }
 
-        internal void GetEvolutionGrade(int value){
-            if(level==MaxLevel)
+        internal void GetEvolutionGrade(int value)
+        {
+            if (level == MaxLevel)
             {
                 Debug.Log("max level reaced");
                 return;
             }
-            EvolutionPoints+=value;
-            int[] xp=levelSettings.AddExperience(EvolutionPoints,level,SkillPoint).Result;
-            EvolutionPoints=xp[0];
-            level=xp[1];
-            SkillPoint=xp[2];
-            _textPoint.text=$"{SkillPoint} Points";
+            EvolutionPoints += value;
+            int[] xp = levelSettings.AddExperience(EvolutionPoints, level, SkillPoint).Result;
+            EvolutionPoints = xp[0];
+            level = xp[1];
+            SkillPoint = xp[2];
+            _textPoint.text = $"{SkillPoint} Points";
             // EvolutionCheck();
             UpdateSliderXP();
         }
 
-        internal void GiveSkillPoint(int value){
-            SkillPoint+=value;
+        internal void GiveSkillPoint(int value)
+        {
+            SkillPoint += value;
         }
 
         internal void UpgradeStats(Skill.SkillTemplate skillTemplate)
         {
-            switch(skillTemplate.statEffect){
-                case Skill.SkillTemplate.StatEffect.vitesse:{
-                    ChangeSpeed(skillTemplate.statEffectValue);
-                }break;
-                default:break;
+            switch (skillTemplate.statEffect)
+            {
+                case Skill.SkillTemplate.StatEffect.vitesse:
+                    {
+                        ChangeSpeed(skillTemplate.statEffectValue);
+                    }
+                    break;
+                default: break;
             }
             // ChangeSpeed(skillTemplate.statEffectValue);
         }
 
-        internal void TakeDamage(int value){
-            Life-=value;
+        internal void TakeDamage(int value)
+        {
+            Life -= value;
             UpdateSlider();
         }
+
+
 
         void UpdateSlider()
         {
@@ -166,9 +181,10 @@ namespace Player.Rework{
             // _sliderFaim.gameObject.SetActive(false);
         }
 
-        void UpdateSliderXP(){
-            _sliderXP.value=EvolutionPoints;
-            _sliderXP.maxValue=levelSettings.levelRequirement[level];
+        void UpdateSliderXP()
+        {
+            _sliderXP.value = EvolutionPoints;
+            _sliderXP.maxValue = levelSettings.levelRequirement[level];
         }
 
         void LoopAction()
@@ -209,12 +225,14 @@ namespace Player.Rework{
             Destroy(gameObject);
         }
 
-                public void SetQuest(List<Quest.QuestTemplate> quests){
-            questActive=quests;
-            hasQuest=true;
+        public void SetQuest(List<Quest.QuestTemplate> quests)
+        {
+            questActive = quests;
+            hasQuest = true;
         }
 
-        internal void QuestItem(GameObject objCollected){
+        internal void QuestItem(GameObject objCollected)
+        {
 
             // foreach(var quest in questActive){
             //     Debug.LogFormat("tag target:{0} quest:{2} n:{1}",objCollected.tag,questActive.Count,quest.objectToCollect.tag);
@@ -225,63 +243,103 @@ namespace Player.Rework{
             //         continue;
             // }
 
-            for (int i = 0; i < questActive.Count; i++)
+            // for (int i = 0; i < questActive.Count; i++)
+            // {
+            //     if(questActive[i].objectToCollect.CompareTag(objCollected.tag)){
+            //         questActive[i].NumberCollected++;
+            //     }
+            //     else 
+            //         continue;
+            // }
+            if (!activeQuest.IsSkillQuest)
             {
-                if(questActive[i].objectToCollect.CompareTag(objCollected.tag)){
-                    questActive[i].NumberCollected++;
+                if (activeQuest.objectToCollect.CompareTag(objCollected.tag))
+                {
+                    ++activeQuest.NumberCollected;
                 }
-                else 
-                    continue;
             }
 
             // questActive.NumberCollected++;
         }
 
-        internal void RemoveQuestActive(Quest.QuestTemplate quest){
+        internal void RemoveQuestActive(Quest.QuestTemplate quest)
+        {
             questActive.Remove(quest);
-            hasQuest=questActive.Count>0;
-            Debug.LogFormat("{0} completed",quest.QuestName);
+            hasQuest = questHolder.QuestLeft();
+            if (hasQuest)
+            {
+                questHolder.ReceiveNewQuest();
+            }
+            else
+            {
+                Debug.Log("All quest finished");
+                ///spawn portal to boss here
+                GameManager.Instance.SpawnPortal();
+            }
+            // hasQuest=questActive.Count>0;
+            Debug.LogFormat("{0} completed", quest.QuestName);
         }
-        
+
+        internal void SkillQuest()
+        {
+            if (activeQuest.IsSkillQuest)
+            {
+                activeQuest.NumberCollected++;
+            }
+        }
+
+        internal void SetActiveQuest(Quest.QuestTemplate quest)
+        {
+            activeQuest = quest;
+        }
+
+
+
         // Start is called before the first frame update
         void Start()
         {
-            if(_rb is null)
-                _rb=GetComponent<Rigidbody>();
-            _mainCamera=Camera.main;
-            playerInput=GetComponent<PlayerInput>();
-            Cursor.lockState=CursorLockMode.Confined;
+            if (_rb is null)
+                _rb = GetComponent<Rigidbody>();
+            _mainCamera = Camera.main;
+            playerInput = GetComponent<PlayerInput>();
+            Cursor.lockState = CursorLockMode.Confined;
             LoopAction();
-            
+
         }
 
-#region InputEvent
-        public void ReadMovePress(InputAction.CallbackContext ctx){
-            KeyPress=ctx.ReadValue<Vector2>()!=Vector2.zero;
-            moveInput=ctx.ReadValue<Vector2>();
+        #region InputEvent
+        public void ReadMovePress(InputAction.CallbackContext ctx)
+        {
+            KeyPress = ctx.ReadValue<Vector2>() != Vector2.zero;
+            moveInput = ctx.ReadValue<Vector2>();
         }
-        public void ReadMousePos(InputAction.CallbackContext ctx){
-            if(mousePress){
-                mousePos=ctx.ReadValue<Vector2>();
-                mousePosWorld=_mainCamera.ScreenToWorldPoint(mousePos);
-                moveInput=new(mousePosWorld[0],mousePosWorld[2]);
-            }else{
-                moveInput=Vector2.zero;
+        public void ReadMousePos(InputAction.CallbackContext ctx)
+        {
+            if (mousePress)
+            {
+                mousePos = ctx.ReadValue<Vector2>();
+                mousePosWorld = _mainCamera.ScreenToWorldPoint(mousePos);
+                moveInput = new(mousePosWorld[0], mousePosWorld[2]);
+            }
+            else
+            {
+                moveInput = Vector2.zero;
             }
         }
-        public void ReadMousePress(InputAction.CallbackContext ctx){
-            mousePress=ctx.phase.IsInProgress();
+        public void ReadMousePress(InputAction.CallbackContext ctx)
+        {
+            mousePress = ctx.phase.IsInProgress();
         }
-#endregion
+        #endregion
 
 
 
         // Update is called once per frame
         void Update()
         {
-            if(Keyboard.current.pKey.wasPressedThisFrame)
+            if (Keyboard.current.pKey.wasPressedThisFrame)
                 ++_moveSpeed;
-            else if(Keyboard.current.oKey.wasPressedThisFrame)
+            else if (Keyboard.current.oKey.wasPressedThisFrame)
                 --_moveSpeed;
 
             if (mousePress)
@@ -289,32 +347,75 @@ namespace Player.Rework{
                 MoveCharacter();
             }
 
-            #if UNITY_EDITOR
-            if(Keyboard.current.f1Key.wasPressedThisFrame)
-                UnityEditor.EditorApplication.isPlaying=false;
-            #endif
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPaused = !UnityEditor.EditorApplication.isPaused;
+#else
+
+#endif
+            }
+
+
+#if UNITY_EDITOR
+            if (Keyboard.current.f1Key.wasPressedThisFrame)
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
         }
 
-        void MoveCharacter(){
-            if(moveInput!=Vector2.zero){
+        void MoveCharacter()
+        {
+            if (moveInput != Vector2.zero)
+            {
                 Debug.Log("if");
-                _speed=_moveSpeed;
-                force = new((mousePosWorld[0] - transform.position[0]) * _speed, 0f, (mousePosWorld[2]-transform.position[2])*_speed);
+                _speed = _moveSpeed;
+                force = new((mousePosWorld[0] - transform.position[0]) * _speed, 0f, (mousePosWorld[2] - transform.position[2]) * _speed);
                 //force = new Vector3(Mathf.Clamp(moveInput[0],-1f,1f), 0f, Mathf.Clamp(moveInput[1],-1f,1f))*_speed;
-                _rb.AddForce(force,ForceMode.Force);
+                _rb.AddForce(force, ForceMode.Force);
                 RotateTowardTarget();
             }
         }
 
-        void RotateTowardTarget(){
-            Vector3 dir=new Vector3(mousePosWorld.x-transform.position.x,0f,mousePosWorld.z-transform.position.z)*-1f;
-            transform.forward=dir;
+        void RotateTowardTarget()
+        {
+            Vector3 dir = new Vector3(mousePosWorld.x - transform.position.x, 0f, mousePosWorld.z - transform.position.z) * -1f;
+            transform.forward = dir;
+        }
+
+        IEnumerator ShowClosestTarget()
+        {
+            do
+            {
+
+                yield return null;
+            } while (alive);
+        }
+
+        Transform GetClosestTarget()
+        {
+            int layerTarget = activeQuest.objectToCollect.layer;
+            var colls = Physics.OverlapSphere(transform.position, 500f, layerTarget);
+            if (colls.Length > 0)
+            {
+                float dst = float.MaxValue;
+                int selected = 0;
+                for (int i = 0; i < colls.Length; i++)
+                {
+                    float distance = Vector3.Distance(transform.position, colls[i].transform.position);
+                    if (distance < dst)
+                    {
+                        selected = i;
+                        dst = distance;
+                    }
+                }
+            }
+            return null;
         }
 
         private void OnDrawGizmos()
         {
-            Gizmos.color=Color.red;
-            Gizmos.DrawRay(new(transform.position,(transform.position+Vector3.forward)*500));
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(new(transform.position, (transform.position + Vector3.forward) * 500));
         }
     }
 }

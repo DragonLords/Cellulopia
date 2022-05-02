@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2978920762297125082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -114,7 +114,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 20
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -182,6 +182,8 @@ MonoBehaviour:
   isAttacking: 0
   canSocialize: 1
   spawner: {fileID: 0}
+  maxLife: 2
+  Move: 0
   foodTag: Nourriture
   enemyTag: Ennemy
   hunger: 0
@@ -190,6 +192,7 @@ MonoBehaviour:
   ohFuck: 0
   RangeDetectionFoodDanger: 2
   increaseDanger: 10
+  foodSaturation: 30
 --- !u!1001 &2978920760738231596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -203,15 +206,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.45186
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 22.421558
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 27.60623
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282823058485303938, guid: cd28eb3c17da0394485ecfc6273f27aa, type: 3}
       propertyPath: m_LocalRotation.w
@@ -278,15 +281,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.45186
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 22.421558
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 27.60623
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
       propertyPath: m_LocalRotation.w

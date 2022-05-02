@@ -33,13 +33,20 @@ namespace Player.Rework.Danger
                 //do srtuff about food here
                 player.PlayerGiveFood.Invoke(other.gameObject.GetComponent<Food>().FoodSaturation);
                 //Debug.Log("got food");
+                player.QuestItem(other.gameObject);
                 Destroy(other.gameObject);
             }else if(other.gameObject.CompareTag(enemyTag)){
                 //do stuff about enemy here
-                //Debug.Log("Killed");
-                player.PlayerGiveFood.Invoke(other.gameObject.GetComponent<GOAPTester>().foodSaturation);
-                Destroy(other.gameObject);
+                Debug.Log("Enemy");
+                var enemy=other.gameObject.GetComponent<GOAPCollsion>();
+                if(!enemy.TakeDamage(player.DamageValue)){
+                    player.QuestItem(other.gameObject);
+                    player.PlayerGiveFood.Invoke(enemy.foodSaturation);
+                }
+            }else if(other.gameObject.CompareTag(player.portalTag)){
+                other.gameObject.GetComponent<Portal>().TriggerBossFight();
             }
+
         }
 
         void SetIgnore()

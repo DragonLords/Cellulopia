@@ -24,11 +24,7 @@ public class GameManagerEditor : Editor
         #region Gen monde
         GenerationMonde=EditorGUILayout.Foldout(GenerationMonde,"Generation Monde");
         if(GenerationMonde){
-            if(GUILayout.Button("Generer monde")){
-                manager.GenererTotaliteMonde();
-            }else if(GUILayout.Button("Supprimer monde")){
-                manager.SupprimerMonde();
-            }
+            
         }
         #endregion
         base.OnInspectorGUI();
