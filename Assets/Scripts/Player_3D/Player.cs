@@ -349,12 +349,17 @@ namespace Player.Rework
 
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPaused = !UnityEditor.EditorApplication.isPaused;
-#else
-
-#endif
+                GameManager.Instance.PauseGame();
             }
+
+//            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+//            {
+//#if UNITY_EDITOR
+//                UnityEditor.EditorApplication.isPaused = !UnityEditor.EditorApplication.isPaused;
+//#else
+
+//#endif
+            //}
 
 
 #if UNITY_EDITOR
