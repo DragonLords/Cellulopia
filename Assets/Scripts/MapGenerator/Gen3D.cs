@@ -31,6 +31,8 @@ namespace Generator
             RemplirCarte();
             Generate3DMap();
             var player=FindObjectOfType<Player.Rework.Player>();
+            GameManager.Instance.emptyTiles=new(emptyTiles);
+            GameManager.Instance.map=carte;
             //place player
         }
 

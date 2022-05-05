@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a78756d1ca503a4a9187ad137201cf4, type: 3}
   m_Name: GetSkill
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
   state: 2
-  QuestName: Buy a Skill
-  QuestDescription: 
+  QuestName: "Acheter 1 compt\xE9nces"
+  nameRun: 
+  QuestDescription: "Acheter une comp\xE9tence dans le menu de comp\xE9tence se trouvant
+    dans le coin sup\xE9rieur droit de l'\xE9cran"
   objectToCollect: {fileID: 0}
   xpReward: 100
   numberToCollect: 1
-  numberCollected: 0
+  numberCollected: 1
   IsSkillQuest: 1
+  PortalQuest: 0

@@ -784,6 +784,7 @@ MonoBehaviour:
   questActive: []
   questOrder: {fileID: 11400000, guid: 5f3a7b3a33453c741b7e2758d6fa08c5, type: 2}
   questHolder: {fileID: 4540759352868120597}
+  playerStat: {fileID: 11400000, guid: 515328738ca17ae42b2b9c9fc55ecbf1, type: 2}
 --- !u!54 &3998214341410308216
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1321,6 +1322,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foodTag: Nourriture
   enemyTag: Ennemy
+  minionTag: Minion
+  bossTag: Boss
   detectionSize: {x: 3.5, y: 2, z: 2.5}
 --- !u!65 &4304855287140652614
 BoxCollider:
@@ -1375,15 +1378,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4304855287519580307}
-  m_LocalRotation: {x: 0.70707315, y: 0.006896846, z: -0.006896846, w: 0.70707315}
-  m_LocalPosition: {x: 0, y: 30.5, z: 0.9147272}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 30.5, z: 0.91472733}
   m_LocalScale: {x: 0.54995435, y: 0.43004566, z: 0.55}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4304855285686048103}
   m_Father: {fileID: 4304855285885163417}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -181.118}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &4304855287519580305
 MonoBehaviour:
   m_ObjectHideFlags: 0

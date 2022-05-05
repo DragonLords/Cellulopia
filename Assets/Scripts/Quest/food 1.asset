@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a78756d1ca503a4a9187ad137201cf4, type: 3}
   m_Name: food 1
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
   state: 2
-  QuestName: Eat 5 more Food
-  QuestDescription: Eat 5 food
+  QuestName: Manger 5 nourriture
+  nameRun: Eat 5 more Food
+  QuestDescription: Manger les petits organismes
   objectToCollect: {fileID: 8538595785919922663, guid: 889c2e8ea77203549b1f67b7bb7f507e, type: 3}
   xpReward: 500
   numberToCollect: 5
   numberCollected: 0
+  IsSkillQuest: 0
+  PortalQuest: 0

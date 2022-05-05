@@ -12,6 +12,9 @@ namespace Boss.Minion
             minion=GetComponentInParent<BossMinion>();
         }
 
+        public void TakeDamage(int value){
+            minion.TakeDamage(value);
+        }
         private void OnCollisionEnter(Collision collision)
         {
             

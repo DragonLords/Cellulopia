@@ -24,7 +24,8 @@ namespace Quest
         {
             // questHolder=GetComponentInParent<QuestHolder>();
             button=GetComponent<Button>();
-            button.onClick.AddListener(FollowTarget);
+            button.onClick.AddListener(OnClick);
+            var text=button.GetComponentInChildren<TextMeshProUGUI>();
             button.GetComponentInChildren<TextMeshProUGUI>().text=quest.QuestName;
             quest.questButton=gameObject;
             quest.buttonSc=this;
@@ -42,6 +43,12 @@ namespace Quest
                     button.GetComponent<Image>().color=Color.cyan;
                 }break;
             }
+            quest.text=text;
+
+        }
+
+        public void OnClick(){
+            
         }
 
         internal void OnCompletion()
@@ -50,10 +57,6 @@ namespace Quest
             GameManager.Instance.PlayerRemoveQuest.Invoke(quest);
             questHolder.OnQuestEnded(quest);
             Destroy(gameObject);
-        }
-
-        internal void FollowTarget(){
-            
         }
     }
 

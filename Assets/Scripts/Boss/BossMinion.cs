@@ -1,24 +1,37 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 
 namespace Boss.Minion
 {
-    [RequireComponent(typeof(NavMeshAgent))]
     public class BossMinion : MonoBehaviour
     {
-        NavMeshAgent agent;
+        [SerializeField] float DelayAlive=5f;
+        WaitForSeconds wsDelayAlive;
+        [SerializeField] NavMeshAgent agent;
         int life=1;
         Transform player;
+        internal int damage=1;
         ParticleSystem ps;
-        Renderer rend;
+        Renderer[] rends;
+        bool alive=true;
+        [SerializeField,TagSelector] internal string playerTag;
+
+
         // Use this for initialization
         void Start()
         {
+            wsDelayAlive=new(DelayAlive);
             player=FindObjectOfType<Player.Rework.Player>().transform;
-            agent = GetComponent<NavMeshAgent>();
-            rend = GetComponent<Renderer>();
+            rends = GetComponentsInChildren<Renderer>();
             StartCoroutine(ChasePlayerToAttack());
+            // StartCoroutine(DieDelay());
+        }
+
+        IEnumerator DieDelay(){
+            yield return wsDelayAlive;
+            TakeDamage(life);
         }
 
         IEnumerator ChasePlayerToAttack()
@@ -27,7 +40,7 @@ namespace Boss.Minion
             {
                 agent.SetDestination(player.position);
                 yield return null;  
-            } while (agent.remainingDistance > 1f);
+            } while (agent.remainingDistance > 1f&&alive);
             yield return null; 
         }
 
@@ -42,20 +55,36 @@ namespace Boss.Minion
 
         IEnumerator Death()
         {
-            var particle=Instantiate(ps,transform);
-
-            if (!particle.isPlaying)
-            {
-                particle.Play();
+            alive=false;
+            agent.isStopped=true;
+            agent.destination=transform.position;
+            if(ps is not null){
+                var particle=Instantiate(ps,transform);
+                if (!particle.isPlaying)
+                {
+                    particle.Play();
+                }
             }
-            Material mat = rend.material;
+            Material mat = rends.First().material;
+            mat.SetFloat("_Transparency",1f);
+            float newVal=1f;
             do
             {
-                mat.color = new Color(mat.color.r,mat.color.g,mat.color.b,mat.color.a-.1f);
+                foreach(var r in rends)
+                {
+                    r.material.SetFloat("_Transparency",newVal);
+                    newVal-=.1f;
+                }
                 yield return new WaitForSeconds(.2f);
-            } while (mat.color.a>.1f);
+            } while (newVal>0f);
             yield return null;
             Destroy(gameObject);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color=Color.magenta;
+            Gizmos.DrawRay(new(transform.position,transform.position+transform.forward*500f));
         }
     }
 }

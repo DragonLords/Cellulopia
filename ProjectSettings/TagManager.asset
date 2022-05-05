@@ -10,6 +10,7 @@ TagManager:
   - Malus
   - Portal
   - Boss
+  - Minion
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Malus
   - Ground
   - Boss
-  - 
+  - Minion
   - 
   - 
   - 

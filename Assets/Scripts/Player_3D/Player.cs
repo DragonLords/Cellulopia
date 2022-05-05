@@ -80,6 +80,7 @@ namespace Player.Rework
         public List<Quest.QuestTemplate> questActive = new();
         public Quest.OrderQuest questOrder;
         public Quest.QuestHolder questHolder;
+        public PlayerStat playerStat;
 
         /// <summary>
         /// Awake is called when the script instance is being loaded.
@@ -107,18 +108,22 @@ namespace Player.Rework
 
         void InitializeValue()
         {
-            Faim = 5;
-            _moveSpeed = 15f;
+            // Faim = 5;
+            // _moveSpeed = 15f;
             levelSettings = ScriptableObject.CreateInstance<LevelSettings>();
+            
+            DamageValue=playerStat.DamageValue;
+            _moveSpeed=playerStat.MoveSpeed;
+            _skillPoint=playerStat.SkillPoint;
+            _life=playerStat.Life;
+            _maxLife=playerStat.MaxLife;
+
+
             levelSettings.InitTable().Wait();
             UpdateSlider();
             UpdateSliderXP();
         }
 
-        void ChangeSpeed(float Value)
-        {
-            _moveSpeed += Value;
-        }
 
         internal void GiveFood(float value)
         {
@@ -174,18 +179,28 @@ namespace Player.Rework
                 default: break;
             }
             SkillPoint -= skillTemplate.skillCost;
-            _textPoint.text = $"{SkillPoint} Points";
+            _textPoint.text = SkillPoint>1?($"{SkillPoint} Points"):($"{SkillPoint} Point");
             // ChangeSpeed(skillTemplate.statEffectValue);
+        }
+
+        void ChangeSpeed(float Value)
+        {
+            _moveSpeed += Value;
+            playerStat.MoveSpeed=_moveSpeed;
         }
 
         void UpgradeAttack(int value)
         {
             DamageValue += value;
+            playerStat.DamageValue=DamageValue;
         }
 
         void UpgradeSurv(int value)
         {
             _maxLife += value;
+            Life+=value;
+            playerStat.MaxLife=_maxLife;
+            playerStat.Life=Life;
         }
 
         internal void TakeDamage(int value)
@@ -198,8 +213,9 @@ namespace Player.Rework
 
         void UpdateSlider()
         {
-            _sliderFaim.value = Faim;
-            _sliderFaim.maxValue = MaxValeurFaim;
+            _sliderFaim.gameObject.SetActive(false);
+            // _sliderFaim.value = Faim;
+            // _sliderFaim.maxValue = MaxValeurFaim;
             _sliderVie.maxValue = _maxLife;
             _sliderVie.value = Life;
             // _sliderFaim.gameObject.SetActive(false);
@@ -337,7 +353,7 @@ namespace Player.Rework
             _mainCamera = Camera.main;
             playerInput = GetComponent<PlayerInput>();
             Cursor.lockState = CursorLockMode.Confined;
-            LoopAction();
+            // LoopAction();
 
         }
 

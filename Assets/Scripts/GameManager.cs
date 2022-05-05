@@ -11,6 +11,9 @@ using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
+    public GoapSpawner spawner;
+    public int maxEnemiesInLevel=3;
+    WaitForSeconds wsCheckIfEnemy=new(3);
     #region Singleton
     private static GameManager instance = null;
     public static GameManager Instance
@@ -36,7 +39,11 @@ public class GameManager : MonoBehaviour
     #endregion
     public GameObject enemy;
     [SerializeField] GameObject portal;
+    string portalKey="Portal";
     [SerializeField] Generator.Gen3D gen;
+    public List<GameObject> enemies=new();
+    public List<Vector2Int> emptyTiles=new();
+    public int[,] map;
     private void Awake()
     {
         if(player is null)
@@ -51,7 +58,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // SpawnEnemy().ConfigureAwait(false);
+        
     }
 
     #region Upgrade Player
@@ -85,7 +92,8 @@ public class GameManager : MonoBehaviour
     #region Portal
     public void SpawnPortal(){
         int rnd=UnityEngine.Random.Range(0,gen.emptyTiles.Count);
-        var p=Instantiate(portal,new(gen.emptyTiles[rnd].x,1,gen.emptyTiles[rnd].y),Quaternion.identity);
+        var p=Addressables.InstantiateAsync(portalKey,new(gen.emptyTiles[rnd].x,1,gen.emptyTiles[rnd].y),Quaternion.identity);
+        // var p=Instantiate(portal,new(gen.emptyTiles[rnd].x,1,gen.emptyTiles[rnd].y),Quaternion.identity);
         Debug.LogFormat("Portal spawned at {0}:{1}",gen.emptyTiles[rnd][0],gen.emptyTiles[rnd][1]);
     }
     #endregion
@@ -99,6 +107,50 @@ public class GameManager : MonoBehaviour
             Paused=!Paused;
         }
     }
+
+    #region Enemies
+    public void StartCheckEnemy(){
+        StartCoroutine(CheckEnemies());
+    }
+    IEnumerator CheckEnemies(){
+        do
+        {
+            enemies.RemoveAll(item=>item==null);
+            if(enemies.Count<maxEnemiesInLevel){
+                spawner.SpawnNewEnemy();
+            }
+            yield return wsCheckIfEnemy;
+        } while (true);
+    }
+    #endregion
+
+    #region PlaceEntities
+    public bool ValidatePos(int posX, int posY){
+        int nbMur = 0;
+            //on regarde les murs autour dansun patern de 3X3
+            for (int x = posX - 1; x <= posX + 1; x++)
+            {
+                for (int y = posY - 1; y <= posY + 1; y++)
+                {
+                    //si la case est dans les cases du monde (pas exterieur)
+                    if (x >= 0 && x < gen.dimension.x && y >= 0 && y < gen.dimension.y)
+                    {
+                        //on ne regarde pas la case cibler 
+                        // if (x != posX && y != posY)
+                        //alors on ajoute sa valeurs a celle des murs (soit 0 ou 1)
+                        nbMur += map[x, y];
+                        //sinon le mur est a lexterieur et on renforce le fait de faire apparaitre des murs au niveau exterieur
+                    }
+                    else
+                        ++nbMur;
+                }
+            }
+            if(nbMur<3)
+                return true;
+            else
+                 return false;
+    }
+    #endregion
 
 }
 

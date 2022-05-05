@@ -10,6 +10,8 @@ namespace Player.Rework.Danger
         Player player;
         [SerializeField, TagSelector] string foodTag;
         [SerializeField, TagSelector] string enemyTag;
+        [SerializeField,TagSelector] string minionTag;
+        [SerializeField,TagSelector] string bossTag;
         [SerializeField] Vector3 detectionSize=new(6,1,2);
         Collider Collider;
         /// <summary>
@@ -29,6 +31,7 @@ namespace Player.Rework.Danger
 
         private void OnCollisionEnter(Collision other)
         {
+            Debug.LogFormat("<color=red>Collsion with:{0}</color>",other.gameObject.name);
             if(other.gameObject.CompareTag(foodTag)){
                 //do srtuff about food here
                 player.PlayerGiveFood.Invoke(other.gameObject.GetComponent<Food>().FoodSaturation);
@@ -45,6 +48,19 @@ namespace Player.Rework.Danger
                 }
             }else if(other.gameObject.CompareTag(player.portalTag)){
                 other.gameObject.GetComponent<Portal>().TriggerBossFight();
+            }else if(other.gameObject.CompareTag(minionTag)){
+                if(other.gameObject.TryGetComponent(out Boss.Minion.MinionCollision coll)){
+                    coll.TakeDamage(player.DamageValue);
+                }else if(other.gameObject.TryGetComponent(out Boss.Minion.MinionAttackZone danger)){
+                    danger.TakeDamage(player.DamageValue);
+                }
+                // other.gameObject.GetComponent<Boss.Minion.MinionCollision>().TakeDamage(player.DamageValue);
+            }else if(other.gameObject.CompareTag(bossTag)){
+                if(other.gameObject.TryGetComponent(out Boss.Boss boss)){
+                    boss.TakeDamage(player.DamageValue);
+                }else if(other.gameObject.TryGetComponent(out Boss.BossCollsion coll)){
+                    coll.TakeDamage(player.DamageValue);
+                }
             }
 
         }
