@@ -23,7 +23,8 @@ namespace Quest
         Dictionary<QuestTemplate,QuestSate> QuestStatus=new();
         [SerializeField] List<QuestTemplate> questPending=new();
         public OrderQuest questOrder;
-        Queue<QuestTemplate> questsOrdered=new();
+        public Queue<QuestTemplate> questsOrdered=new();
+        public List<QuestTemplate> queueQuest=new();
         // Start is called before the first frame update
         void Start()
         {
@@ -33,7 +34,15 @@ namespace Quest
             #endif
 
             foreach(var quest in questOrder.orderQuest){
-                questsOrdered.Enqueue(quest);
+                var q=ScriptableObject.CreateInstance<QuestTemplate>();
+                q = quest;
+                questsOrdered.Enqueue(q);
+            }
+
+            queueQuest = new(questsOrdered);
+            foreach(var q in queueQuest)
+            {
+                q.numberCollected = 0;
             }
 
             // foreach (var quest in quests)

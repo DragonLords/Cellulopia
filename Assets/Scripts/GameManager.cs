@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     }
 
     #region Upgrade Player
+    public bool CanBuySkill(Player.Skill.SkillTemplate skill)=>player.SkillPoint >= skill.skillCost;
+
     void UpgradePlayerStats(Player.Skill.SkillTemplate skill)
     {
         player.UpgradeStats(skill);
@@ -84,6 +86,7 @@ public class GameManager : MonoBehaviour
     public void SpawnPortal(){
         int rnd=UnityEngine.Random.Range(0,gen.emptyTiles.Count);
         var p=Instantiate(portal,new(gen.emptyTiles[rnd].x,1,gen.emptyTiles[rnd].y),Quaternion.identity);
+        Debug.LogFormat("Portal spawned at {0}:{1}",gen.emptyTiles[rnd][0],gen.emptyTiles[rnd][1]);
     }
     #endregion
 

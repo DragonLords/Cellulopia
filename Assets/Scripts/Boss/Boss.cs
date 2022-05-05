@@ -10,8 +10,6 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace Boss
 {
-
-    [RequireComponent(typeof(NavMeshAgent))]
     public class Boss : MonoBehaviour
     {
         [SerializeField] Transform[] posWalk;
@@ -29,9 +27,19 @@ namespace Boss
         public Vector3 offset=new(.5f,0,.5f);
         public Vector3 pos;
         public float radius=5f;
+        public int minionNumber = 3;
+        WaitForSeconds wsDelayAttack;
+        WaitForSeconds wsDelayMinion;
+        public float delayMinion = 3f;
+        string minionKey = "Minion";
+        private int _life = 3;
+        private int Life { get => _life; set { _life = Mathf.Clamp(value, 0, 3); } }
+        ParticleSystem ps;
+        Renderer[] rend;
         // Start is called before the first frame update
-        void Start()
+        IEnumerator Start()
         {
+            wsDelayMinion = new(delayMinion);
             LoadAsset();
             _agent = GetComponent<NavMeshAgent>();
             holderProj=new GameObject("holder_porjectile").transform;
@@ -40,15 +48,82 @@ namespace Boss
             // FindPlayer().ConfigureAwait(false);
             #if UNITY_EDITOR
             alive=UnityEditor.EditorApplication.isPlaying;
-            #endif
+#else
+            alive =true;
+#endif
+            rend=GetComponentsInChildren<Renderer>();
             // Move().ConfigureAwait(false);
-            // NewRot().ConfigureAwait(false);
+            //NewRot().ConfigureAwait(false);
             // DebugLine().ConfigureAwait(false);
-            alive=true;
-            ChargeThePlayer().ConfigureAwait(false).GetAwaiter();
+            //ChargeThePlayer().ConfigureAwait(false).GetAwaiter();
+            //AttackPlayer().ConfigureAwait(false);
+            yield return new WaitForSeconds(5f);
+            Debug.Log("Bob");
+            StartCoroutine(TryAttack());
+        }
+
+        void SpawnMinion()
+        {
+            for(int i = 0; i < minionNumber; i++)
+            {
+                float posX = Random.Range(transform.position.z - radius, (transform.position.z + radius) + 1);
+                float posZ = Random.Range(transform.position.z - radius, (transform.position.z + radius) + 1);
+                Addressables.InstantiateAsync(minionKey,new(posX,transform.position.y,posZ),Quaternion.identity).WaitForCompletion();
+            }
+            CooldownAttack();
+        }
+
+        public void TakeDamage(int value)
+        {
+            Life -= value;
+            if (Life == 0)
+            {
+                StartCoroutine(Death());
+            }
+        }
+
+        IEnumerator Death()
+        {
+            Material mat = rend.First().material;
+            var part=Instantiate(ps,transform);
+            if (!part.isPlaying)
+            {
+                part.Play();
+            }
+            do
+            {
+                foreach(var r in rend)
+                {
+                    Color color = r.material.color;
+                    r.material.color = new(color.r, color.g, color.b, color.a - .1f);
+                }
+                yield return new WaitForSeconds(.2f);
+            } while (mat.color.a>.1f);
+            yield return null;
+        }
+
+        IEnumerator CooldownAttack()
+        {
+            canAttack = false;
+            yield return wsDelayMinion;
+            canAttack = true;
+        }
+
+
+        IEnumerator TryAttack()
+        {
+            do
+            {
+                if (canAttack && Random.Range(0, 2) == 1)
+                {
+                    SpawnMinion();
+                }
+                yield return wsDelayAttack;
+            } while (alive);
         }
 
         void LoadAsset(){
+            Addressables.LoadAssetAsync<GameObject>(minionKey).WaitForCompletion();
             Addressables.LoadAssetAsync<GameObject>(projectileKey);
         }
 

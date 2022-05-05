@@ -9,14 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a78756d1ca503a4a9187ad137201cf4, type: 3}
-  m_Name: GetSkill
+  m_Script: {fileID: 11500000, guid: ad0fb62a9d473664fbffa45f1ae126cd, type: 3}
+  m_Name: Life
   m_EditorClassIdentifier: 
-  state: 2
-  QuestName: Buy a Skill
-  QuestDescription: 
-  objectToCollect: {fileID: 0}
-  xpReward: 100
-  numberToCollect: 1
-  numberCollected: 0
-  IsSkillQuest: 1
+  grade: 1
+  skillRequirement: {fileID: 0}
+  skillName: 
+  skillOrder: 0
+  skillCost: 0
+  skillDescription: 
+  bonusType: 0
+  statEffect: 0
+  statEffectValue: 0
+  skillEffect: 0

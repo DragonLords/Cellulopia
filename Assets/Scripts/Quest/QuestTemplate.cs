@@ -18,7 +18,7 @@ namespace Quest
         public GameObject objectToCollect;
         public int xpReward = 0;
         public int numberToCollect = 0;
-        [SerializeField] private int numberCollected = 0;
+        [SerializeField] internal int numberCollected = 0;
         [property: SerializeField]
         public int NumberCollected
         {
@@ -36,14 +36,14 @@ namespace Quest
         }
 
         public bool IsSkillQuest = false;
-
+        public bool PortalQuest = false;
 
 
         void ValidateNumber()
         {
             if (IsSkillQuest)
             {
-                
+                questButton.GetComponent<QuestEvent>().OnCompletion();
             }
             else
             {

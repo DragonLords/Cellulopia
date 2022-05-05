@@ -8,12 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Physics.unity
     guid: ae8bce97d669c5d48a9e44edc7e40655
-  - enabled: 0
-    path: Assets/Scenes/Mesh.unity
-    guid: 9c7d5bb617af4b2439ea710b761337aa
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/_Beta/Boss.unity
+    guid: e18dfb0bdbc28a940a1bede1090d0f4b
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: ad5ee14561a3f694387af7adecd4e246, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 73bf306ba692de241adbcd4c11c855cf, type: 2}

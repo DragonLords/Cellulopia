@@ -607,10 +607,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3998214341410308216, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
-      propertyPath: m_Constraints
-      value: 116
-      objectReference: {fileID: 0}
     - target: {fileID: 4304855285885163417, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -621,7 +617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4304855285885163417, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.17
       objectReference: {fileID: 0}
     - target: {fileID: 4304855285885163417, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -658,10 +654,6 @@ PrefabInstance:
     - target: {fileID: 4304855285885163418, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 4304855287140652617, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
-      propertyPath: m_Layer
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4540759352125671976, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
       propertyPath: m_AnchorMax.y

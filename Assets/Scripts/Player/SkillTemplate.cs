@@ -16,12 +16,12 @@ public class SkillTemplate : ScriptableObject {
     [HideInInspector] public string skillDescription;
     public BonusType bonusType;
     [HideInInspector] public StatEffect statEffect;
-    [HideInInspector] public float statEffectValue;
+    [HideInInspector] public int statEffectValue;
     [HideInInspector] public SkillEffect skillEffect;
 
     public enum BonusType{stats,skill}
     public enum SkillEffect{grappling,bob,dummy,another}
-    public enum StatEffect{vitesse,not,here,hide};
+    public enum StatEffect{vitesse,Attack,Life};
 }
 
 #region editor
@@ -46,7 +46,7 @@ public class SkillTemplateEditor : Editor{
                 skillTemplate.statEffect=(SkillTemplate.StatEffect)EditorGUILayout.EnumPopup("Stats effect",skillTemplate.statEffect);
                 // EditorGUILayout.PropertyField(serializedObject.FindProperty("Stat Effect"));
                 // EditorGUILayout.PropertyField(prop);
-                skillTemplate.statEffectValue=EditorGUILayout.FloatField(nameof(skillTemplate.statEffectValue),skillTemplate.statEffectValue);
+                skillTemplate.statEffectValue=EditorGUILayout.IntField(nameof(skillTemplate.statEffectValue),skillTemplate.statEffectValue);
             } break;
             case SkillTemplate.BonusType.skill:{
                 EditorGUILayout.EnumFlagsField(skillTemplate.skillEffect);

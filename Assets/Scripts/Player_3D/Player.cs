@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Player.Rework
 {
@@ -50,8 +50,11 @@ namespace Player.Rework
         /// the value number of xp to have
         /// </summary>
         /// <returns></returns>
-        Dictionary<int, int> tableEvolution = new(){
-            {1,50},{2,100},{3,200}
+        Dictionary<int, int> tableEvolution = new()
+        {
+            { 1, 50 },
+            { 2, 100 },
+            { 3, 200 }
         };
         #endregion
         #region food finder
@@ -83,7 +86,6 @@ namespace Player.Rework
         /// </summary>
         void Awake()
         {
-            //TODO: finish implementing here
             Faim = 10f;
             if (_sliderFaim is not null)
             {
@@ -159,9 +161,31 @@ namespace Player.Rework
                         ChangeSpeed(skillTemplate.statEffectValue);
                     }
                     break;
+                case Skill.SkillTemplate.StatEffect.Attack:
+                    {
+                        UpgradeAttack(skillTemplate.statEffectValue);
+                    }
+                    break;
+                case Skill.SkillTemplate.StatEffect.Life:
+                    {
+                        UpgradeSurv(skillTemplate.statEffectValue);
+                    }
+                    break;
                 default: break;
             }
+            SkillPoint -= skillTemplate.skillCost;
+            _textPoint.text = $"{SkillPoint} Points";
             // ChangeSpeed(skillTemplate.statEffectValue);
+        }
+
+        void UpgradeAttack(int value)
+        {
+            DamageValue += value;
+        }
+
+        void UpgradeSurv(int value)
+        {
+            _maxLife += value;
         }
 
         internal void TakeDamage(int value)
@@ -195,12 +219,12 @@ namespace Player.Rework
         internal async Task LoopHunger()
         {
             await Task.Delay(DelayTickFaim);
-            for (int i = 0; i < 50; i++)
+            do
             {
-                GiveFood(-1);
-                await Task.Delay(1000);
-                continue;
-            }
+                if(!GameManager.Instance.Paused)
+                    GiveFood(-1);
+                await Task.Delay(DelayTickFaim);
+            } while (true);
         }
 
         internal async Task LoopHungry()
@@ -266,15 +290,20 @@ namespace Player.Rework
         {
             questActive.Remove(quest);
             hasQuest = questHolder.QuestLeft();
+
             if (hasQuest)
             {
                 questHolder.ReceiveNewQuest();
+            }
+            if (activeQuest.PortalQuest)
+            {
+                GameManager.Instance.SpawnPortal();
             }
             else
             {
                 Debug.Log("All quest finished");
                 ///spawn portal to boss here
-                GameManager.Instance.SpawnPortal();
+                //GameManager.Instance.SpawnPortal();
             }
             // hasQuest=questActive.Count>0;
             Debug.LogFormat("{0} completed", quest.QuestName);
@@ -285,6 +314,11 @@ namespace Player.Rework
             if (activeQuest.IsSkillQuest)
             {
                 activeQuest.NumberCollected++;
+                Debug.Log("yup");
+            }
+            else
+            {
+                Debug.Log("nope");
             }
         }
 
@@ -337,29 +371,31 @@ namespace Player.Rework
         // Update is called once per frame
         void Update()
         {
+
+#if UNITY_EDITOR
             if (Keyboard.current.pKey.wasPressedThisFrame)
                 ++_moveSpeed;
             else if (Keyboard.current.oKey.wasPressedThisFrame)
                 --_moveSpeed;
+            else if (Keyboard.current.digit0Key.wasPressedThisFrame)
+                activeQuest.NumberCollected = activeQuest.numberToCollect;
+#endif
 
-            if (mousePress)
+            if (mousePress&&!GameManager.Instance.Paused)
             {
                 MoveCharacter();
+            }
+            else
+            {
+                mousePosWorld = Vector3.zero;
+                mousePos = Vector2.zero;
+                force = Vector3.zero;
             }
 
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 GameManager.Instance.PauseGame();
             }
-
-//            if (Keyboard.current.escapeKey.wasPressedThisFrame)
-//            {
-//#if UNITY_EDITOR
-//                UnityEditor.EditorApplication.isPaused = !UnityEditor.EditorApplication.isPaused;
-//#else
-
-//#endif
-            //}
 
 
 #if UNITY_EDITOR

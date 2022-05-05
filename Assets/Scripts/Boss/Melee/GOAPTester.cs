@@ -170,7 +170,7 @@ public class GOAPTester : BossMelee
     {
         var newObj = objectives[(int)actionEnum];
         newObj.SetActive(true);
-        Debug.LogFormat("<color=red>oh fuck oh shit im gonna fucking die!!!</color><color=olive>{0}</color>",actionEnum);
+        //Debug.LogFormat("<color=red>oh fuck oh shit im gonna fucking die!!!</color><color=olive>{0}</color>",actionEnum);
         ohFuck = true;
     }
 
@@ -190,7 +190,7 @@ public class GOAPTester : BossMelee
             if(currentAction is not null){
                 if(currentAction.target == null){
                     currentAction.Achieved=true;
-                    Debug.Log("target is missing");
+                    //Debug.Log("target is missing");
                 }
             }
             yield return null;
@@ -269,14 +269,14 @@ if (other.gameObject.CompareTag(enemyTag))
             {
                 if (isSocializing && canSocialize)
                 {
-                    Debug.Log("ohhh");
+                    //Debug.Log("ohhh");
                     if (CapperEntities.CanSpawn())
                     {
                         currentAction.Duplicate(this);
                     }
                     else
                     {
-                        Debug.Log("meh");
+                        //Debug.Log("meh");
                         currentAction.Achieved = true;
                         youTriggerMeNow++;
                         if (youTriggerMeNow >= 10)
@@ -291,7 +291,7 @@ if (other.gameObject.CompareTag(enemyTag))
             {
                 base.GiveFood(other.gameObject.GetComponent<GOAPTester>().foodSaturation);
                 Destroy(other.gameObject);
-                Debug.Log("EXPLOSIONS!?!");
+                //Debug.Log("EXPLOSIONS!?!");
             }
         }
     }
