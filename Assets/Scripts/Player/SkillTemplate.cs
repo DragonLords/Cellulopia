@@ -18,6 +18,7 @@ public class SkillTemplate : ScriptableObject {
     [HideInInspector] public StatEffect statEffect;
     [HideInInspector] public int statEffectValue;
     [HideInInspector] public SkillEffect skillEffect;
+        [SerializeField] public string SkillDesciption;
 
     public enum BonusType{stats,skill}
     public enum SkillEffect{grappling,bob,dummy,another}

@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a78756d1ca503a4a9187ad137201cf4, type: 3}
   m_Name: Portal
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
   state: 2
-  QuestName: Go Throught the Portal
+  QuestName: "Passer \xE0 travers le portail"
+  nameRun: 
   QuestDescription: 
   objectToCollect: {fileID: 8849179746675541829, guid: 3cd5812eb460dc74a90549952d956a97, type: 3}
   xpReward: 0

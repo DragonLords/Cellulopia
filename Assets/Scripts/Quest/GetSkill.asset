@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 0}
   state: 2
-  QuestName: "Acheter 1 compt\xE9nces"
+  QuestName: "Acheter 1 comp\xE9tences"
   nameRun: 
   QuestDescription: "Acheter une comp\xE9tence dans le menu de comp\xE9tence se trouvant
     dans le coin sup\xE9rieur droit de l'\xE9cran"
   objectToCollect: {fileID: 0}
   xpReward: 100
   numberToCollect: 1
-  numberCollected: 1
+  numberCollected: 0
   IsSkillQuest: 1
   PortalQuest: 0

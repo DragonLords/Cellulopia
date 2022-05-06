@@ -14,6 +14,6 @@ public class Portal : MonoBehaviour
 
 
     public void TriggerBossFight(){
-        SceneManager.LoadScene(1,LoadSceneMode.Single);
+        SceneManager.LoadScene(2,LoadSceneMode.Single);
     }
 }

@@ -7,6 +7,7 @@ using TMPro;
 public class ButtonHandler : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI text;
+    [SerializeField] TextMeshProUGUI textDesc;
     public Button button;
     public Player.Skill.SkillTemplate skill;
     public SkillTreeHandler skillTreeHandler;
@@ -27,6 +28,7 @@ public class ButtonHandler : MonoBehaviour
             button.interactable=false;
         skillTreeHandler=GetComponentInParent<SkillTreeHandler>();
         text.text=skill.name;
+        textDesc.text = skill.skillDescription;
     }
 
     public void OnClick(){

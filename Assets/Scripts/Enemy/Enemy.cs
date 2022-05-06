@@ -30,7 +30,6 @@ namespace Enemy
         private int MaxLife = 10;
         private int _life = 1;
         public int Life { get => _life; set { _life = Mathf.Clamp(value, 0, MaxLife); } }
-        Player.PlayerDanger player;
 
         int MaxHunger = 50;
         [SerializeField, Range(0, 50)] int _hunger = 15;
@@ -174,13 +173,12 @@ namespace Enemy
         // Update is called once per frame
         void Update()
         {
-            if (Keyboard.current.f1Key.wasPressedThisFrame)
-            { alive = false; UnityEditor.EditorApplication.isPlaying = alive; }
+            
         }
 
-        public void TakeDamage(int damageValue, Player.PlayerDanger player)
+        public void TakeDamage(int damageValue)
         {
-            this.player = player;
+            //this.player = player;
             Life -= damageValue;
         }
 

@@ -251,11 +251,6 @@ public class BossMelee : MonoBehaviour
         // Highlight();
     }
 
-    void Highlight(){
-        currentAction=actionQueue.Dequeue();
-        Selection.objects=new Object[] {currentAction.target};
-    }
-
     internal IEnumerator FinalDetection()
     {
         do
