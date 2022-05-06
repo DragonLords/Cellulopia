@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grade: 1
   skillRequirement: {fileID: 0}
-  skillName: 
+  skillName: Vie
   skillOrder: 0
   skillCost: 1
-  skillDescription: "\t\t"
+  skillDescription: "Augmente la sant\xE9 max du joueur de 20 points"
   bonusType: 0
   statEffect: 2
   statEffectValue: 20

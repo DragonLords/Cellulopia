@@ -99,6 +99,8 @@ public class GoapSpawner : MonoBehaviour
         {
             var go=Addressables.InstantiateAsync(keyFood,RandomPosFinal(),Quaternion.identity,holderFood);
             foods.Add(go.WaitForCompletion());
+            go.WaitForCompletion();
+            go.Result.transform.rotation = new(-90f, 0, 0,0);
         }
         foods.RemoveAll(item=>item==null);
     }

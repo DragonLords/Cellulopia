@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grade: 1
   skillRequirement: {fileID: 0}
-  skillName: 
+  skillName: Attaque
   skillOrder: 0
   skillCost: 1
-  skillDescription: 
+  skillDescription: Augmente l'attaque du joueur
   bonusType: 0
   statEffect: 1
   statEffectValue: 1

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grade: 1
   skillRequirement: {fileID: 0}
-  skillName: 
+  skillName: Vitesse
   skillOrder: 0
-  skillCost: 0
-  skillDescription: 
+  skillCost: 1
+  skillDescription: Augmente la vitesse du joueur
   bonusType: 0
   statEffect: 0
   statEffectValue: 1
