@@ -34,6 +34,7 @@ namespace Generator
             GameManager.Instance.emptyTiles=new(emptyTiles);
             GameManager.Instance.map=carte;
             //place player
+            // FindObjectOfType<EntitiesPlacer>().OnStart();
         }
 
         int[,] RemplirCarte()

@@ -12,12 +12,24 @@ test beta 6 May
 
 mardi 3 may dst
 
-
 remise 26 may
 
-
 #Cass 11h
-#Williame 
+#Williame
 #Gab
 #Samuel
-#Kevin 
+#Kevin
+
+
+
+#sem15
+
+lundi / mardi => cours
+
+lundi => Dom
+
+mardi => Jérémie
+
+18 pas de cours en présence
+
+23~24 remise

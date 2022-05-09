@@ -11,6 +11,7 @@ using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField,Range(0,5)] float TimeSpeed=1f;
     public GoapSpawner spawner;
     public int maxEnemiesInLevel=3;
     WaitForSeconds wsCheckIfEnemy=new(3);
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> enemies=new();
     public List<Vector2Int> emptyTiles=new();
     public int[,] map;
+    public EntitiesPlacer entitiesPlacer;
     private void Awake()
     {
         if(player is null)
@@ -152,6 +154,14 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Called when the script is loaded or a value is changed in the
+    /// inspector (Called in the editor only).
+    /// </summary>
+    void OnValidate()
+    {
+        Time.timeScale=TimeSpeed;
+    }
 }
 
 internal enum AccesMat { Sol, Mur };

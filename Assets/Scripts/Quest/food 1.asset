@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 0}
   state: 2
-  QuestName: Manger 5 nourriture
-  nameRun: Eat 5 more Food
+  QuestName: Manger 5 nourritures
+  nameRun: Manger 5 nourritur
   QuestDescription: Manger les petits organismes
   objectToCollect: {fileID: 8538595785919922663, guid: 889c2e8ea77203549b1f67b7bb7f507e, type: 3}
   xpReward: 500

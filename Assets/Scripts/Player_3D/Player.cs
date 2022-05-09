@@ -10,6 +10,7 @@ namespace Player.Rework
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] GameObject GreatestParent;
         public int DamageValue = 1;
         [SerializeField, TagSelector] internal string portalTag;
         public Quest.QuestTemplate activeQuest;
@@ -207,6 +208,8 @@ namespace Player.Rework
         {
             Life -= value;
             UpdateSlider();
+            // if(Life==0)
+            //     PlayerDeath().ConfigureAwait(false);
         }
 
 
@@ -262,7 +265,7 @@ namespace Player.Rework
         async Task PlayerDeath()
         {
             await Task.Yield();
-            Destroy(gameObject);
+            Destroy(GreatestParent);
         }
 
         public void SetQuest(List<Quest.QuestTemplate> quests)

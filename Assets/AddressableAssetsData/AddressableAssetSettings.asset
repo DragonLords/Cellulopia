@@ -47,6 +47,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 77ad1cfea38206841a2320d18cf3c7a7, type: 2}
   - {fileID: 11400000, guid: 4a24ffc88f2450b45bb1936d35ff0878, type: 2}
   - {fileID: 11400000, guid: 4f9f6c8764c87db4786d3845cf552c11, type: 2}
+  - {fileID: 11400000, guid: c2a1644b1c119f74eaecae1eabe3fee8, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -89,6 +90,7 @@ MonoBehaviour:
     m_LabelNames:
     - default
     - Skills
+    - PS
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: c74b900203f72714282609c60ba9507f, type: 2}

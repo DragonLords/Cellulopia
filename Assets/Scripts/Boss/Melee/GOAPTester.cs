@@ -7,10 +7,10 @@ using System.Linq;
 
 public class GOAPTester : BossMelee
 {
-    private int _life=2;
-    public int maxLife=2;
-    public int Life{get=>_life;set{_life=Mathf.Clamp(value,0,maxLife);}}
-    [SerializeField] bool Move=true;
+    private int _life = 2;
+    public int maxLife = 2;
+    public int Life { get => _life; set { _life = Mathf.Clamp(value, 0, maxLife); } }
+    [SerializeField] bool Move = true;
     [TagSelector, SerializeField] internal string foodTag;
     [TagSelector, SerializeField] internal string enemyTag;
     public int hunger;
@@ -20,7 +20,7 @@ public class GOAPTester : BossMelee
     public ActionEnum actionEnum;
     public bool ohFuck = false;
     public float RangeDetectionFoodDanger = 2;
-    public int increaseDanger=10;
+    public int increaseDanger = 10;
     public int foodSaturation = 30;
 
     /// <summary>
@@ -39,7 +39,7 @@ public class GOAPTester : BossMelee
         hunger = base.Hunger;
         tester = this;
         base.OnStart();
-        if(Move)
+        if (Move)
             Init();
         #endregion
         if (spawner is null)
@@ -62,9 +62,12 @@ public class GOAPTester : BossMelee
         ValidateAction(selected);
         if (isHungry)
         {
-            if(couldAttack){
-                actionEnum=ActionEnum.Attack;
-            }else{
+            if (couldAttack)
+            {
+                actionEnum = ActionEnum.Attack;
+            }
+            else
+            {
 
                 actionEnum = ActionEnum.Hungry;
             }
@@ -90,8 +93,9 @@ public class GOAPTester : BossMelee
 
         }
         ohFuck = false;
-        if(selected==(int)ActionEnum.Attack){
-            AggressivityLevel+=increaseDanger;
+        if (selected == (int)ActionEnum.Attack)
+        {
+            AggressivityLevel += increaseDanger;
         }
     }
 
@@ -119,9 +123,11 @@ public class GOAPTester : BossMelee
         routineLoopAction = StartCoroutine(FinalDetection());
     }
 
-    internal void TakeDamage(int value){
-        Life-=value;
-        if(Life==0){
+    internal void TakeDamage(int value)
+    {
+        Life -= value;
+        if (Life == 0)
+        {
             StartCoroutine(Death());
         }
     }
@@ -184,12 +190,15 @@ public class GOAPTester : BossMelee
         } while (alive);
     }
 
-    IEnumerator ValidateTarget(){
+    IEnumerator ValidateTarget()
+    {
         do
         {
-            if(currentAction is not null){
-                if(currentAction.target == null){
-                    currentAction.Achieved=true;
+            if (currentAction is not null)
+            {
+                if (currentAction.target == null)
+                {
+                    currentAction.Achieved = true;
                     //Debug.Log("target is missing");
                 }
             }
@@ -254,44 +263,50 @@ public class GOAPTester : BossMelee
     }
     int youTriggerMeNow = 0;
 
-    internal void CollsionFood(Collision other){
-if (other.gameObject.CompareTag(foodTag))
+    internal void CollsionFood(Collision other)
+    {
+        if (other.gameObject.CompareTag(foodTag))
         {
             base.GiveFood(other.gameObject.GetComponent<Food>().FoodSaturation);
             Destroy(other.gameObject);
         }
     }
 
-    internal void CollsionEnemy(Collision other){
-if (other.gameObject.CompareTag(enemyTag))
+    internal void CollsionEnemy(Collision other)
+    {
+        if (other != null)
         {
-            if (other.gameObject.GetComponent<GOAPTester>().isSocializing && canSocialize || this.isSocializing && canSocialize)
+
+            if (other.gameObject.CompareTag(enemyTag))
             {
-                if (isSocializing && canSocialize)
+                if (other.gameObject.GetComponent<GOAPTester>().isSocializing && canSocialize || this.isSocializing && canSocialize)
                 {
-                    //Debug.Log("ohhh");
-                    if (CapperEntities.CanSpawn())
+                    if (isSocializing && canSocialize)
                     {
-                        currentAction.Duplicate(this);
-                    }
-                    else
-                    {
-                        //Debug.Log("meh");
-                        currentAction.Achieved = true;
-                        youTriggerMeNow++;
-                        if (youTriggerMeNow >= 10)
+                        //Debug.Log("ohhh");
+                        if (CapperEntities.CanSpawn())
                         {
-                            Destroy(gameObject);
+                            currentAction.Duplicate(this);
                         }
+                        else
+                        {
+                            //Debug.Log("meh");
+                            currentAction.Achieved = true;
+                            youTriggerMeNow++;
+                            if (youTriggerMeNow >= 10)
+                            {
+                                Destroy(gameObject);
+                            }
+                        }
+                        StartCoroutine(CoolDownSocializing());
                     }
-                    StartCoroutine(CoolDownSocializing());
                 }
-            }
-            else if (this.isAttacking)
-            {
-                base.GiveFood(other.gameObject.GetComponent<GOAPTester>().foodSaturation);
-                Destroy(other.gameObject);
-                //Debug.Log("EXPLOSIONS!?!");
+                else if (this.isAttacking)
+                {
+                    base.GiveFood(other.gameObject.GetComponent<GOAPTester>().foodSaturation);
+                    Destroy(other.gameObject);
+                    //Debug.Log("EXPLOSIONS!?!");
+                }
             }
         }
     }
@@ -301,20 +316,26 @@ if (other.gameObject.CompareTag(enemyTag))
 
         switch (actionEnum)
         {
-            case ActionEnum.Hungry:{
-                Gizmos.color=Color.yellow;
-            }break;
-            case ActionEnum.Attack:{
-                Gizmos.color=Color.red;
-            }break;
-            case ActionEnum.Reprod:{
-                Gizmos.color=Color.cyan;
-            }break;
+            case ActionEnum.Hungry:
+                {
+                    Gizmos.color = Color.yellow;
+                }
+                break;
+            case ActionEnum.Attack:
+                {
+                    Gizmos.color = Color.red;
+                }
+                break;
+            case ActionEnum.Reprod:
+                {
+                    Gizmos.color = Color.cyan;
+                }
+                break;
         }
-        Gizmos.DrawWireSphere(transform.position,3);
+        Gizmos.DrawWireSphere(transform.position, 3);
 
-        Gizmos.color=Color.green;
-        Gizmos.DrawRay(new(transform.position,transform.forward*500));
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(new(transform.position, transform.forward * 500));
     }
 }
 

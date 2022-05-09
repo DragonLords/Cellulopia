@@ -15,7 +15,8 @@ public class GoapSpawner : MonoBehaviour
     Vector3[] pos;
     HolderGOAP goapHolder;
     [SerializeField] Transform holderFood;
-    string keyGOAP="EnemyHolder_3D";
+    // string keyGOAP="EnemyHolder_3D";
+    string keyGOAP="Rework_EnemyHolder_3D";
     string keyFood="Food3D";
     public List<GameObject> enemies=new();
     public List<GameObject> foods=new();
@@ -116,7 +117,7 @@ public class GoapSpawner : MonoBehaviour
         pos=new Vector3[2]{b.min,b.max};
     }
 
-    internal Vector3 RandomPos()=>new(Random.Range(pos[0].x,pos[1].x),1f,Random.Range(pos[0].z,pos[1].z));
+    internal Vector3 RandomPos()=>new(Random.Range(pos[0].x,pos[1].x),0f,Random.Range(pos[0].z,pos[1].z));
     internal Vector3 RandomPosFinal(){
         int rnd=Random.Range(0,gen.emptyTiles.Count);
         return new(gen.emptyTiles[rnd].x,1f,gen.emptyTiles[rnd].y);

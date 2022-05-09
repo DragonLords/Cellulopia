@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3719130314853075142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 0}
+  m_LocalPosition: {x: 25, y: 1.2, z: 10}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -253,7 +253,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3719130316114447983}
-  - component: {fileID: 3719130316114447980}
   - component: {fileID: 3719130316114447981}
   m_Layer: 10
   m_Name: holder
@@ -278,40 +277,6 @@ Transform:
   m_Father: {fileID: 3719130314853075143}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3719130316114447980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3719130316114447982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51450383098e0164baf69116a30c5c80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider: {fileID: 5968529105478820792}
-  posWalk: []
-  _agent: {fileID: 3719130316114447981}
-  player: {fileID: 0}
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  rangeDetectionPlayer: 30
-  searchingForPlayer: 0
-  projectileKey: Proj
-  holderProj: {fileID: 0}
-  alive: 1
-  offset: {x: 0.5, y: 0, z: 0.5}
-  pos: {x: 0, y: 0, z: 0}
-  radius: 5
-  minionNumber: 3
-  delayMinion: 3
-  minions: []
-  waypoints: []
-  DebugSphere: {fileID: 0}
-  head: {fileID: 3753671314544544909}
-  canAttack: 1
 --- !u!195 &3719130316114447981
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -679,6 +644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3753671314544544909}
+  - component: {fileID: 32159294}
   m_Layer: 10
   m_Name: orga_head
   m_TagString: Boss
@@ -705,6 +671,39 @@ Transform:
   m_Father: {fileID: 3719130316114447983}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &32159294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4565639023924614711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51450383098e0164baf69116a30c5c80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxDistanceMinions: 5
+  slider: {fileID: 5968529105478820792}
+  posWalk: []
+  _agent: {fileID: 3719130316114447981}
+  player: {fileID: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  rangeDetectionPlayer: 30
+  searchingForPlayer: 0
+  projectileKey: Proj
+  holderProj: {fileID: 0}
+  alive: 1
+  offset: {x: 0.5, y: 0, z: 0.5}
+  pos: {x: 0, y: 0, z: 0}
+  radius: 5
+  minionNumber: 3
+  delayMinion: 3
+  minions: []
+  waypoints: []
+  canAttack: 1
 --- !u!1 &4565639024228444756
 GameObject:
   m_ObjectHideFlags: 0

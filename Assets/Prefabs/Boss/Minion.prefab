@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 206372303874660756}
+  - component: {fileID: 350015655}
   m_Layer: 11
   m_Name: orga_head
   m_TagString: Minion
@@ -37,6 +38,34 @@ Transform:
   m_Father: {fileID: 7832616662888936164}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &350015655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691019044045570862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6fa5a83d6f65a479bdf8bbb55079be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setting: {fileID: 11400000, guid: d7519d9a62094d24d96fd210c0d6e41c, type: 2}
+  needToProtect: 0
+  maxOffsetRadius: 5
+  offset: {x: 5, y: 0, z: 5}
+  offsetClamped: {x: 0, y: 0, z: 0}
+  dir: {x: 0, y: 0, z: 0}
+  final: {x: 0, y: 0, z: 0}
+  finalClamped: {x: 0, y: 0, z: 0}
+  AddRandomnessOrbit: 1
+  _orbitSpeed: 1
+  selfContainer: {fileID: 0}
+  RadiusPlayer: 7
+  DelayAlive: 5
+  agent: {fileID: 1309621441052905503}
+  player: {fileID: 0}
+  playerTag: Player
 --- !u!1 &1070718120530988059
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337527a9ca5a1474dbcefbc53239bd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minion: {fileID: 417200499735434751}
+  minion: {fileID: 350015655}
 --- !u!65 &1309621441443514898
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -605,7 +634,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7832616662888936164}
-  - component: {fileID: 417200499735434751}
   m_Layer: 0
   m_Name: Holder
   m_TagString: Untagged
@@ -629,21 +657,6 @@ Transform:
   m_Father: {fileID: 1309621441052905502}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &417200499735434751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914015436916363590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e6fa5a83d6f65a479bdf8bbb55079be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DelayAlive: 5
-  agent: {fileID: 1309621441052905503}
-  playerTag: Player
 --- !u!1 &8186151272924200858
 GameObject:
   m_ObjectHideFlags: 0
