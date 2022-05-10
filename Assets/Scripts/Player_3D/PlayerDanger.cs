@@ -4,11 +4,13 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System.Collections;
 
 namespace Player.Rework.Danger
 {
     public class PlayerDanger : MonoBehaviour
     {
+        [SerializeField,TagSelector] string playerTag;
         Player player;
         [SerializeField, TagSelector] string foodTag;
         [SerializeField, TagSelector] string enemyTag;
@@ -44,6 +46,13 @@ namespace Player.Rework.Danger
         /// <param name="other">The Collision data associated with this collision.</param>
         void OnCollisionStay(Collision other)
         {
+            if(other.gameObject.CompareTag(playerTag)||!player.canAttack){
+                return;
+            }
+            else
+            {
+                StartCoroutine(DelayAttack());
+            }
             Debug.LogFormat("<color=red>Collsion with:{0}</color>",other.gameObject.name);
             if(other.gameObject.CompareTag(foodTag)){
                 //do srtuff about food here
@@ -70,12 +79,19 @@ namespace Player.Rework.Danger
                 }
                 // other.gameObject.GetComponent<Boss.Minion.MinionCollision>().TakeDamage(player.DamageValue);
             }else if(other.gameObject.CompareTag(bossTag)){
+                Debug.LogFormat("<color=orange>Collision with boss at:{0}</color>",other.gameObject.name);
                 if(other.gameObject.TryGetComponent(out Boss.Boss boss)){
                     boss.TakeDamage(player.DamageValue);
                 }else if(other.gameObject.TryGetComponent(out Boss.BossCollsion coll)){
                     coll.TakeDamage(player.DamageValue);
                 }
             }
+        }
+
+        IEnumerator DelayAttack(){
+            player.canAttack=false;
+            yield return player.DelayBetweenAttack;
+            player.canAttack=true;
         }
 
         private async void DestroyAfter(AsyncOperationHandle<GameObject> obj)

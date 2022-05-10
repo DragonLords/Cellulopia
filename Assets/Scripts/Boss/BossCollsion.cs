@@ -19,7 +19,7 @@ namespace Boss
 
         private void OnCollisionEnter(Collision collision)
         {
-
+            Debug.Log(collision.gameObject.name);
         }
     }
 

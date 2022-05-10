@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2003806561765586831}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: orga_tail
-  m_TagString: Minion
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,8 @@ GameObject:
   - component: {fileID: 6215535319941519988}
   - component: {fileID: 2541166650151814827}
   - component: {fileID: 3440563067461528809}
-  m_Layer: 11
+  - component: {fileID: 969607146}
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Minion
   m_Icon: {fileID: 0}
@@ -131,6 +132,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 4986b5fd97cf437418fbe73a14e9f311, type: 3}
+--- !u!114 &969607146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713665300624122368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba450bbc09a47c408f8ada8d62e6c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tester: {fileID: 0}
 --- !u!1 &3321168184693169879
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,9 +189,10 @@ GameObject:
   - component: {fileID: 8021698199672331838}
   - component: {fileID: 3459238842957993507}
   - component: {fileID: 3627683549876760586}
-  m_Layer: 11
+  - component: {fileID: 2043656319}
+  m_Layer: 7
   m_Name: Cube.002
-  m_TagString: Minion
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -261,6 +276,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1550514412580984892, guid: 9a669122c59205b4c8a719d60bbd4f19, type: 3}
+--- !u!114 &2043656319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3627683549876760587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba450bbc09a47c408f8ada8d62e6c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tester: {fileID: 0}
 --- !u!1 &4393322904610994474
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,9 +298,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2885801352581762988}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Empty
-  m_TagString: Minion
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -304,9 +332,10 @@ GameObject:
   - component: {fileID: 7769990671838071406}
   - component: {fileID: 3255226093672748031}
   - component: {fileID: 3255226093672748030}
-  m_Layer: 11
+  - component: {fileID: 416971918}
+  m_Layer: 7
   m_Name: Cube.001
-  m_TagString: Minion
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -390,6 +419,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4493585093827132993, guid: 9a669122c59205b4c8a719d60bbd4f19, type: 3}
+--- !u!114 &416971918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4486420573448778238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba450bbc09a47c408f8ada8d62e6c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tester: {fileID: 0}
 --- !u!1 &4882768145171261192
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,16 +455,17 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4882768145171261192}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5.882353, y: 5.882353, z: 5.882353}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2940247297882574027}
   - {fileID: 8958532099759469669}
   - {fileID: 8039621816687889642}
-  m_Father: {fileID: 5133186151989874623}
-  m_RootOrder: 2
+  - {fileID: 2669511016117513237}
+  m_Father: {fileID: 4692255234104301061}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5133186151989874620
 GameObject:
@@ -434,10 +477,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5133186151989874623}
   - component: {fileID: 5133186151989874622}
-  - component: {fileID: 5133186151989874497}
   - component: {fileID: 5133186151989874526}
   - component: {fileID: 5133186151989874527}
   - component: {fileID: 5133186151989874496}
+  - component: {fileID: 5421303073618080369}
   m_Layer: 0
   m_Name: Rework_EnemyHolder_3D
   m_TagString: Untagged
@@ -459,7 +502,6 @@ Transform:
   m_Children:
   - {fileID: 5904120161709064662}
   - {fileID: 3418259162899971445}
-  - {fileID: 4882768145171261191}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -485,57 +527,6 @@ NavMeshAgent:
   m_BaseOffset: 0.2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5133186151989874497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5133186151989874620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cc00eac78c012f4a9aee8528a73cfe1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tester: {fileID: 0}
-  agent: {fileID: 5133186151989874622}
-  foodLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  hungryLevel: 30
-  isHungry: 0
-  _hunger: 100
-  _delayTickHunger: 1
-  _aggressivityLevel: 0
-  actions: []
-  currentAction: {fileID: 0}
-  currentSubGoal:
-    remove: 0
-  acts: []
-  objectives:
-  - {fileID: 2940247297882574025}
-  - {fileID: 8958532099759469675}
-  - {fileID: 8039621816687889640}
-  Subs: []
-  enemiesClose: []
-  isSocializing: 0
-  isAttacking: 0
-  canSocialize: 1
-  spawner: {fileID: 0}
-  maxLife: 2
-  Move: 1
-  foodTag: Nourriture
-  enemyTag: Ennemy
-  hunger: 0
-  offset: {x: 1, y: 1, z: 1}
-  actionEnum: 0
-  ohFuck: 0
-  RangeDetectionFoodDanger: 2
-  increaseDanger: 10
-  foodSaturation: 30
 --- !u!114 &5133186151989874526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,6 +582,18 @@ MonoBehaviour:
   - m_Rig: {fileID: 5904120161709064661}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &5421303073618080369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5133186151989874620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ca635cab3e05e5429561dc9c2640cc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5356448924375796927
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,9 +603,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4692255234104301061}
-  m_Layer: 11
+  - component: {fileID: 795752169}
+  m_Layer: 7
   m_Name: orga_head
-  m_TagString: Minion
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -625,9 +629,67 @@ Transform:
   - {fileID: 2885801352581762988}
   - {fileID: 2003806561765586831}
   - {fileID: 5904120160416253316}
+  - {fileID: 4882768145171261191}
   m_Father: {fileID: 3418259162899971445}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &795752169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5356448924375796927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc00eac78c012f4a9aee8528a73cfe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tester: {fileID: 0}
+  agent: {fileID: 5133186151989874622}
+  foodLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  hungryLevel: 30
+  isHungry: 0
+  HungerCostDuplication: 30
+  _hunger: 100
+  _delayTickHunger: 1
+  _aggressivityLevel: 0
+  actions: []
+  currentAction: {fileID: 2669511016117513236}
+  currentSubGoal:
+    remove: 0
+  acts: []
+  objectives:
+  - {fileID: 2940247297882574025}
+  - {fileID: 8958532099759469675}
+  - {fileID: 8039621816687889640}
+  - {fileID: 2669511016117513238}
+  Subs: []
+  enemiesClose: []
+  isSocializing: 0
+  isAttacking: 0
+  canSocialize: 1
+  spawner: {fileID: 0}
+  goapActionHolder: {fileID: 4882768145171261192}
+  damage: 1
+  GreatestParent: {fileID: 5133186151989874620}
+  maxLife: 2
+  Move: 1
+  foodTag: Nourriture
+  enemyTag: Ennemy
+  hunger: 0
+  offset: {x: 1, y: 1, z: 1}
+  actionEnum: 0
+  ohFuck: 0
+  RangeDetectionFoodDanger: 2
+  increaseDanger: 10
+  foodSaturation: 30
+  groupMembers: []
 --- !u!1 &5555444914122015626
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,9 +702,10 @@ GameObject:
   - component: {fileID: 906008872267906046}
   - component: {fileID: 8760846730007488289}
   - component: {fileID: 906008872267906045}
-  m_Layer: 11
+  - component: {fileID: 1326051222}
+  m_Layer: 7
   m_Name: Cube
-  m_TagString: Minion
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -726,6 +789,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 9a669122c59205b4c8a719d60bbd4f19, type: 3}
+--- !u!114 &1326051222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5555444914122015626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba450bbc09a47c408f8ada8d62e6c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tester: {fileID: 0}
 --- !u!1 &5904120160416253317
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,9 +812,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5904120160416253316}
   - component: {fileID: 5904120160416253315}
-  m_Layer: 11
+  - component: {fileID: 723960668}
+  - component: {fileID: 723960669}
+  m_Layer: 7
   m_Name: Danger
-  m_TagString: Minion
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -769,8 +847,36 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.266365, y: 2.4898276, z: 1.6348221}
-  m_Center: {x: -0.0935466, y: 0.16870165, z: -0.0012580086}
+  m_Size: {x: 3.1779177, y: 2.4898276, z: 1.8741257}
+  m_Center: {x: 0.034924112, y: 0.16870165, z: -0.12090977}
+--- !u!54 &723960668
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5904120160416253317}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &723960669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5904120160416253317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d36dc1e9b2e8d764fa5a9891a3bbd118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5904120160856494255
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,8 +925,8 @@ MonoBehaviour:
   m_Data:
     m_ConstrainedObject: {fileID: 2003806561765586831}
     m_Source: {fileID: 4692255234104301061}
-    m_DampPosition: 0.5
-    m_DampRotation: 0.5
+    m_DampPosition: 0.227
+    m_DampRotation: 0.395
     m_MaintainAim: 1
 --- !u!1 &5904120161709064663
 GameObject:
@@ -878,7 +984,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8276669709132836390}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Empty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -900,6 +1006,92 @@ Transform:
   m_Father: {fileID: 2003806561765586831}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &242679028
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4882768145171261191}
+    m_Modifications:
+    - target: {fileID: 2669511015885689056, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: actionName
+      value: Idling
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.432213
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.4316616
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 19.915796
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689058, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_Name
+      value: Idling
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669511015885689058, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+--- !u!114 &2669511016117513236 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2669511015885689056, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+  m_PrefabInstance: {fileID: 242679028}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2669511016117513238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7848fe47b5c48b6428edc2a732395730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2669511016117513237 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+  m_PrefabInstance: {fileID: 242679028}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2669511016117513238 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2669511015885689058, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
+  m_PrefabInstance: {fileID: 242679028}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5133186151527919335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -989,6 +1181,10 @@ PrefabInstance:
     - target: {fileID: 8066341439948161844, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
       propertyPath: m_Name
       value: Get_Food
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066341439948161844, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
       propertyPath: m_RootOrder
@@ -1124,6 +1320,10 @@ PrefabInstance:
     - target: {fileID: 2931496915497545458, guid: ebdb5a01e5fd1214eacb3c604e10751f, type: 3}
       propertyPath: m_Name
       value: Reprod
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931496915497545458, guid: ebdb5a01e5fd1214eacb3c604e10751f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebdb5a01e5fd1214eacb3c604e10751f, type: 3}

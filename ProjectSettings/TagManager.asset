@@ -11,6 +11,7 @@ TagManager:
   - Portal
   - Boss
   - Minion
+  - EmptyIdling
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Ground
   - Boss
   - Minion
-  - 
+  - PlayerAttackZone
   - 
   - 
   - 

@@ -7,7 +7,7 @@ public class Die : Action
     public override bool PostPerform()
     {
         // Destroy(gameObject);
-        Debug.Log("i want to die");
+        // Debug.Log("i want to die");
         return true;
     }
 

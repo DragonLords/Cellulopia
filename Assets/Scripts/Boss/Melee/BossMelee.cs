@@ -23,6 +23,7 @@ public class BossMelee : MonoBehaviour
     public LayerMask enemyLayer;
     public int hungryLevel = 30;
     public bool isHungry = false;
+    public int HungerCostDuplication=30;
     [SerializeField] private int _hunger = 100;
     public int Hunger { get => _hunger; set { _hunger = Mathf.Clamp(value, 0, 100); } }
     public float _delayTickHunger = 1;
@@ -47,11 +48,9 @@ public class BossMelee : MonoBehaviour
     public bool isSocializing=false;
     public bool isAttacking=false;
     public bool canSocialize=true;
-    public GoapSpawner spawner;
     // Start is called before the first frame update
     public void OnStart()
     {
-        spawner=FindObjectOfType<GoapSpawner>();
         #region Get__Agent
         if (agent is null)
         {
@@ -123,12 +122,26 @@ public class BossMelee : MonoBehaviour
 
 
 
+    //FIXME: this will need to be fix since it always return 0
     public void GetEnemiesClose(){
+        
         var DefaultLayer=LayerMask.NameToLayer("Default");
         var selfLayer=this.gameObject.layer;
         this.gameObject.layer=DefaultLayer;
         enemiesClose=Physics.OverlapSphere(transform.position,radiusFoodDetection,enemyLayer);
+        List<Collider> colliders=new();
+        foreach (var item in enemiesClose)
+        {
+            if(transform.root!=item.transform.root){
+                if(!tester.groupMembers.Contains(transform.root.gameObject)){
+                    colliders.Add(item);
+                    Debug.LogFormat("<color=orange>Conatins:{0}</color>",tester.groupMembers.Contains(transform.root.gameObject));
+                }
+            }
+                
+        }
         this.gameObject.layer=selfLayer;
+        enemiesClose=colliders.ToArray();
     }
 
     void CancelAction()
@@ -148,37 +161,6 @@ public class BossMelee : MonoBehaviour
         invoked = false;
     }
     bool doingAction = false;
-    IEnumerator DoingTheAction()
-    {
-        doingAction = true;
-        do
-        {
-            // Debug.Log("<color=olive>AAA</color>");
-            if (currentAction.target == null)
-            {
-                // Debug.Log("wsiugdsif");
-            }
-            yield return null;
-        } while (doingAction && agent.remainingDistance > 1f && currentAction.target is not null);
-        currentAction.PostPerform();
-        doingAction = false;
-        // Debug.Log(goals.Count);
-        if (actionQueue.Count == 0)
-        {
-            actions.Clear();
-            // Debug.Log("<color=red>STOP</color>");
-            //reroll action
-            StopCoroutine(routineLoopAction);
-            doingAction = false;
-            acts = GetComponentsInChildren<Action>();
-            foreach (var a in acts)
-            {
-                actions.Add(a);
-            }
-            routineLoopAction = StartCoroutine(LoopDetection());
-        }
-    }
-
 
     IEnumerator DoAction()
     {
@@ -191,11 +173,17 @@ public class BossMelee : MonoBehaviour
         if (currentAction.PrePerform(this))
         {
             if(currentAction.target != null){
-                agent.SetDestination(currentAction.target.transform.position);
-                yield return new WaitUntil(() => agent.remainingDistance < 1f||currentAction.Achieved);
+                do
+                {
+                    if(currentAction.target==null)
+                        break;
+                    agent.SetDestination(currentAction.target.transform.position);
+                    yield return null;
+                // yield return new WaitUntil(() => agent.remainingDistance < 1f||currentAction.Achieved);
+                } while (agent.remainingDistance>1f||!currentAction.Achieved);
             }
         }
-        // Debug.Log("finished");
+        Debug.LogFormat("finished the action {0}",currentAction.actionName);
         // UnityEditor.EditorApplication.isPaused=true;
         doingAction = false;
         yield return StartCoroutine(ActionFinished());
@@ -210,11 +198,11 @@ public class BossMelee : MonoBehaviour
             actions.Remove(currentAction);
             // currentAction.PostPerform();
             goals.Remove(currentSubGoal);
-            // Debug.Log("removed");
+            Debug.Log("removed");
         }
         if (actionQueue.Count == 0)
         {
-            // Debug.Log("need new queue");
+            Debug.Log("need new queue");
             // StartCoroutine(tester.Redo());
             StartCoroutine(RedoIntern());
         }
@@ -239,16 +227,15 @@ public class BossMelee : MonoBehaviour
             }
             if (actionQueue is null)
             {
-                // Debug.Log("Queue is null");
+                Debug.Log("Queue is null");
             }
             else
             {
-                // Debug.Log(actionQueue.Count);
+                Debug.Log(actionQueue.Count);
             }
         }
         
         yield return null;
-        // Highlight();
     }
 
     internal IEnumerator FinalDetection()
@@ -272,11 +259,11 @@ public class BossMelee : MonoBehaviour
                 }
                 if (actionQueue is null)
                 {
-                    // Debug.Log("Queue is null");
+                    Debug.Log("Queue is null");
                 }
                 else
                 {
-                    // Debug.Log(actionQueue.Count);
+                    Debug.Log(actionQueue.Count);
                 }
             }
 
@@ -343,81 +330,6 @@ public class BossMelee : MonoBehaviour
         routineLoopAction=StartCoroutine(FinalDetection());
     }
 
-
-    private void LateUpdate()
-    {
-        #region Test
-        // if(currentAction is null){
-        //     Debug.Log("achieve");
-        // }
-        // if(currentAction is not null){
-        //     if(!currentAction.Achievable){
-        //         Debug.Log("i need to stop");
-        //     }
-        // }
-        // if(currentAction is not null && currentAction.running){
-        //     // CheckTarget().ConfigureAwait(false).GetAwaiter();
-        //     if(currentAction.agent.hasPath&&currentAction.agent.remainingDistance<1f){
-        //         if(!invoked){
-        //             // await Task.Delay(Mathf.RoundToInt(currentAction.duration));
-        //             // CompleteAction();
-        //             Invoke("CompleteAction",currentAction.duration);
-        //             invoked=true;
-        //         }
-        //     }
-        //     return;
-        // }
-        // if(planner is null || actionQueue is null){
-        //     planner=new();
-        //     Debug.Log("whyyyyy");
-        //     var sortedGoal = from entry in goals orderby entry.Value descending select entry;
-        //     Debug.LogFormat("coutn:{0}",sortedGoal.ToList().Count);
-        //     if(sortedGoal.ToList().Count==0){
-        //         //heres the problem and the crash so
-        //         //FIXME: make unity crash and aslo due to 1 time completition
-        //         //the end is near for the agent
-        //         //need to recreate new action and then loop over them
-        //         DeleteAllActions().ConfigureAwait(false).GetAwaiter().GetResult();
-        //         // Debug.LogFormat("goals count:{0} goal:{1} {2}",goals.Count,goals.First().Key,goals.First().Value);
-        //     }
-        //     foreach(var kvp in sortedGoal){
-        //         actionQueue=planner.plan(actions,kvp.Key.subGoals,null);
-        //         if(actionQueue is not null){
-        //             currentSubGoal=kvp.Key;
-        //             break;
-        //         }
-        //     }
-        // }
-
-        // if(actionQueue is not null && actionQueue.Count==0)
-        // {
-        //     if(currentSubGoal.remove){
-        //         goals.Remove(currentSubGoal);
-        //     }
-        //     Debug.Log("here");
-        //     planner=null;
-        // }
-
-        // if(actionQueue is not null && actionQueue.Count>0)
-        // {
-        //     currentAction=actionQueue.Dequeue();
-        //     if(currentAction.PrePerform(this))
-        //     {
-        //         if(currentAction.target==null && currentAction.targetTag is not ""){
-        //             currentAction.target=GameObject.FindGameObjectWithTag(currentAction.targetTag);
-        //         }
-        //         if(currentAction.target is not null){
-        //             currentAction.running=true;
-        //             currentAction.agent.SetDestination(currentAction.target.transform.position);
-        //         }
-        //     }else{
-        //         actionQueue=null;
-        //     }
-        //     Debug.LogFormat("Queue:{0}",actionQueue.Count);
-        // }
-        // Debug.Log("test test this is a test WRIIIIIII");
-        #endregion
-    }
     private IEnumerator LoopDetection()
     {
         do

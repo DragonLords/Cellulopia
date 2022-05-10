@@ -13,4 +13,11 @@ MonoBehaviour:
   m_Name: BossSetting
   m_EditorClassIdentifier: 
   Life: 50
+  MaxLife: 50
   speed: 1.18
+  MinionAtStart: 5
+  MaxMinionCount: 500
+  delaySpawnMinion: 1.56
+  rangeMinion: 7.5
+  rangeDetectionPlayer: 13
+  rangeMinionAttack: 20

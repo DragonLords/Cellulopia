@@ -12,16 +12,8 @@ public class GOAPCollsion : MonoBehaviour
     /// </summary>
     void Awake()
     {
+        tester=GetComponentInParent<GOAPTester>();
         foodSaturation=tester.foodSaturation;
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if(other.gameObject.CompareTag(tester.foodTag)){
-            tester.CollsionFood(other);
-        }else if(other.gameObject.CompareTag(tester.enemyTag)){
-            tester.CollsionEnemy(other);
-        }
     }
 
     public bool TakeDamage(int value){

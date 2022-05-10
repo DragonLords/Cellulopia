@@ -1,3 +1,22 @@
-#Things to do
+#stuff
 
-- solve the ps
+- Créer une animation pour montrer le contrôle
+- Faire des objectifs nécessitant plus de talent pour les réussir
+- Retoucher les paternes d’attaques des ennemies pour leur donner plus d’option et ainsi pouvoir surprendre le joueur avec de nouvelles attaques
+- Créer des effets de particules et visuel lors de l’interaction avec les autres éléments
+- Ajouter des effets sonores
+- Créer une musique appropriée pour le combat de boss
+- Faire en sorte que chaque section soit entièrement cliquable et montrer limpact des stastiques
+- On améliorer l''impact des compétences sur le joueur
+- Retravailler l'intelligence artificielle des ennemies pour les rendre plus intelligents et moins artificielles
+- Mettre plus d'ennemies et que ceux-ci soient plus interactif envers le joueur
+- Baisser la puissance du joueur face aux ennemies et que les ennemies contre-attaquent le joueur
+- Faire une brève introduction textuelle
+- On met des petites images, des X pour fermer les fenêtres et on met les éléments viser en surbrillance
+- Mettre une petite musique pour le menu principale
+- ~~Changer l'aspect physique des ennemies avec ceux des ennemies présentes dans le combat de boss~~
+- Le joueur était porté a cliqué sur les quêtes donc s'il clique dessus un menu d'explication de la quête
+- Mettre un X pour fermer le menu, et chaque section soit cliquable (skill)
+- ~~Ajuster l'affichage des textes et vérifier que tout s'affiche correctement~~
+- ~~Faire en sorte qu'au lieu que le joueur se déplace vers une arène pour le combat de boss, le boss apparaisse sur la même carte~~
+- ~~Je refais l'agissement du combat de boss pour qu'il soit plus semblable à mon concept~~

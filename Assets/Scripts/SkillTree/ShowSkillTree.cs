@@ -17,7 +17,7 @@ public class ShowSkillTree : MonoBehaviour
 
     public void OnClick(){
         skillTreeHolder.SetActive(!skillTreeHolder.activeSelf);
-        Debug.Log("click");
+        // Debug.Log("click");
         GameManager.Instance.PauseGame();
     }
 }

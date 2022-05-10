@@ -32,7 +32,7 @@ namespace Enemy.State{
                 // await Task.Delay(1500);
                 await Task.Yield();
             } while (enemy.alive&&enemy.walking&&enemy.agent.remainingDistance>1f&&!enemy.isHungry);
-            Debug.Log("break");
+            // Debug.Log("break");
         }
 
         async Task Moves(){
@@ -62,7 +62,7 @@ namespace Enemy.State{
 
         public override void EndState(Enemy enemy)
         {
-            Debug.Log("end walking");
+            // Debug.Log("end walking");
             enemy.walking=false;
             enemy.agent.isStopped=true;
             enemy.RequestNewState();

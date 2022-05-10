@@ -82,7 +82,7 @@ namespace Quest
                 // Debug.LogFormat("dpiong great he {}",NumberCollected,numbert);
                 if (numberToCollect <= numberCollected)
                 {
-                    Debug.Log("quest ended");
+                    // Debug.Log("quest ended");
                     questButton.GetComponent<QuestEvent>().OnCompletion();
                 }
             }

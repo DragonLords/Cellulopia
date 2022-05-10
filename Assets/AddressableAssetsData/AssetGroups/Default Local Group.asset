@@ -69,6 +69,10 @@ MonoBehaviour:
     m_Address: Rework_EnemyHolder_3D
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: b2f00f7affba72140b5be8593642d620
+    m_Address: Empty
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: fa7730bc219dbc2428b9094001801031, type: 2}
   m_SchemaSet:

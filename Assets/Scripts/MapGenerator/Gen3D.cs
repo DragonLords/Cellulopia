@@ -148,6 +148,7 @@ namespace Generator
                         cube.transform.parent = fill.transform;
                         cube.transform.localScale=new(1,15,1);
                         cube.GetComponent<Renderer>().material=materials[1];
+                        cube.name=$"Cube_{x}_{z}";
                     }
                     else
                     {
@@ -173,6 +174,7 @@ namespace Generator
                         quad.GetComponent<Renderer>().material=materials[0];
                         emptyTiles.Add(new(x,z));
                         quad.layer=empty.layer;
+                        quad.name=$"Cube_{x}_{z}";
                     }
                     // carte[x,z]==1?
                 }
@@ -203,7 +205,7 @@ namespace Generator
             {
                 MeshFilter[] filters = go.GetComponentsInChildren<MeshFilter>();
                 CombineInstance[] combine = new CombineInstance[filters.Length];
-                Debug.Log(filters.Length);
+                // Debug.Log(filters.Length);
                 
                 
                 for (int i = 0; i < filters.Length; i++)
@@ -290,9 +292,9 @@ namespace Generator
         public GameObject empty;
         NavMeshSurface surface;
         internal void DebugSurface(){
-            Debug.Log(surface.layerMask.value);
+            // Debug.Log(surface.layerMask.value);
 
-            Debug.Log(empty.layer);
+            // Debug.Log(empty.layer);
         }
 
 

@@ -28,7 +28,7 @@ namespace Boss.Minion
         /// <param name="other">The Collision data associated with this collision.</param>
         void OnCollisionStay(Collision other)
         {
-            Debug.LogFormat("Collision with:{0}",other.gameObject.name);
+            // Debug.LogFormat("Collision with:{0}",other.gameObject.name);
             if (other.gameObject.CompareTag(minion.playerTag))
             {
                 if(other.gameObject.TryGetComponent(out Player.Rework.Player player)){
@@ -44,7 +44,7 @@ namespace Boss.Minion
         IEnumerator DelayBetweenAttack(){
             minion.canAttack=false;
             StartCoroutine(minion.TurnAroundPlayer());
-            yield return new WaitForSeconds(200000f);
+            yield return minion.DelayBetweenAttack;
             minion.canAttack=true;
         }        
     }

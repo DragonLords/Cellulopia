@@ -10,6 +10,8 @@ namespace Player.Rework
 {
     public class Player : MonoBehaviour
     {
+        internal bool canAttack=true;
+        internal WaitForSeconds DelayBetweenAttack=new(1.5f);
         [SerializeField] GameObject GreatestParent;
         public int DamageValue = 1;
         [SerializeField, TagSelector] internal string portalTag;
@@ -140,7 +142,7 @@ namespace Player.Rework
         {
             if (level == MaxLevel)
             {
-                Debug.Log("max level reaced");
+                // Debug.Log("max level reaced");
                 return;
             }
             EvolutionPoints += value;
@@ -320,12 +322,12 @@ namespace Player.Rework
             }
             else
             {
-                Debug.Log("All quest finished");
+                // Debug.Log("All quest finished");
                 ///spawn portal to boss here
                 //GameManager.Instance.SpawnPortal();
             }
             // hasQuest=questActive.Count>0;
-            Debug.LogFormat("{0} completed", quest.QuestName);
+            // Debug.LogFormat("{0} completed", quest.QuestName);
         }
 
         internal void SkillQuest()
@@ -333,11 +335,11 @@ namespace Player.Rework
             if (activeQuest.IsSkillQuest)
             {
                 activeQuest.NumberCollected++;
-                Debug.Log("yup");
+                // Debug.Log("yup");
             }
             else
             {
-                Debug.Log("nope");
+                // Debug.Log("nope");
             }
         }
 
@@ -390,36 +392,31 @@ namespace Player.Rework
         // Update is called once per frame
         void Update()
         {
-
-#if UNITY_EDITOR
-            if (Keyboard.current.pKey.wasPressedThisFrame)
-                ++_moveSpeed;
-            else if (Keyboard.current.oKey.wasPressedThisFrame)
-                --_moveSpeed;
-            else if (Keyboard.current.digit0Key.wasPressedThisFrame)
-                activeQuest.NumberCollected = activeQuest.numberToCollect;
-#endif
-
             if (mousePress&&!GameManager.Instance.Paused)
             {
                 MoveCharacter();
+                _rb.isKinematic=false;
             }
             else
             {
                 mousePosWorld = Vector3.zero;
                 mousePos = Vector2.zero;
                 force = Vector3.zero;
+                _rb.velocity=Vector3.zero;
+                _rb.isKinematic=true;
             }
 
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
-            {
-                GameManager.Instance.PauseGame();
-            }
+            // if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            // {
+            //     GameManager.Instance.PauseGame();
+            // }
 
 
-#if UNITY_EDITOR
             if (Keyboard.current.f1Key.wasPressedThisFrame)
+#if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
+#else 
+                Application.Quit();
 #endif
         }
 
@@ -427,7 +424,7 @@ namespace Player.Rework
         {
             if (moveInput != Vector2.zero)
             {
-                Debug.Log("if");
+                // Debug.Log("if");
                 _speed = _moveSpeed;
                 force = new((mousePosWorld[0] - transform.position[0]) * _speed, 0f, (mousePosWorld[2] - transform.position[2]) * _speed);
                 //force = new Vector3(Mathf.Clamp(moveInput[0],-1f,1f), 0f, Mathf.Clamp(moveInput[1],-1f,1f))*_speed;

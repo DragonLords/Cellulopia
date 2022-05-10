@@ -50,7 +50,7 @@ namespace MonsterAniamtion
                     child.transform.SetParent(monster.transform);
                 else
                 {
-                    Debug.Log("here");
+                    // Debug.Log("here");
                     child.transform.SetParent(childsMonster[i - 1].transform);
                     child.transform.position = offset * i;
                 }

@@ -125,7 +125,7 @@ public class MapGenerator
             }
             sb.AppendLine();
         }
-        Debug.Log($"{sb}");
+        // Debug.Log($"{sb}");
     }
 
     public Dictionary<Vector2,int> GenererPosTuiles(int[,] carte){

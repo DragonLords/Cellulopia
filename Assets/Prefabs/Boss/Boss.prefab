@@ -683,7 +683,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51450383098e0164baf69116a30c5c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxDistanceMinions: 5
+  DebugLife: 0
+  GreatestParent: {fileID: 3719130314853075143}
+  setting: {fileID: 11400000, guid: 737d4cea1fa3dbc419a0698ea9479b83, type: 2}
+  numberMinionAtStart: 0
+  maxMinionNumber: 0
+  BossCenter: {fileID: 6703019119723620679}
+  WhereToSpawn: {fileID: 28744249906124776}
+  _maxDistanceMinions: 7.5
+  _rangeDetectionPlayer: 23.01
+  _maxDistanceProtection: 30
+  minionHolder: {fileID: 0}
   slider: {fileID: 5968529105478820792}
   posWalk: []
   _agent: {fileID: 3719130316114447981}
@@ -691,17 +701,18 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  rangeDetectionPlayer: 30
   searchingForPlayer: 0
   projectileKey: Proj
   holderProj: {fileID: 0}
   alive: 1
-  offset: {x: 0.5, y: 0, z: 0.5}
+  offset: {x: 0, y: 0, z: 0}
   pos: {x: 0, y: 0, z: 0}
   radius: 5
   minionNumber: 3
   delayMinion: 3
   minions: []
+  idlingMinions: []
+  attackingMinions: []
   waypoints: []
   canAttack: 1
 --- !u!1 &4565639024228444756
@@ -1171,6 +1182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7010267096771094498, guid: ce39af5cdc5a7184bb99cfc1c88049f2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7010267096771094502, guid: ce39af5cdc5a7184bb99cfc1c88049f2, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1181,7 +1196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7010267096974563989, guid: ce39af5cdc5a7184bb99cfc1c88049f2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce39af5cdc5a7184bb99cfc1c88049f2, type: 3}

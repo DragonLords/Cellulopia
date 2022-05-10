@@ -18,10 +18,10 @@ namespace Enemy.State
         async Task FindFood(Enemy enemy)
         {
             enemy.agent.isStopped=false;
-            Debug.Log("im hungry");
+            // Debug.Log("im hungry");
             do
             {
-                Debug.Log("food searching");
+                // Debug.Log("food searching");
                 var colls = Physics.OverlapSphere(enemy.transform.position, enemy.radius, enemy.foodLayer);
                 if (colls.Length != 0)
                 {
@@ -49,13 +49,13 @@ namespace Enemy.State
 
         async Task GetFood(Enemy enemy)
         {
-            Debug.Log("gotta get food");
+            // Debug.Log("gotta get food");
             do
             {
                 enemy.agent.SetDestination(target.position);
                 await Task.Yield();
             } while (enemy.agent.remainingDistance > 1f || !enemy.agent.pathPending);
-            Debug.Log("food got");
+            // Debug.Log("food got");
             EndState(enemy);
         }
 

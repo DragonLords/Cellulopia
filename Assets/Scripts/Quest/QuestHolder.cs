@@ -115,7 +115,7 @@ namespace Quest
 
         #if UNITY_EDITOR
         internal void BackUpAllQuest(UnityEditor.PlayModeStateChange playMode){
-            Debug.Log(playMode);
+            // Debug.Log(playMode);
             foreach (var item in quests)
             {
                 item.NumberCollected=0;

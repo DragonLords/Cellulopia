@@ -7,16 +7,14 @@ namespace Boss.Minion
 {
     public class BossMinion : MonoBehaviour
     {
-        [SerializeField] MinionSetting setting;
+        internal WaitForSeconds DelayBetweenAttack=new(3f);
+        [SerializeField] MinionSetting? setting;
         public bool needToProtect = false;
-        [SerializeField] float maxOffsetRadius = 5f;
         public Vector3 offset;
         public Vector3 offsetClamped;
         public Vector3 dir;
         public Vector3 final;
         public Vector3 finalClamped;
-        float radiusTurn = 0f;
-        [SerializeField] bool AddRandomnessOrbit = true;
         Boss boss;
         [SerializeField] float _orbitSpeed = 5f;
         [SerializeField] Transform selfContainer;
@@ -61,16 +59,6 @@ namespace Boss.Minion
             // StartCoroutine(CheckIfTooFarBoss());
         }
 
-        IEnumerator ChasePlayerToAttack()
-        {
-            do
-            {
-                agent.SetDestination(player.position);
-                yield return null;
-            } while (agent.remainingDistance > 1f && alive);
-            yield return null;
-        }
-
         public void TakeDamage(int value)
         {
             life -= value;
@@ -110,93 +98,31 @@ namespace Boss.Minion
             Destroy(selfContainer.gameObject);
         }
 
-        IEnumerator RotateAroundBoss()
-        {
-            bool positive = Random.Range(0, 2) == 1;
-            if (!positive)
-                _orbitSpeed *= -1f;
-            do
-            {
-                selfContainer.RotateAround(boss.transform.position, Vector3.up, _orbitSpeed * Time.deltaTime);
-                yield return null;
-            } while (alive);
-        }
-
         IEnumerator RotateAroundNav()
         {
             bool positive = Random.Range(0, 2) == 1;
             if (!positive)
                 _orbitSpeed *= -1f;
-
-            // if(AddRandomnessOrbit){
-            //     radiusTurn=Random.Range(0,maxOffsetRadius+1);
-            // }
             float angularSpd = agent.angularSpeed;
-            // agent.speed=_orbitSpeed;
             do
             {
                 float distance = Vector3.Distance(selfContainer.position, boss.BossCenter.position);
-                if (distance > boss._maxDistanceMinions)
+                if (distance > boss.setting.rangeMinion)
                 {
 
                 }
                 offset = boss.BossCenter.transform.position - selfContainer.transform.position;
-                offsetClamped = new(Mathf.Clamp(offset.x, -boss._maxDistanceMinions, boss._maxDistanceMinions), offset.y, Mathf.Clamp(offset.z, -boss._maxDistanceMinions, boss._maxDistanceMinions));
-                //FIXME: when the boss move the minions doesnt follow
-                //FIXED: It works now the clamp finished by working
-                //Hourray!!!
+                offsetClamped = new(Mathf.Clamp(offset.x, -boss.setting.rangeMinion, boss.setting.rangeMinion), offset.y, Mathf.Clamp(offset.z, -boss.setting.rangeMinion, boss.setting.rangeMinion));
                 dir = Vector3.Cross(offset, Vector3.up * _orbitSpeed);
                 final = selfContainer.position + dir;
-                finalClamped = new(Mathf.Clamp(final.x, boss.BossCenter.position.x - boss._maxDistanceMinions, boss.BossCenter.position.x + boss._maxDistanceMinions), final.y, Mathf.Clamp(final.z, boss.BossCenter.position.z - boss._maxDistanceMinions, boss.BossCenter.position.z + boss._maxDistanceMinions));
+                finalClamped = new(Mathf.Clamp(final.x, boss.BossCenter.position.x - boss.setting.rangeMinion, boss.BossCenter.position.x + boss.setting.rangeMinion), final.y, Mathf.Clamp(final.z, boss.BossCenter.position.z - boss.setting.rangeMinion, boss.BossCenter.position.z + boss.setting.rangeMinion));
                 agent.SetDestination(finalClamped);
                 yield return null;
-            } while (alive && !tooFar && !needToProtect);
+            } while (alive && !needToProtect);
             agent.angularSpeed = angularSpd;
         }
-        bool tooFar = false;
-        Coroutine routineClose = null;
-        IEnumerator CheckIfTooFarBoss()
-        {
 
-            float distance = Vector3.Distance(selfContainer.position, boss.BossCenter.position);
-            if (distance > boss._maxDistanceMinions)
-            {
-                tooFar = true;
-                Debug.LogFormat("I am too far of {0} unit", distance);
-            }
-            do
-            {
-                float dst = Vector3.Distance(selfContainer.position, boss.BossCenter.position);
-                if (dst > boss._maxDistanceMinions)
-                {
-                    tooFar = true;
-                    Debug.LogFormat("I am too far of {0} unit", dst);
-                }
-                else
-                {
-                    tooFar = false;
-                }
-                yield return null;
-                // if(routineClose == null)
-                //     routineClose=StartCoroutine(GoBackInRadiusBoss());
-            } while (alive);
-        }
-
-        IEnumerator GoBackInRadiusBoss()
-        {
-            do
-            {
-                CheckIfTooFarBoss();
-                // Vector3 point=new(selfContainer.position-(boss.BossCenter.position+boss._maxDistanceMinions));
-                // agent.SetDestination();
-                yield return null;
-            } while (alive && Vector3.Distance(selfContainer.position, boss.BossCenter.position) > boss._maxDistanceMinions);
-            tooFar = false;
-            routineClose = null;
-            StartCoroutine(RotateAroundNav());
-        }
-
-        //FIXME: will have to stop the chase for this to take place
+        
         internal IEnumerator TurnAroundPlayer(){
             do
             {
@@ -215,7 +141,7 @@ namespace Boss.Minion
 
         public void Attack(Transform player)
         {
-            Debug.Log("protecting is my duty");
+            // Debug.Log("protecting is my duty");
             needToProtect = true;
             this.player = player;
             StartCoroutine(Pursue());
@@ -230,9 +156,9 @@ namespace Boss.Minion
 
                     agent.SetDestination(player.position);
                     float distance = Vector3.Distance(player.position, boss.BossCenter.position);
-                    if (distance > boss._maxDistanceProtection)
+                    if (distance > boss.setting.rangeMinionAttack)
                     {
-                        Debug.Log("too far");
+                        // Debug.Log("too far");
                         needToProtect = false;
                     }
                 }
@@ -244,12 +170,6 @@ namespace Boss.Minion
             } while (alive && needToProtect&&canAttack);
             boss.MinionReturn(selfContainer.gameObject);
             StartCoroutine(RotateAroundNav());
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawRay(new(transform.position, transform.position + transform.forward * 500f));
         }
     }
 }
