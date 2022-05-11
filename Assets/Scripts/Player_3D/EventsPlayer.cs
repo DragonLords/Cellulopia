@@ -18,5 +18,6 @@ namespace Player.Rework.Events
         public class PlayerTakeDamage : UnityEngine.Events.UnityEvent<int> { }
         public class PlayerGiveEXP : UnityEngine.Events.UnityEvent<int> { }
         public class PlayerRemoveQuest : UnityEngine.Events.UnityEvent<Quest.QuestTemplate> { }
+        public class PlayerShowControl : UnityEngine.Events.UnityEvent { }
     }
 }

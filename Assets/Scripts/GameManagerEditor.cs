@@ -27,6 +27,13 @@ public class GameManagerEditor : Editor
             
         }
         #endregion
+
+        #region save
+    if(GUILayout.Button("Reset save")){
+        
+    }
+        #endregion
+
         base.OnInspectorGUI();
         
     }

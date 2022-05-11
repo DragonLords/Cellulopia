@@ -10,6 +10,7 @@ namespace Player.Rework
 {
     public class Player : MonoBehaviour
     {
+        GameObject mouseAnim;
         internal bool canAttack=true;
         internal WaitForSeconds DelayBetweenAttack=new(1.5f);
         [SerializeField] GameObject GreatestParent;
@@ -90,6 +91,8 @@ namespace Player.Rework
         /// </summary>
         void Awake()
         {
+            mouseAnim=transform.root.GetComponentInChildren<Mouse_anim>(true).gameObject;
+            mouseAnim.SetActive(false);
             Faim = 10f;
             if (_sliderFaim is not null)
             {
@@ -424,6 +427,7 @@ namespace Player.Rework
         {
             if (moveInput != Vector2.zero)
             {
+                GameManager.Instance.gameSetup.PlayerHasMoved=true;
                 // Debug.Log("if");
                 _speed = _moveSpeed;
                 force = new((mousePosWorld[0] - transform.position[0]) * _speed, 0f, (mousePosWorld[2] - transform.position[2]) * _speed);
@@ -468,6 +472,21 @@ namespace Player.Rework
             }
             return null;
         }
+
+        public void ShowControl(){
+            StartCoroutine(ShowingControl());
+            IEnumerator ShowingControl(){
+                mouseAnim.SetActive(true);
+                do
+                {
+                    Debug.Log("move the fuck up");
+                    yield return null;
+                } while (moveInput==Vector2.zero);
+                mouseAnim.SetActive(false);
+                Destroy(mouseAnim);
+            }
+        }
+
 
         private void OnDrawGizmos()
         {

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using UnityEngine.Serialization;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using Newtonsoft.Json;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,6 +40,9 @@ public class GameManager : MonoBehaviour
     public Player.Rework.Events.EventsPlayer.PlayerTakeDamage PlayerTakeDamage = new();
     public Player.Rework.Events.EventsPlayer.PlayerGiveEXP PlayerGiveEXP = new();
     public Player.Rework.Events.EventsPlayer.PlayerRemoveQuest PlayerRemoveQuest = new();
+    public bool PlayerControlShowed=false;
+    public WaitForSeconds delayShowControl=new(5f);
+    public Player.Rework.Events.EventsPlayer.PlayerShowControl PlayerShowControl=new();
     #endregion
     public GameObject enemy;
     [SerializeField] GameObject portal;
@@ -49,8 +54,16 @@ public class GameManager : MonoBehaviour
     public EntitiesPlacer entitiesPlacer;
     string bossKey = "Boss";
     [SerializeField] Vector2 offsetSpawnPos=new(10f,10f);
+    string dir;
+    string savePath;
+    public GameSetup gameSetup=new();
     private void Awake()
     {
+        dir=Application.dataPath+"/Data/";
+        savePath=Application.dataPath+"/Data/Save.json";
+        CheckIfSaveExist();
+        LoadSave();
+
         if (player is null)
             player = FindObjectOfType<Player.Rework.Player>();
         AddStats.AddListener(UpgradePlayerStats);
@@ -58,13 +71,58 @@ public class GameManager : MonoBehaviour
         PlayerTakeDamage.AddListener(player.TakeDamage);
         PlayerGiveEXP.AddListener(player.GetEvolutionGrade);
         PlayerRemoveQuest.AddListener(player.RemoveQuestActive);
+        PlayerShowControl.AddListener(player.ShowControl);
+    }
+
+    internal Task ResetSave=>Task.Run(()=>{
+        //make a new save here
+        //so dleete and reset value
+        //or just recreate a new class
+        gameSetup=new(); 
+        string json=JsonConvert.SerializeObject(gameSetup,Formatting.Indented);
+        File.WriteAllText(savePath,json);
+    });
+    
+    void LoadSave(){
+        string json=File.ReadAllText(savePath);
+        gameSetup=Newtonsoft.Json.JsonConvert.DeserializeObject<GameSetup>(json);
+        Debug.Log(gameSetup);
+    }
+
+    public void SaveData(){
+        if(gameSetup == null){
+            Debug.Log("setup ios null");
+            gameSetup=new();
+            gameSetup.dateTime=DateTime.Now;
+        }
+        string json=JsonConvert.SerializeObject(gameSetup,Formatting.Indented);
+        File.WriteAllText(savePath,json);
+    }
+
+    void CheckIfSaveExist(){
+        if(!File.Exists(savePath)){
+            Debug.Log("Doesnt exist");
+            Directory.CreateDirectory(dir);
+            File.Create(savePath);
+        }
+        Debug.Log("found");
+    }
+
+    IEnumerator WaitToShowControl(){
+        yield return new WaitForSeconds(5);
+        if(!gameSetup.PlayerHasMoved)
+            PlayerShowControl.Invoke();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        if(!gameSetup.PlayerHasMoved)
+            StartCoroutine(WaitToShowControl());
     }
+
+
+
 
     #region Upgrade Player
     public bool CanBuySkill(Player.Skill.SkillTemplate skill) => player.SkillPoint >= skill.skillCost;
