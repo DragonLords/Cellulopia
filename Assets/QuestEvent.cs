@@ -48,7 +48,7 @@ namespace Quest
         }
 
         public void OnClick(){
-            
+            questHolder.ShowDesc(quest);
         }
 
         internal void OnCompletion()

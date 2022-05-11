@@ -29,9 +29,15 @@ public class GameManagerEditor : Editor
         #endregion
 
         #region save
-    if(GUILayout.Button("Reset save")){
-        
-    }
+        if(GUILayout.Button("Reset save")){
+            string path=Application.dataPath+"/Data/Save.json";
+            if(System.IO.File.Exists(path)){
+                GameSetup setup=new();
+                string json=Newtonsoft.Json.JsonConvert.SerializeObject(setup,Newtonsoft.Json.Formatting.Indented);
+                System.IO.File.WriteAllText(path,json);
+            }
+            // manager.ResetSave().ConfigureAwait(true);
+        }
         #endregion
 
         base.OnInspectorGUI();

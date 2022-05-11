@@ -20,6 +20,6 @@ MonoBehaviour:
   skillDescription: Augmente l'attaque du joueur
   bonusType: 0
   statEffect: 1
-  statEffectValue: 1
+  statEffectValue: 2
   skillEffect: 0
   SkillDesciption: Augmente l'attaque du joueur

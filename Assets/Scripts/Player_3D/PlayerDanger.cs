@@ -10,6 +10,8 @@ namespace Player.Rework.Danger
 {
     public class PlayerDanger : MonoBehaviour
     {
+        [SerializeField,TagSelector] string TheInfamousUntagged; 
+        [SerializeField,TagSelector] string mapTag;
         [SerializeField,TagSelector] string playerTag;
         Player player;
         [SerializeField, TagSelector] string foodTag;
@@ -46,7 +48,7 @@ namespace Player.Rework.Danger
         /// <param name="other">The Collision data associated with this collision.</param>
         void OnCollisionStay(Collision other)
         {
-            if(other.gameObject.CompareTag(playerTag)||!player.canAttack){
+            if(other.gameObject.CompareTag(playerTag)||!player.canAttack||other.gameObject.CompareTag(mapTag)||other.gameObject.CompareTag(TheInfamousUntagged)){
                 return;
             }
             else
@@ -90,7 +92,7 @@ namespace Player.Rework.Danger
 
         IEnumerator DelayAttack(){
             player.canAttack=false;
-            yield return player.DelayBetweenAttack;
+            yield return new WaitForSeconds(player.playerStat.DelayAttack);
             player.canAttack=true;
         }
 

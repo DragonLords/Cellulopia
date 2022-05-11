@@ -674,7 +674,6 @@ MonoBehaviour:
   isSocializing: 0
   isAttacking: 0
   canSocialize: 1
-  spawner: {fileID: 0}
   goapActionHolder: {fileID: 4882768145171261192}
   damage: 1
   GreatestParent: {fileID: 5133186151989874620}
@@ -687,7 +686,6 @@ MonoBehaviour:
   actionEnum: 0
   ohFuck: 0
   RangeDetectionFoodDanger: 2
-  increaseDanger: 10
   foodSaturation: 30
   groupMembers: []
 --- !u!1 &5555444914122015626
@@ -816,7 +814,7 @@ GameObject:
   - component: {fileID: 723960669}
   m_Layer: 7
   m_Name: Danger
-  m_TagString: Ennemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

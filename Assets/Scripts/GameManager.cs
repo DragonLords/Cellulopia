@@ -11,6 +11,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using Newtonsoft.Json;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -59,10 +60,6 @@ public class GameManager : MonoBehaviour
     public GameSetup gameSetup=new();
     private void Awake()
     {
-        dir=Application.dataPath+"/Data/";
-        savePath=Application.dataPath+"/Data/Save.json";
-        CheckIfSaveExist();
-        LoadSave();
 
         if (player is null)
             player = FindObjectOfType<Player.Rework.Player>();
@@ -72,20 +69,37 @@ public class GameManager : MonoBehaviour
         PlayerGiveEXP.AddListener(player.GetEvolutionGrade);
         PlayerRemoveQuest.AddListener(player.RemoveQuestActive);
         PlayerShowControl.AddListener(player.ShowControl);
+
+        dir=Application.dataPath+"/Data/";
+        savePath=Application.dataPath+"/Data/Save.json";
+        CheckIfSaveExist();
+        LoadSave();
     }
 
-    internal Task ResetSave=>Task.Run(()=>{
+    private void PlayModeStateChanged(PlayModeStateChange obj)
+    {
+        switch(obj){
+            case UnityEditor.PlayModeStateChange.ExitingPlayMode:{
+                SaveData();
+                Debug.Log("exitingh");
+            }break;
+        }
+    }
+
+    internal async Task ResetSave(){
         //make a new save here
         //so dleete and reset value
         //or just recreate a new class
         gameSetup=new(); 
         string json=JsonConvert.SerializeObject(gameSetup,Formatting.Indented);
-        File.WriteAllText(savePath,json);
-    });
+        await File.WriteAllTextAsync(savePath,json);
+        Debug.Log("text written");
+    }
     
     void LoadSave(){
         string json=File.ReadAllText(savePath);
         gameSetup=Newtonsoft.Json.JsonConvert.DeserializeObject<GameSetup>(json);
+        player.playerStat.Stack(gameSetup);
         Debug.Log(gameSetup);
     }
 
@@ -93,10 +107,12 @@ public class GameManager : MonoBehaviour
         if(gameSetup == null){
             Debug.Log("setup ios null");
             gameSetup=new();
-            gameSetup.dateTime=DateTime.Now;
         }
+        player.playerStat.UnStack(gameSetup);
+
         string json=JsonConvert.SerializeObject(gameSetup,Formatting.Indented);
         File.WriteAllText(savePath,json);
+        Debug.Log("aaa");
     }
 
     void CheckIfSaveExist(){
@@ -112,6 +128,27 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(5);
         if(!gameSetup.PlayerHasMoved)
             PlayerShowControl.Invoke();
+    }
+
+    internal List<string> GetPlayerStat(Player.Skill.SkillTemplate.StatEffect statEffect){
+        List<string> value=new();
+        switch(statEffect){
+            case Player.Skill.SkillTemplate.StatEffect.Attack:value.Add($"{player.playerStat.DamageValue}");break;
+            case Player.Skill.SkillTemplate.StatEffect.vitesse:value.Add($"{player.playerStat.MoveSpeed}");break;
+            case Player.Skill.SkillTemplate.StatEffect.Life:value.Add($"{player.playerStat.Life}");value.Add($"{player.playerStat.MaxLife}");break;
+        }
+        return value;
+    }
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        if(Keyboard.current.f1Key.wasPressedThisFrame){
+            SaveData();
+            UnityEditor.EditorApplication.isPlaying=false;
+        }
     }
 
     // Start is called before the first frame update
@@ -228,13 +265,16 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
-    void Update()
-    {
-        if(Keyboard.current.f5Key.wasPressedThisFrame)
-            SpawnNewBoss();
-        if(Keyboard.current.anyKey.wasPressedThisFrame&&!Keyboard.current.f2Key.wasPressedThisFrame)
-            Born();
-    }
+    // void Update()
+    // {
+    //     if(Keyboard.current.f5Key.wasPressedThisFrame)
+    //         SpawnNewBoss();
+    //     if(Keyboard.current.anyKey.wasPressedThisFrame&&!Keyboard.current.f2Key.wasPressedThisFrame)
+    //         Born();
+    // }
+
+
+
     /// <summary>
     /// Will spawn the boss near the player using the variable "offsetSpawnPos"
     /// it work using recursive call when validating if the boss is in the bounds of the map

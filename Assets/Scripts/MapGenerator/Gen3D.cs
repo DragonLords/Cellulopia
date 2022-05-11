@@ -11,6 +11,7 @@ namespace Generator
     [System.Serializable]
     public class Gen3D : MonoBehaviour
     {
+        [SerializeField,TagSelector] string mapTag;
         public GameObject Quad;
         public Material[] materials;
         public int[,] carte;
@@ -141,6 +142,7 @@ namespace Generator
             {
                 for (int z = 0; z < carte.GetLength(1); z++)
                 {
+                    //generate the wall
                     if (carte[x, z] == 1)
                     {
                         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -148,8 +150,10 @@ namespace Generator
                         cube.transform.parent = fill.transform;
                         cube.transform.localScale=new(1,15,1);
                         cube.GetComponent<Renderer>().material=materials[1];
-                        cube.name=$"Cube_{x}_{z}";
+                        cube.name=$"Wall_{x}_{z}";
+                        cube.tag=mapTag;
                     }
+                    //generate the ground
                     else
                     {
                         // GameObject go=new("new");
@@ -174,7 +178,8 @@ namespace Generator
                         quad.GetComponent<Renderer>().material=materials[0];
                         emptyTiles.Add(new(x,z));
                         quad.layer=empty.layer;
-                        quad.name=$"Cube_{x}_{z}";
+                        quad.name=$"Ground_{x}_{z}";
+                        quad.tag=mapTag;
                     }
                     // carte[x,z]==1?
                 }

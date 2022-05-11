@@ -19,6 +19,7 @@ public class SkillTemplate : ScriptableObject {
     [SerializeField] public int statEffectValue;
     [HideInInspector] public SkillEffect skillEffect;
     [SerializeField] public string SkillDesciption;
+    [SerializeField] public float AttackDelayReduction;
 
     public enum BonusType{stats,skill}
     public enum SkillEffect{grappling,bob,dummy,another}

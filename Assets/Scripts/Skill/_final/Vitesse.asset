@@ -20,6 +20,6 @@ MonoBehaviour:
   skillDescription: Augmente la vitesse du joueur
   bonusType: 0
   statEffect: 0
-  statEffectValue: 1
+  statEffectValue: 3
   skillEffect: 0
   SkillDesciption: Augmente la vitesse du joueur de 1

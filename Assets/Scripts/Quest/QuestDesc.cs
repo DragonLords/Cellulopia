@@ -9,10 +9,11 @@ public class QuestDesc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     public void ShowDesc(string value){
+        if(txt==null)
+            txt=GetComponentInChildren<TextMeshProUGUI>();
         txt.text=value;
     }
 }

@@ -12,6 +12,8 @@ namespace Quest
 {
     public class QuestHolder : MonoBehaviour
     {
+        [SerializeField] GameObject questDesciptionGO;
+        QuestDesc questDesc;
         Player.Rework.Player player;
         string templateQuestKey="QuestButton";
         [SerializeField] Transform holderQuest;
@@ -63,7 +65,12 @@ namespace Quest
             //     sb.Append(kvp.Value);
             //     sb.AppendLine();
             // }
-            // Debug.Log(sb.ToString());
+            // Debug.Log(sb.ToString())
+            if(questDesciptionGO == null){
+                questDesc=GetComponentInChildren<QuestDesc>();
+                questDesciptionGO=questDesc.gameObject;
+            }
+            questDesciptionGO.SetActive(false);
             SpawnQuest();
         }
 
@@ -112,6 +119,12 @@ namespace Quest
             this.questEnded.Add(questEnded);
             this.ActivateNewQuest();
         }
+
+        public void ShowDesc(QuestTemplate quest){
+            questDesciptionGO.SetActive(!questDesciptionGO.activeSelf);
+            questDesc.ShowDesc(quest.QuestDescription);
+        }
+
 
         #if UNITY_EDITOR
         internal void BackUpAllQuest(UnityEditor.PlayModeStateChange playMode){

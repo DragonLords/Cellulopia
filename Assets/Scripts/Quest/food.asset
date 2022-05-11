@@ -15,8 +15,8 @@ MonoBehaviour:
   text: {fileID: 0}
   state: 2
   QuestName: Manger 3 nourritures
-  nameRun: 'Manger les petits organismes '
-  QuestDescription: Eat 5 food
+  nameRun: Manger 3 nourriture
+  QuestDescription: 'Manger 3 nourritures '
   objectToCollect: {fileID: 8538595785919922663, guid: 889c2e8ea77203549b1f67b7bb7f507e, type: 3}
   xpReward: 100
   numberToCollect: 3

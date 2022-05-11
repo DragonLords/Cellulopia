@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b25a2cfbd3c35343a2beac9b481eb4a, type: 3}
   m_Name: PlayerStat
   m_EditorClassIdentifier: 
-  DamageValue: 8
-  MoveSpeed: 27.57
+  DamageValue: 70000
+  delayReduction: 0.1
+  MoveSpeed: 69.57
   SkillPoint: 0
   Level: 0
   Life: 100
-  MaxLife: 100
+  MaxLife: 50000

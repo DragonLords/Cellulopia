@@ -173,6 +173,10 @@ namespace Boss
                 }
                 yield return new WaitForSeconds(.2f);
             } while (mat.color.a>.1f);
+            foreach(var minion in minions){
+                Destroy(minion);
+            }
+            CleanList();
             Destroy(GreatestParent.gameObject);
             yield return null;
         }

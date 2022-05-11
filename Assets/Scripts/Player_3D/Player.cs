@@ -21,7 +21,7 @@ namespace Player.Rework
         [SerializeField] Rigidbody _rb;
         InputAction _movePress;
         PlayerInput playerInput;
-        [SerializeField] float _moveSpeed = 1f;
+        [SerializeField] internal float _moveSpeed = 1f;
         float _speed;
         Camera _mainCamera;
         public Vector2 moveInput;
@@ -78,7 +78,7 @@ namespace Player.Rework
         int penalityHunger = -1;
         #endregion
         float _life = 100f;
-        float _maxLife = 100f;
+        internal float _maxLife = 100f;
         [property: SerializeField] public float Life { get => _life; set => _life = Mathf.Clamp(value, 0, _maxLife); }
         internal bool hasQuest = false;
         public List<Quest.QuestTemplate> questActive = new();
@@ -153,7 +153,12 @@ namespace Player.Rework
             EvolutionPoints = xp[0];
             level = xp[1];
             SkillPoint = xp[2];
-            _textPoint.text = $"{SkillPoint} Points";
+
+            string pts=SkillPoint<=1?"Point":"Points";
+            foreach(var item in xp)
+                Debug.Log(item);
+            Debug.Log(pts);
+            _textPoint.text = $"{SkillPoint} {pts}";
             // EvolutionCheck();
             UpdateSliderXP();
         }
@@ -161,6 +166,7 @@ namespace Player.Rework
         internal void GiveSkillPoint(int value)
         {
             SkillPoint += value;
+            playerStat.SkillPoint=SkillPoint;
         }
 
         internal void UpgradeStats(Skill.SkillTemplate skillTemplate)
@@ -174,7 +180,7 @@ namespace Player.Rework
                     break;
                 case Skill.SkillTemplate.StatEffect.Attack:
                     {
-                        UpgradeAttack(skillTemplate.statEffectValue);
+                        UpgradeAttack(skillTemplate.statEffectValue,skillTemplate.AttackDelayReduction);
                     }
                     break;
                 case Skill.SkillTemplate.StatEffect.Life:
@@ -195,9 +201,10 @@ namespace Player.Rework
             playerStat.MoveSpeed=_moveSpeed;
         }
 
-        void UpgradeAttack(int value)
+        void UpgradeAttack(int value,float reduction)
         {
             DamageValue += value;
+            playerStat.DelayAttack-=reduction;
             playerStat.DamageValue=DamageValue;
         }
 
@@ -397,6 +404,9 @@ namespace Player.Rework
         {
             if (mousePress&&!GameManager.Instance.Paused)
             {
+                mousePos = Mouse.current.position.ReadValue();
+                mousePosWorld = _mainCamera.ScreenToWorldPoint(mousePos);
+                moveInput = new(mousePosWorld[0], mousePosWorld[2]);
                 MoveCharacter();
                 _rb.isKinematic=false;
             }

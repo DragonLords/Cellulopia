@@ -1,4 +1,11 @@
 {
-  "dateTime": "bob",
+  "dateTime": "0001-01-01T00:00:00",
+  "PlayerLevel": 0,
+  "PlayerSkillPoint": 0,
+  "PlayerDamageValue": 70000,
+  "PlayerDelayAttack": 0.1,
+  "PlayerMoveSpeed": 800.0,
+  "PlayerLife": 100.0,
+  "PlayerMaxLife": 50000.0,
   "PlayerHasMoved": true
 }
