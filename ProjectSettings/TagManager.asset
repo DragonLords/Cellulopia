@@ -12,6 +12,7 @@ TagManager:
   - Boss
   - Minion
   - EmptyIdling
+  - Map
   layers:
   - Default
   - TransparentFX
