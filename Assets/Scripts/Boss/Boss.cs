@@ -144,6 +144,9 @@ namespace Boss
             if (Life == 0)
             {
                 StartCoroutine(Death());
+                GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Killed]);
+            }else{
+                GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Hit]);
             }
         }
         WaitForSeconds wsShow=new(3);

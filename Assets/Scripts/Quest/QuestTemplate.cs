@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using System.Linq;
 using System.Text;
+using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -24,6 +25,7 @@ namespace Quest
         public int xpReward = 0;
         public int numberToCollect = 0;
         [SerializeField] internal int numberCollected = 0;
+        [SerializeField] internal Sprite _imageObjectToCollect;
         [property: SerializeField]
         public int NumberCollected
         {

@@ -6,7 +6,6 @@
 - ~~Créer des effets de particules et visuel lors de l'interaction avec les autres éléments~~
 - ~~Faire en sorte que chaque section soit entièrement cliquable et montrer limpact des stastiques~~
 - ~~On améliorer l''impact des compétences sur le joueur~~
-- Retravailler l'intelligence artificielle des ennemies pour les rendre plus intelligents et moins artificielles
 - ~~Mettre plus d'ennemies et que ceux-ci soient plus interactif envers le joueur~~
 - ~~Baisser la puissance du joueur face aux ennemies et que les ennemies contre-attaquent le joueur~~
 - ~~On met des petites images, des X pour fermer les fenêtres~~
@@ -16,9 +15,10 @@
 - ~~Ajuster l'affichage des textes et vérifier que tout s'affiche correctement~~
 - ~~Faire en sorte qu'au lieu que le joueur se déplace vers une arène pour le combat de boss, le boss apparaisse sur la même carte~~
 - ~~Je refais l'agissement du combat de boss pour qu'il soit plus semblable à mon concept~~
-- on met les éléments viser en surbrillance
+- ~~on met les éléments viser en surbrillance~~
 - Mettre une petite musique pour le menu principale
 - Faire une brève introduction textuelle
 - Retravailler l'intelligence artificielle des ennemies pour les rendre plus intelligents et moins artificielles
-- Ajouter des effets sonores
+- ~~Ajouter des effets sonores~~ (only need to had the sound, the method are there)
 - Créer une musique appropriée pour le combat de boss
+- Clean code, subdive it code, OOP

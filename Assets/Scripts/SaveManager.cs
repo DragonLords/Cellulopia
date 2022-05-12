@@ -4,33 +4,30 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Newtonsoft;
+using Newtonsoft.Json;
+using System.Text;
 
-public class SaveManager
+public static class SaveManager
 {
-    string fichierPath;
+    public static String pathFile;
+    public static GameSetup setup=new();
+    public static bool SaveExist()=>File.Exists(pathFile);
+    public static GameSetup LoadSave()=>
+        JsonConvert.DeserializeObject<GameSetup>(File.ReadAllText(pathFile));
 
-    void ChercheFichier(){
-        string path=Application.dataPath;
-        string folder=$"{path}\\SaveData";
-        string fichier=$"{folder}\\save.json";
-        bool fileExist=File.Exists(fichier);
-        bool folderExist=Directory.Exists(folder);
-        if(!folderExist)
-            CreerDossier(folder);
-        if(!fileExist){
-            CreerFichier(fichier);
+    public static void SaveGame(){
+        string json=JsonConvert.SerializeObject(setup,Formatting.Indented);
+        File.WriteAllText(pathFile,json);
+    }
+
+    public static void ResetSave(){
+        using(FileStream fs=File.OpenWrite(pathFile)){
+            GameSetup setup=new();
+            //reset the save here
+            string json=JsonConvert.SerializeObject(setup);
+            byte[] bytes=new UTF8Encoding(true).GetBytes(json);
+            fs.Write(bytes);
+            fs.Flush();
         }
     }
-
-    private void CreerDossier(string folderPath)
-    {
-        Directory.CreateDirectory(folderPath);
-    }
-
-    internal void CreerFichier(string fileLocation){
-        File.Create(fileLocation);
-    }
-
 }

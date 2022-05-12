@@ -122,7 +122,7 @@ namespace Quest
 
         public void ShowDesc(QuestTemplate quest){
             questDesciptionGO.SetActive(!questDesciptionGO.activeSelf);
-            questDesc.ShowDesc(quest.QuestDescription);
+            questDesc.ShowDesc(quest.QuestDescription,quest._imageObjectToCollect);
         }
 
 

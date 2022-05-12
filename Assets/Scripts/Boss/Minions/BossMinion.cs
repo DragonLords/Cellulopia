@@ -8,7 +8,7 @@ namespace Boss.Minion
     public class BossMinion : MonoBehaviour
     {
         internal WaitForSeconds DelayBetweenAttack=new(3f);
-        [SerializeField] MinionSetting? setting;
+        [SerializeField] MinionSetting setting;
         public bool needToProtect = false;
         public Vector3 offset;
         public Vector3 offsetClamped;
@@ -65,6 +65,9 @@ namespace Boss.Minion
             if (life < 1)
             {
                 StartCoroutine(Death());
+                GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Killed]);
+            }else{
+                GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Hit]);
             }
         }
 

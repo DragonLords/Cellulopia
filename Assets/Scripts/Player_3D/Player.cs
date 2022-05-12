@@ -153,12 +153,14 @@ namespace Player.Rework
             EvolutionPoints = xp[0];
             level = xp[1];
             SkillPoint = xp[2];
-
+            playerStat.Level=level;
+            playerStat.SkillPoint=SkillPoint;
             string pts=SkillPoint<=1?"Point":"Points";
             foreach(var item in xp)
                 Debug.Log(item);
             Debug.Log(pts);
             _textPoint.text = $"{SkillPoint} {pts}";
+            GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.LevelUp]);
             // EvolutionCheck();
             UpdateSliderXP();
         }
@@ -191,6 +193,7 @@ namespace Player.Rework
                 default: break;
             }
             SkillPoint -= skillTemplate.skillCost;
+            playerStat.SkillPoint=SkillPoint;
             _textPoint.text = SkillPoint>1?($"{SkillPoint} Points"):($"{SkillPoint} Point");
             // ChangeSpeed(skillTemplate.statEffectValue);
         }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using UnityEngine.Serialization;
 using UnityEngine.AddressableAssets;
@@ -33,7 +34,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public bool Paused = false;
-    SaveManager save = new();
     [SerializeField] Player.Rework.Player player;
     #region Upgrade Player event
     public Player.Rework.Events.EventsPlayer.PlayerUpgradeStats AddStats = new();
@@ -58,6 +58,17 @@ public class GameManager : MonoBehaviour
     string dir;
     string savePath;
     public GameSetup gameSetup=new();
+
+    #region Sound
+    [Header("Sound")]
+    [SerializeField] AudioSource _source;
+    [SerializeField] private AudioClip _hittedSound;
+    [SerializeField] private AudioClip _eatSound;
+    [SerializeField] private AudioClip _gainLevelSound;
+    [SerializeField] private AudioClip _killedSound;
+    internal Dictionary<SoundType,AudioClip> soundStock=new();
+    #endregion
+
     private void Awake()
     {
 
@@ -69,10 +80,7 @@ public class GameManager : MonoBehaviour
         PlayerGiveEXP.AddListener(player.GetEvolutionGrade);
         PlayerRemoveQuest.AddListener(player.RemoveQuestActive);
         PlayerShowControl.AddListener(player.ShowControl);
-
-        dir=Application.dataPath+"/Data/";
-        savePath=Application.dataPath+"/Data/Save.json";
-        CheckIfSaveExist();
+        FillStockSound();
         LoadSave();
     }
 
@@ -97,8 +105,7 @@ public class GameManager : MonoBehaviour
     }
     
     void LoadSave(){
-        string json=File.ReadAllText(savePath);
-        gameSetup=Newtonsoft.Json.JsonConvert.DeserializeObject<GameSetup>(json);
+        gameSetup=SaveManager.LoadSave();
         player.playerStat.Stack(gameSetup);
         Debug.Log(gameSetup);
     }
@@ -110,8 +117,7 @@ public class GameManager : MonoBehaviour
         }
         player.playerStat.UnStack(gameSetup);
 
-        string json=JsonConvert.SerializeObject(gameSetup,Formatting.Indented);
-        File.WriteAllText(savePath,json);
+        SaveManager.SaveGame();
         Debug.Log("aaa");
     }
 
@@ -320,7 +326,21 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = TimeSpeed;
     }
+
+    #region Sound
+    private void FillStockSound(){
+        soundStock.Add(SoundType.Eat,_eatSound);
+        soundStock.Add(SoundType.LevelUp,_gainLevelSound);
+        soundStock.Add(SoundType.Hit,_hittedSound);
+        soundStock.Add(SoundType.Killed,_killedSound);
+    }
+    public void PlaySoundClip(AudioClip clip){
+        _source.PlayOneShot(clip);
+    }
+    #endregion
+
+    internal class SoundEvents : UnityEvent<AudioClip>{}
 }
+internal enum SoundType{Eat,LevelUp,Hit,Killed}
 
 internal enum AccesMat { Sol, Mur };
-

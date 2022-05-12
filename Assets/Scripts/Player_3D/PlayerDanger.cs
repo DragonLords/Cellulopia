@@ -56,6 +56,7 @@ namespace Player.Rework.Danger
                 StartCoroutine(DelayAttack());
             }
             Debug.LogFormat("<color=red>Collsion with:{0}</color>",other.gameObject.name);
+            GameManager refGameManager=GameManager.Instance;
             if(other.gameObject.CompareTag(foodTag)){
                 //do srtuff about food here
                 Addressables.InstantiateAsync(PSEatKey,transform.position,Quaternion.identity).Completed+=DestroyAfter;
@@ -63,6 +64,8 @@ namespace Player.Rework.Danger
                 //Debug.Log("got food");
                 player.QuestItem(other.gameObject);
                 Destroy(other.gameObject);
+                //play sound of eating food
+                refGameManager.PlaySoundClip(refGameManager.soundStock[SoundType.Eat]);
             }else if(other.gameObject.CompareTag(enemyTag)){
                 //do stuff about enemy here
                 Debug.Log("Enemy");
@@ -70,6 +73,10 @@ namespace Player.Rework.Danger
                 if(!enemy.TakeDamage(player.DamageValue)){
                     player.QuestItem(other.gameObject);
                     player.PlayerGiveFood.Invoke(enemy.foodSaturation);
+                    refGameManager.PlaySoundClip(refGameManager.soundStock[SoundType.Killed]);
+                }else{
+                    //we didnt kill the enemy
+                    refGameManager.PlaySoundClip(refGameManager.soundStock[SoundType.Hit]);
                 }
             }else if(other.gameObject.CompareTag(player.portalTag)){
                 other.gameObject.GetComponent<Portal>().TriggerBossFight();
