@@ -36,6 +36,7 @@ namespace Boss
         public List<GameObject> minions=new();
         public List<GameObject> idlingMinions=new();
         public List<GameObject> attackingMinions=new();
+        [SerializeField] int xpGiven=500;
 
         // Start is called before the first frame update
         IEnumerator Start()
@@ -144,7 +145,6 @@ namespace Boss
             if (Life == 0)
             {
                 StartCoroutine(Death());
-                GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Killed]);
             }else{
                 GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Hit]);
             }
@@ -160,6 +160,8 @@ namespace Boss
         IEnumerator Death()
         {
             Material mat = rend.First().material;
+            GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Killed]);
+            GameManager.Instance.PlayerGiveEXP.Invoke(xpGiven);
             if(ps is not null){
                 var part=Instantiate(ps,transform);
                 if (!part.isPlaying)

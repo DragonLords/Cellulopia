@@ -10,6 +10,9 @@ namespace Player.Rework
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] Animator _anim;
+        int _eatAnimID=0;
+        int eatingSpeedParam=0;
         GameObject mouseAnim;
         internal bool canAttack=true;
         internal WaitForSeconds DelayBetweenAttack=new(1.5f);
@@ -91,6 +94,10 @@ namespace Player.Rework
         /// </summary>
         void Awake()
         {
+            if(_anim == null)
+                _anim=GetComponent<Animator>();
+            _eatAnimID=Animator.StringToHash("Eat");
+            eatingSpeedParam=Animator.StringToHash("EatingSpeed");
             mouseAnim=transform.root.GetComponentInChildren<Mouse_anim>(true).gameObject;
             mouseAnim.SetActive(false);
             Faim = 10f;
@@ -104,6 +111,7 @@ namespace Player.Rework
             InitEvent();
             InitializeValue();
             GetEvolutionGrade(0);
+            Debug.Log(EvolutionPoints);
         }
 
         private void InitEvent()
@@ -155,12 +163,11 @@ namespace Player.Rework
             SkillPoint = xp[2];
             playerStat.Level=level;
             playerStat.SkillPoint=SkillPoint;
+            playerStat.XP=EvolutionPoints;
             string pts=SkillPoint<=1?"Point":"Points";
-            foreach(var item in xp)
-                Debug.Log(item);
-            Debug.Log(pts);
             _textPoint.text = $"{SkillPoint} {pts}";
             GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.LevelUp]);
+            playerStat.nextLevelXP=levelSettings.levelRequirement[level];
             // EvolutionCheck();
             UpdateSliderXP();
         }
@@ -195,6 +202,8 @@ namespace Player.Rework
             SkillPoint -= skillTemplate.skillCost;
             playerStat.SkillPoint=SkillPoint;
             _textPoint.text = SkillPoint>1?($"{SkillPoint} Points"):($"{SkillPoint} Point");
+            Debug.Log($"{EvolutionPoints},{levelSettings.levelRequirement[level]}");
+            
             // ChangeSpeed(skillTemplate.statEffectValue);
         }
 
@@ -241,24 +250,17 @@ namespace Player.Rework
 
         void UpdateSliderXP()
         {
-            _sliderXP.value = EvolutionPoints;
+            // _sliderXP.value = EvolutionPoints;
+            StartCoroutine(AnimateSlider());
             _sliderXP.maxValue = levelSettings.levelRequirement[level];
-        }
+            IEnumerator AnimateSlider(){
+                do
+                {
+                    ++_sliderXP.value;
+                    yield return null;
+                } while (_sliderXP.value<=EvolutionPoints);
+            }
 
-        void LoopAction()
-        {
-            LoopHunger().ConfigureAwait(false);
-        }
-
-        internal async Task LoopHunger()
-        {
-            await Task.Delay(DelayTickFaim);
-            do
-            {
-                if(!GameManager.Instance.Paused)
-                    GiveFood(-1);
-                await Task.Delay(DelayTickFaim);
-            } while (true);
         }
 
         internal async Task LoopHungry()
@@ -426,14 +428,6 @@ namespace Player.Rework
             // {
             //     GameManager.Instance.PauseGame();
             // }
-
-
-            if (Keyboard.current.f1Key.wasPressedThisFrame)
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else 
-                Application.Quit();
-#endif
         }
 
         void MoveCharacter()
@@ -498,6 +492,20 @@ namespace Player.Rework
                 mouseAnim.SetActive(false);
                 Destroy(mouseAnim);
             }
+        }
+
+        public void PlayAnimEat(){
+            _anim.SetFloat(eatingSpeedParam,CalculateMultiplier(playerStat.DelayAttack));
+            _anim.SetTrigger(_eatAnimID);
+        }
+
+        float CalculateMultiplier(float targetTime){
+            //samplerate is the number of frame in my animation
+            AnimationClip clip=UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<AnimationClip>(AddressablePath.PlayerEat).WaitForCompletion();
+            float sampleRate=clip.frameRate;
+            float lenght=clip.length;
+            float totalFrame=sampleRate*targetTime;
+            return sampleRate/totalFrame;
         }
 
 

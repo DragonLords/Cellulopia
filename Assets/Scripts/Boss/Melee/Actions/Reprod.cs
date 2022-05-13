@@ -6,7 +6,7 @@ using System.Linq;
 
 public class Reprod : Action
 {
-    BossMelee caller;
+    GOAPManager caller;
 
     public override bool PostPerform()
     {
@@ -16,7 +16,7 @@ public class Reprod : Action
         return true;
     }
 
-    public override bool PrePerform(BossMelee caller, GameObject target = null)
+    public override bool PrePerform(GOAPManager caller, GameObject target = null)
     {
         this.caller=caller;
         // var potentials=caller.enemiesClose;

@@ -11,7 +11,7 @@ public class Die : Action
         return true;
     }
 
-    public override bool PrePerform(BossMelee caller, GameObject target = null)
+    public override bool PrePerform(GOAPManager caller, GameObject target = null)
     {
         return true;
     }

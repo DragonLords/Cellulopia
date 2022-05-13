@@ -10,6 +10,7 @@ using System.Text;
 public static class SaveManager
 {
     public static String pathFile;
+    public static String dirPath;
     public static GameSetup setup=new();
     public static bool SaveExist()=>File.Exists(pathFile);
     public static GameSetup LoadSave()=>
@@ -21,13 +22,15 @@ public static class SaveManager
     }
 
     public static void ResetSave(){
-        using(FileStream fs=File.OpenWrite(pathFile)){
+        if(!Directory.Exists(dirPath))
+            Directory.CreateDirectory(dirPath);
+        using(FileStream fs=new(pathFile,FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.ReadWrite,500,true)){
+            //reset the save
             GameSetup setup=new();
-            //reset the save here
-            string json=JsonConvert.SerializeObject(setup);
-            byte[] bytes=new UTF8Encoding(true).GetBytes(json);
+            //convert it to json and then to bytes for the save
+            byte[] bytes=new UTF8Encoding(true).GetBytes(JsonConvert.SerializeObject(setup,Formatting.Indented));
             fs.Write(bytes);
-            fs.Flush();
+            fs.Close();
         }
     }
 }

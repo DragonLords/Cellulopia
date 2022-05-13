@@ -112,7 +112,7 @@ public abstract class Action : MonoBehaviour
 
     Vector3 RandomPosDuplicate(GOAPTester tester)=>new(Random.Range(transform.position.x-tester.offset.x,transform.position.x+tester.offset.x),tester.transform.position.y,Random.Range(transform.position.z-tester.offset.z,transform.position.z+tester.offset.z));
 
-    public abstract bool PrePerform(BossMelee caller, GameObject target = null);
+    public abstract bool PrePerform(GOAPManager caller, GameObject target = null);
     public abstract bool PostPerform();
     public abstract bool TargetExistance();
 }

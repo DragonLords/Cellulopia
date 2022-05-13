@@ -73,6 +73,10 @@ MonoBehaviour:
     m_Address: Empty
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: a48790ec0650cbd429ef78ff8357c74c
+    m_Address: eat_anim_player
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: fa7730bc219dbc2428b9094001801031, type: 2}
   m_SchemaSet:

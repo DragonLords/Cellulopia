@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GetFood : Action
 {
-    BossMelee caller;
+    GOAPManager caller;
     public override bool PostPerform()
     {
         StartCoroutine(caller.tester.CoolDownSocializing());
@@ -14,7 +14,7 @@ public class GetFood : Action
         return true;
     }
 
-    public override bool PrePerform(BossMelee caller,GameObject target=null)
+    public override bool PrePerform(GOAPManager caller,GameObject target=null)
     {
         caller.isAttacking=false;
         caller.isAttacking=false;

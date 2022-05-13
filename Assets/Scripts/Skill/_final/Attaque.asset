@@ -23,3 +23,4 @@ MonoBehaviour:
   statEffectValue: 2
   skillEffect: 0
   SkillDesciption: Augmente l'attaque du joueur
+  AttackDelayReduction: 0.05

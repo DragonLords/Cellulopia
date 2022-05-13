@@ -5,14 +5,14 @@ using UnityEngine.AddressableAssets;
 
 public class Idling : Action
 {
-    BossMelee caller;
+    GOAPManager caller;
     public override bool PostPerform()
     {
         return true;
     }
     Vector3 point;
     Vector3 direction;
-    public override bool PrePerform(BossMelee caller, GameObject target = null)
+    public override bool PrePerform(GOAPManager caller, GameObject target = null)
     {
         this.caller=caller;
         int rnd=Random.Range(0,GameManager.Instance.emptyTiles.Count);

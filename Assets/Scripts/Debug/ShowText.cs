@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.AddressableAssets;
 
 public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -13,6 +14,8 @@ public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoin
     [SerializeField] float speed;
     [SerializeField] float speedClick=3f;
     [SerializeField] bool needSave=false;
+    [SerializeField] bool resetSave=false;
+    [SerializeField,Tooltip("Asset de la scene à charger")] AssetReference _sceneToLoad;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,24 +28,28 @@ public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoin
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Pointer click");
         // txt.color=_clickedColor;
         StartCoroutine(ChangeColor(txt.color,_clickedColor,true));
-        SceneManager.LoadScene(3);
+        
+        if(_sceneToLoad is not null){
+            try{
+                _sceneToLoad.LoadSceneAsync(LoadSceneMode.Single,true,100);
+            }catch{
+                Debug.LogError("L'asset doit être une Scene");
+            // Debug.Log(_sceneToLoad.GetType());
+            }
+            
+        }
+        
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Pointer enter");
-        // txt.color=_hoverColor;
         StartCoroutine(ChangeColor(txt.color,_hoverColor));
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Pointer exit");
-        // txt.color=_normalColor;
-        // txt.color=Color.Lerp(txt.color,_normalColor,Mathf.PingPong(Time.time,1f));
         StartCoroutine(ChangeColor(txt.color,_normalColor));
     }
 

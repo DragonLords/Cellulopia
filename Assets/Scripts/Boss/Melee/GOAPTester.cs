@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using System.IO;
 using System.Linq;
 
-public class GOAPTester : BossMelee
+public class GOAPTester : GOAPManager
 {
     public GameObject goapActionHolder;
     public int damage=1;
@@ -81,23 +81,22 @@ public class GOAPTester : BossMelee
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
-    void Update()
-    {
-        if(Keyboard.current.f2Key.wasPressedThisFrame)
-            NewSelectionAction();
-        // if(Keyboard.current.anyKey.wasPressedThisFrame)
-        // {
-        //     actionEnum=ActionEnum.Reprod;
-        //     currentAction=objectives[(int)actionEnum].GetComponent<Action>();
-        //     Duplicate();
-        // }
-    }
+    // void Update()
+    // {
+    //     if(Keyboard.current.f2Key.wasPressedThisFrame)
+    //         NewSelectionAction();
+    //     // if(Keyboard.current.anyKey.wasPressedThisFrame)
+    //     // {
+    //     //     actionEnum=ActionEnum.Reprod;
+    //     //     currentAction=objectives[(int)actionEnum].GetComponent<Action>();
+    //     //     Duplicate();
+    //     // }
+    // }
 
     private void FixedUpdate()
     {
         // base.enemiesClose=Physics.OverlapSphere(transform.position,radiusFoodDetection,enemyLayer);
         // print(enemiesClose.Length);
-
         base.GetEnemiesClose();
     }
 
@@ -183,7 +182,7 @@ public class GOAPTester : BossMelee
     }
     void GetActions(){
         acts=goapActionHolder.GetComponentsInChildren<Action>(true);
-        Debug.Log(acts.Length);
+        // Debug.Log(acts.Length);
     }
 
     void Init()
@@ -353,45 +352,6 @@ public class GOAPTester : BossMelee
         {
             base.GiveFood(other.gameObject.GetComponent<Food>().FoodSaturation);
             Destroy(other.gameObject);
-        }
-    }
-
-    internal void CollsionEnemy(Collision other)
-    {
-        if (other != null)
-        {
-
-            if (other.gameObject.CompareTag(enemyTag))
-            {
-                // if (other.gameObject.GetComponent<GOAPTester>().isSocializing && canSocialize || this.isSocializing && canSocialize)
-                // {
-                //     if (isSocializing && canSocialize)
-                //     {
-                //         //Debug.Log("ohhh");
-                //         if (CapperEntities.CanSpawn())
-                //         {
-                //             currentAction.Duplicate(this);
-                //         }
-                //         else
-                //         {
-                //             //Debug.Log("meh");
-                //             currentAction.Achieved = true;
-                //             youTriggerMeNow++;
-                //             if (youTriggerMeNow >= 10)
-                //             {
-                //                 Destroy(gameObject);
-                //             }
-                //         }
-                //         StartCoroutine(CoolDownSocializing());
-                //     }
-                // }
-                // if (this.isAttacking)
-                // {
-                //     base.GiveFood(other.gameObject.GetComponent<GOAPTester>().foodSaturation);
-                //     //Debug.Log("EXPLOSIONS!?!");
-                // }
-                // Destroy(other.gameObject);
-            }
         }
     }
 

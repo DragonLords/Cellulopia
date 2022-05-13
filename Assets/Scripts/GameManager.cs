@@ -111,12 +111,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void SaveData(){
-        if(gameSetup == null){
-            Debug.Log("setup ios null");
-            gameSetup=new();
-        }
         player.playerStat.UnStack(gameSetup);
-
         SaveManager.SaveGame();
         Debug.Log("aaa");
     }
@@ -153,7 +148,7 @@ public class GameManager : MonoBehaviour
     {
         if(Keyboard.current.f1Key.wasPressedThisFrame){
             SaveData();
-            UnityEditor.EditorApplication.isPlaying=false;
+            // UnityEditor.EditorApplication.isPlaying=false;
         }
     }
 

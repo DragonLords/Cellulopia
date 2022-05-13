@@ -59,8 +59,10 @@ namespace Player.Rework.Danger
             GameManager refGameManager=GameManager.Instance;
             if(other.gameObject.CompareTag(foodTag)){
                 //do srtuff about food here
+                var food=other.gameObject.GetComponent<Food>();
                 Addressables.InstantiateAsync(PSEatKey,transform.position,Quaternion.identity).Completed+=DestroyAfter;
-                player.PlayerGiveFood.Invoke(other.gameObject.GetComponent<Food>().FoodSaturation);
+                player.PlayerGiveFood.Invoke(food.FoodSaturation);
+                GameManager.Instance.PlayerGiveEXP.Invoke(food.XpGiven);
                 //Debug.Log("got food");
                 player.QuestItem(other.gameObject);
                 Destroy(other.gameObject);
@@ -98,6 +100,7 @@ namespace Player.Rework.Danger
         }
 
         IEnumerator DelayAttack(){
+            player.PlayAnimEat();
             player.canAttack=false;
             yield return new WaitForSeconds(player.playerStat.DelayAttack);
             player.canAttack=true;

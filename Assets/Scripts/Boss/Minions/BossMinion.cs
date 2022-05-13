@@ -7,6 +7,7 @@ namespace Boss.Minion
 {
     public class BossMinion : MonoBehaviour
     {
+        [SerializeField] int xpGiven=50;
         internal WaitForSeconds DelayBetweenAttack=new(3f);
         [SerializeField] MinionSetting setting;
         public bool needToProtect = false;
@@ -65,7 +66,6 @@ namespace Boss.Minion
             if (life < 1)
             {
                 StartCoroutine(Death());
-                GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Killed]);
             }else{
                 GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Hit]);
             }
@@ -74,6 +74,8 @@ namespace Boss.Minion
         IEnumerator Death()
         {
             alive = false;
+            GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Killed]);
+            GameManager.Instance.PlayerGiveEXP.Invoke(xpGiven);
             agent.isStopped = true;
             agent.destination = transform.position;
             if (ps is not null)
