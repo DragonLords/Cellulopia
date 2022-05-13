@@ -6,10 +6,10 @@ using UnityEngine.InputSystem;
 using System.IO;
 using System.Linq;
 
-public class GOAPTester : GOAPManager
+public class GOAPAgent : GOAPManager
 {
     public GameObject goapActionHolder;
-    public int damage=1;
+    public int damage = 1;
     public GameObject GreatestParent;
     private int _life = 2;
     public int maxLife = 2;
@@ -26,13 +26,13 @@ public class GOAPTester : GOAPManager
     public float RangeDetectionFoodDanger = 2;
     internal int increaseDanger = 2;
     public int foodSaturation = 30;
-    internal string goapKey="Rework_EnemyHolder_3D";
-    public List<GameObject> groupMembers=new();
+    public List<GameObject> groupMembers = new();
 
-    public void BornFromDuplication(GOAPTester daddy){
+    public void BornFromDuplication(GOAPAgent daddy)
+    {
         //well just clean the list before assigningit so that way if people of a group died well forget about them
-        daddy.groupMembers.RemoveAll(item=>item==null);
-        groupMembers=new(daddy.groupMembers);
+        daddy.groupMembers.RemoveAll(item => item == null);
+        groupMembers = new(daddy.groupMembers);
     }
 
     /// <summary>
@@ -40,42 +40,24 @@ public class GOAPTester : GOAPManager
     /// </summary>
     void Start()
     {
+        GameManager.Instance.enemies.Add(GreatestParent);
         BornFromDuplication(this);
         //if its the first one of the group then add itself to the group
-        if(groupMembers.Count==0)
+        if (groupMembers.Count == 0)
             groupMembers.Add(transform.root.gameObject);
         RangeDetectionFoodDanger *= radiusFoodDetection;
         GetActions();
         // SelectAction();
-        foreach(var act in acts)
+        foreach (var act in acts)
             actions.Add(act);
-        hunger=base.Hunger;
-        tester=this;
+        hunger = base.Hunger;
+        tester = this;
         base.OnStart();
-        // Init();
         objectives[(int)actionEnum].SetActive(true);
+
+
         NewSelectionAction();
-
-
-
-
-
-        #region test
-        // acts = GetComponentsInChildren<Action>(true);
-        // foreach (var a in acts)
-        // {
-        //     actions.Add(a);
-        // }
-        // hunger = base.Hunger;
-        // tester = this;
-        // base.OnStart();
-        // if (Move)
-        //     Init();
-        // if (spawner is null)
-        //     spawner = FindObjectOfType<GoapSpawner>();
-        // StartCoroutine(ValidateDanger());
-        // StartCoroutine(ValidateTarget());
-        #endregion
+        // Init();
     }
 
     /// <summary>
@@ -101,33 +83,55 @@ public class GOAPTester : GOAPManager
     }
 
 
-    void NewSelectionAction(){
-        foreach(var objective in objectives)
+    void NewSelectionAction()
+    {
+        foreach (var objective in objectives)
             objective.SetActive(false);
         int selected = Random.Range(0, objectives.Length);
-        actionEnum=(ActionEnum)selected;
+        actionEnum = (ActionEnum)selected;
         //if we cant have an action then we do a recursive call to get one
-        if(!FinalValidationAction())
+        if (!FinalValidationAction())
             NewSelectionAction();
+        // else
+        // {
+            actionEnum=ActionEnum.Hungry;
+            selected=(int)actionEnum;
+            if (routineLoopAction is not null)
+                StopCoroutine(routineLoopAction);
+            actions.Clear();
+            goals.Clear();
+            acts = goapActionHolder.GetComponentsInChildren<Action>();
+            foreach (var a in acts)
+            {
+                actions.Add(a);
+            }
+            for (int i = 0; i < actions.Count; i++)
+            {
+                SubGoal sg = new($"obj{i}", Mathf.RoundToInt(actions[i].ActionCost), true);
+                goals.Add(sg, Mathf.RoundToInt(actions[i].ActionCost));
+            }
+            StartCoroutine(InitQueue());
+            routineLoopAction = StartCoroutine(FinalDetection());
+        // }
     }
 
-    bool canAttack=false;
-    bool FinalValidationAction(){
-        bool couldAttack=Random.Range(0, 101) < AggressivityLevel;
-        bool canReprod=Hunger>HungerCostDuplication;
-        canAttack=enemiesClose.Length>0;
+    bool canAttack = false;
+    bool FinalValidationAction()
+    {
+        bool couldAttack = Random.Range(0, 101) < AggressivityLevel;
+        bool canReprod = Hunger > HungerCostDuplication;
+        canAttack = enemiesClose.Length > 0;
 
-        if(actionEnum==ActionEnum.Attack&&!canAttack)
+        if (actionEnum == ActionEnum.Attack && !canAttack)
             return false;
-        else if(actionEnum==ActionEnum.Attack&&canAttack)
-            return true;        
-        if(canReprod&actionEnum==ActionEnum.Reprod){
-            Hunger-=HungerCostDuplication;
+        else if (actionEnum == ActionEnum.Attack && canAttack)
+            return true;
+        if (canReprod & actionEnum == ActionEnum.Reprod)
+        {
+            Hunger -= HungerCostDuplication;
             Duplicate();
             return true;
         }
-
-
         return true;
     }
     #region stuff
@@ -135,7 +139,8 @@ public class GOAPTester : GOAPManager
     //make the ultimate fallback is to be in idling
     void SelectAction()
     {
-        foreach(var objective in objectives)
+        Debug.Log("selct");
+        foreach (var objective in objectives)
             objective.SetActive(false);
         bool couldAttack = Random.Range(0, 100) < AggressivityLevel;
         int selected = Random.Range(0, objectives.Length);
@@ -180,8 +185,9 @@ public class GOAPTester : GOAPManager
 
         // actionEnum=ActionEnum.Attack;
     }
-    void GetActions(){
-        acts=goapActionHolder.GetComponentsInChildren<Action>(true);
+    void GetActions()
+    {
+        acts = goapActionHolder.GetComponentsInChildren<Action>(true);
         // Debug.Log(acts.Length);
     }
 
@@ -223,7 +229,7 @@ public class GOAPTester : GOAPManager
         actions.Clear();
         goals.Clear();
         // Debug.Log(goals.Count);
-        acts = GetComponentsInChildren<Action>();
+        acts = goapActionHolder.GetComponentsInChildren<Action>(true);
         foreach (var a in acts)
         {
             actions.Add(a);
@@ -234,6 +240,7 @@ public class GOAPTester : GOAPManager
             goals.Add(s1, 5);
             subs.Add(s1);
         }
+        Debug.LogFormat("{0},{1}", actions.Count, goals.Count);
     }
 
     bool ValidateAction(int actionSelected)
@@ -299,8 +306,6 @@ public class GOAPTester : GOAPManager
         Destroy(GreatestParent);
     }
 
-
-
     IEnumerator DetectGoalEmpty()
     {
 
@@ -355,11 +360,12 @@ public class GOAPTester : GOAPManager
         }
     }
 
-    public void Duplicate(){
-        Vector3 pos=new(Random.Range(transform.position.x-5f,transform.position.x+6f),transform.position.y,Random.Range(transform.position.z-5f,transform.position.z+6f));
-        var born=Addressables.InstantiateAsync(goapKey,pos,Quaternion.identity).WaitForCompletion();
+    public void Duplicate()
+    {
+        Vector3 pos = new(Random.Range(transform.position.x - 5f, transform.position.x + 6f), transform.position.y, Random.Range(transform.position.z - 5f, transform.position.z + 6f));
+        var born = Addressables.InstantiateAsync(AddressablePath.enemy, pos, Quaternion.identity).WaitForCompletion();
         groupMembers.Add(born.transform.root.gameObject);
-        born.GetComponentInChildren<GOAPTester>().BornFromDuplication(this);
+        born.GetComponentInChildren<GOAPAgent>().BornFromDuplication(this);
     }
 
     private void OnDrawGizmos()
@@ -384,7 +390,7 @@ public class GOAPTester : GOAPManager
                 break;
             case ActionEnum.Idling:
                 {
-                    Gizmos.color=Color.white;
+                    Gizmos.color = Color.white;
                 }
                 break;
         }
@@ -397,4 +403,4 @@ public class GOAPTester : GOAPManager
 }
 
 
-public enum ActionEnum { Hungry, Attack, Reprod,Idling }
+public enum ActionEnum { Hungry, Attack, Reprod, Idling }

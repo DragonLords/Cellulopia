@@ -97,7 +97,7 @@ public abstract class Action : MonoBehaviour
         return bestTarget.gameObject;
     }
 
-    public void Duplicate(GOAPTester tester){
+    public void Duplicate(GOAPAgent tester){
         // Debug.LogFormat("GO:{0}",this.gameObject.transform.parent.name);
         // Debug.LogFormat("GO:{0}",tester.gameObject.name);
         var other=tester.gameObject;
@@ -110,7 +110,7 @@ public abstract class Action : MonoBehaviour
         Achieved=true;
     }
 
-    Vector3 RandomPosDuplicate(GOAPTester tester)=>new(Random.Range(transform.position.x-tester.offset.x,transform.position.x+tester.offset.x),tester.transform.position.y,Random.Range(transform.position.z-tester.offset.z,transform.position.z+tester.offset.z));
+    Vector3 RandomPosDuplicate(GOAPAgent tester)=>new(Random.Range(transform.position.x-tester.offset.x,transform.position.x+tester.offset.x),tester.transform.position.y,Random.Range(transform.position.z-tester.offset.z,transform.position.z+tester.offset.z));
 
     public abstract bool PrePerform(GOAPManager caller, GameObject target = null);
     public abstract bool PostPerform();

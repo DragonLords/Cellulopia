@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HolderGOAP : MonoBehaviour
 {
-    public List<GOAPTester> goaps=new();
+    public List<GOAPAgent> goaps=new();
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +15,7 @@ public class HolderGOAP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        goaps=new(GetComponentsInChildren<GOAPTester>());
+        goaps=new(GetComponentsInChildren<GOAPAgent>());
         
     }
 }

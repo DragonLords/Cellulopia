@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GOAPCollsion : MonoBehaviour
 {
-    [SerializeField] GOAPTester tester;
+    [SerializeField] GOAPAgent tester;
     internal int foodSaturation;
 
     /// <summary>
@@ -12,7 +12,7 @@ public class GOAPCollsion : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        tester=GetComponentInParent<GOAPTester>();
+        tester=GetComponentInParent<GOAPAgent>();
         foodSaturation=tester.foodSaturation;
     }
 

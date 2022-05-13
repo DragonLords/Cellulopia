@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 
 public class GOAPManager : MonoBehaviour
 {
-    public GOAPTester tester;
+    public GOAPAgent tester;
     public NavMeshAgent agent;
     internal bool alive = false;
     public LayerMask foodLayer;
@@ -118,7 +118,9 @@ public class GOAPManager : MonoBehaviour
                         StartCoroutine(tester.Death());
                     }
                 }
-            }   
+            }else{
+                await Task.Yield();
+            } 
         } while (alive);
     }
 
@@ -180,8 +182,8 @@ public class GOAPManager : MonoBehaviour
                     if(currentAction.target==null)
                         break;
                     agent.SetDestination(currentAction.target.transform.position);
-                    yield return null;
-                // yield return new WaitUntil(() => agent.remainingDistance < 1f||currentAction.Achieved);
+                    // yield return null;
+                    yield return new WaitUntil(() => agent.remainingDistance < 1f||currentAction.Achieved||currentAction.target==null);
                 } while (agent.remainingDistance>1f||!currentAction.Achieved);
             }
         }
@@ -230,6 +232,7 @@ public class GOAPManager : MonoBehaviour
             if (actionQueue is null)
             {
                 Debug.Log("Queue is null");
+                
             }
             else
             {

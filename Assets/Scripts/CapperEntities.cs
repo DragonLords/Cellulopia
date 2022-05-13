@@ -7,7 +7,7 @@ using UnityEngine;
 public static class CapperEntities
 {
 
-    public static List<GOAPTester> allEn=new();
+    public static List<GOAPAgent> allEn=new();
 
     public static void Start(){
         MaintainTheCap().ConfigureAwait(false);
@@ -16,7 +16,7 @@ public static class CapperEntities
     static async Task MaintainTheCap(){
         do
         {
-            allEn=new(GameObject.FindObjectsOfType<GOAPTester>());
+            allEn=new(GameObject.FindObjectsOfType<GOAPAgent>());
             await Task.Yield();
         } while (Application.isPlaying);
     }

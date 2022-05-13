@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public bool Paused = false;
+    public bool ForcePause = false;
     [SerializeField] Player.Rework.Player player;
     #region Upgrade Player event
     public Player.Rework.Events.EventsPlayer.PlayerUpgradeStats AddStats = new();
@@ -41,9 +42,9 @@ public class GameManager : MonoBehaviour
     public Player.Rework.Events.EventsPlayer.PlayerTakeDamage PlayerTakeDamage = new();
     public Player.Rework.Events.EventsPlayer.PlayerGiveEXP PlayerGiveEXP = new();
     public Player.Rework.Events.EventsPlayer.PlayerRemoveQuest PlayerRemoveQuest = new();
-    public bool PlayerControlShowed=false;
-    public WaitForSeconds delayShowControl=new(5f);
-    public Player.Rework.Events.EventsPlayer.PlayerShowControl PlayerShowControl=new();
+    public bool PlayerControlShowed = false;
+    public WaitForSeconds delayShowControl = new(5f);
+    public Player.Rework.Events.EventsPlayer.PlayerShowControl PlayerShowControl = new();
     #endregion
     public GameObject enemy;
     [SerializeField] GameObject portal;
@@ -54,10 +55,10 @@ public class GameManager : MonoBehaviour
     public int[,] map;
     public EntitiesPlacer entitiesPlacer;
     string bossKey = "Boss";
-    [SerializeField] Vector2 offsetSpawnPos=new(10f,10f);
+    [SerializeField] Vector2 offsetSpawnPos = new(10f, 10f);
     string dir;
     string savePath;
-    public GameSetup gameSetup=new();
+    public GameSetup gameSetup = new();
 
     #region Sound
     [Header("Sound")]
@@ -66,9 +67,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip _eatSound;
     [SerializeField] private AudioClip _gainLevelSound;
     [SerializeField] private AudioClip _killedSound;
-    internal Dictionary<SoundType,AudioClip> soundStock=new();
+    internal Dictionary<SoundType, AudioClip> soundStock = new();
     #endregion
-
+    public int limitEnemies = 50;
     private void Awake()
     {
 
@@ -84,61 +85,12 @@ public class GameManager : MonoBehaviour
         LoadSave();
     }
 
-    private void PlayModeStateChanged(PlayModeStateChange obj)
+
+    // Start is called before the first frame update
+    void Start()
     {
-        switch(obj){
-            case UnityEditor.PlayModeStateChange.ExitingPlayMode:{
-                SaveData();
-                Debug.Log("exitingh");
-            }break;
-        }
-    }
-
-    internal async Task ResetSave(){
-        //make a new save here
-        //so dleete and reset value
-        //or just recreate a new class
-        gameSetup=new(); 
-        string json=JsonConvert.SerializeObject(gameSetup,Formatting.Indented);
-        await File.WriteAllTextAsync(savePath,json);
-        Debug.Log("text written");
-    }
-    
-    void LoadSave(){
-        gameSetup=SaveManager.LoadSave();
-        player.playerStat.Stack(gameSetup);
-        Debug.Log(gameSetup);
-    }
-
-    public void SaveData(){
-        player.playerStat.UnStack(gameSetup);
-        SaveManager.SaveGame();
-        Debug.Log("aaa");
-    }
-
-    void CheckIfSaveExist(){
-        if(!File.Exists(savePath)){
-            Debug.Log("Doesnt exist");
-            Directory.CreateDirectory(dir);
-            File.Create(savePath);
-        }
-        Debug.Log("found");
-    }
-
-    IEnumerator WaitToShowControl(){
-        yield return new WaitForSeconds(5);
-        if(!gameSetup.PlayerHasMoved)
-            PlayerShowControl.Invoke();
-    }
-
-    internal List<string> GetPlayerStat(Player.Skill.SkillTemplate.StatEffect statEffect){
-        List<string> value=new();
-        switch(statEffect){
-            case Player.Skill.SkillTemplate.StatEffect.Attack:value.Add($"{player.playerStat.DamageValue}");break;
-            case Player.Skill.SkillTemplate.StatEffect.vitesse:value.Add($"{player.playerStat.MoveSpeed}");break;
-            case Player.Skill.SkillTemplate.StatEffect.Life:value.Add($"{player.playerStat.Life}");value.Add($"{player.playerStat.MaxLife}");break;
-        }
-        return value;
+        if (!gameSetup.PlayerHasMoved)
+            StartCoroutine(WaitToShowControl());
     }
 
     /// <summary>
@@ -146,18 +98,73 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if(Keyboard.current.f1Key.wasPressedThisFrame){
+        if (Keyboard.current.f1Key.wasPressedThisFrame)
+        {
             SaveData();
             // UnityEditor.EditorApplication.isPlaying=false;
         }
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && !ForcePause)
+            PauseGame();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    #region Save
+    internal async Task ResetSave()
     {
-        if(!gameSetup.PlayerHasMoved)
-            StartCoroutine(WaitToShowControl());
+        //make a new save here
+        //so dleete and reset value
+        //or just recreate a new class
+        gameSetup = new();
+        string json = JsonConvert.SerializeObject(gameSetup, Formatting.Indented);
+        await File.WriteAllTextAsync(savePath, json);
+        // Debug.Log("text written");
     }
+
+    void LoadSave()
+    {
+        gameSetup = SaveManager.LoadSave();
+        player.playerStat.Stack(gameSetup);
+        // Debug.Log(gameSetup);
+    }
+
+    public void SaveData()
+    {
+        player.playerStat.UnStack(SaveManager.setup);
+        SaveManager.SaveGame();
+        // Debug.Log("aaa");
+    }
+
+    void CheckIfSaveExist()
+    {
+        if (!File.Exists(savePath))
+        {
+            // Debug.Log("Doesnt exist");
+            Directory.CreateDirectory(dir);
+            File.Create(savePath);
+        }
+        // Debug.Log("found");
+    }
+    #endregion
+
+    IEnumerator WaitToShowControl()
+    {
+        yield return new WaitForSeconds(5);
+        if (!player.playerStat.hasMove)
+            PlayerShowControl.Invoke();
+    }
+
+    internal List<string> GetPlayerStat(Player.Skill.SkillTemplate.StatEffect statEffect)
+    {
+        List<string> value = new();
+        switch (statEffect)
+        {
+            case Player.Skill.SkillTemplate.StatEffect.Attack: value.Add($"{player.playerStat.DamageValue}"); value.Add($"{player.playerStat.DelayAttack}"); break;
+            case Player.Skill.SkillTemplate.StatEffect.vitesse: value.Add($"{player.playerStat.MoveSpeed}"); break;
+            case Player.Skill.SkillTemplate.StatEffect.Life: value.Add($"{player.playerStat.Life}"); value.Add($"{player.playerStat.MaxLife}"); break;
+        }
+        return value;
+    }
+
+    
 
 
 
@@ -177,30 +184,17 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-
-    #region Sauvegarde
-    public void InitialiserSauvegarde()
-    {
-
-    }
-
-    public void Sauvegarder()
-    {
-
-    }
-    #endregion
-
     #region Portal
     public void SpawnPortal()
     {
         int rnd = UnityEngine.Random.Range(0, gen.emptyTiles.Count);
         var p = Addressables.InstantiateAsync(portalKey, new(gen.emptyTiles[rnd].x, 1, gen.emptyTiles[rnd].y), Quaternion.identity);
         // var p=Instantiate(portal,new(gen.emptyTiles[rnd].x,1,gen.emptyTiles[rnd].y),Quaternion.identity);
-        Debug.LogFormat("Portal spawned at {0}:{1}", gen.emptyTiles[rnd][0], gen.emptyTiles[rnd][1]);
+        // Debug.LogFormat("Portal spawned at {0}:{1}", gen.emptyTiles[rnd][0], gen.emptyTiles[rnd][1]);
     }
     #endregion
 
-    public void PauseGame()
+    public void PauseGame(bool forcingPause = false)
     {
         if (!Paused)
         {
@@ -212,7 +206,19 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             Paused = !Paused;
         }
+        if (forcingPause)
+        {
+            Time.timeScale = 0;
+            Paused = true;
+            ForcePause = true;
+        }
+        else
+        {
+            ForcePause = false;
+        }
     }
+
+
 
     #region Enemies
     public void StartCheckEnemy()
@@ -282,13 +288,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     internal void SpawnNewBoss()
     {
-        Vector3 posPlayer=player.transform.position;
-        float rngX=UnityEngine.Random.Range(posPlayer.x-offsetSpawnPos.x,posPlayer.x+offsetSpawnPos.x+1);
-        float rngZ=UnityEngine.Random.Range(posPlayer.z-offsetSpawnPos.y,posPlayer.z+offsetSpawnPos.y+1);
-        Vector3 posToSpawn=new(rngX,posPlayer.y,rngZ);
-        if(VerifiyIfInBounds(posToSpawn)){
-            var boss=Addressables.InstantiateAsync(bossKey,posToSpawn,Quaternion.identity);
-        }else{
+        Vector3 posPlayer = player.transform.position;
+        float rngX = UnityEngine.Random.Range(posPlayer.x - offsetSpawnPos.x, posPlayer.x + offsetSpawnPos.x + 1);
+        float rngZ = UnityEngine.Random.Range(posPlayer.z - offsetSpawnPos.y, posPlayer.z + offsetSpawnPos.y + 1);
+        Vector3 posToSpawn = new(rngX, posPlayer.y, rngZ);
+        if (VerifiyIfInBounds(posToSpawn))
+        {
+            var boss = Addressables.InstantiateAsync(bossKey, posToSpawn, Quaternion.identity);
+        }
+        else
+        {
             SpawnNewBoss();
         }
     }
@@ -298,18 +307,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="posToVerify"></param>
     /// <returns></returns>
-    bool VerifiyIfInBounds(Vector3 posToVerify){
-        Vector2Int pos=new(Mathf.RoundToInt(posToVerify.x),Mathf.RoundToInt(posToVerify.z));
-        if(emptyTiles.Contains(pos))
+    bool VerifiyIfInBounds(Vector3 posToVerify)
+    {
+        Vector2Int pos = new(Mathf.RoundToInt(posToVerify.x), Mathf.RoundToInt(posToVerify.z));
+        if (emptyTiles.Contains(pos))
             return true;
-        else 
+        else
             return false;
     }
     #endregion
 
     #region sim
-    void Born(){
-        FindObjectOfType<GOAPTester>().Duplicate();
+    void Born()
+    {
+        FindObjectOfType<GOAPAgent>().Duplicate();
     }
     #endregion
 
@@ -323,19 +334,25 @@ public class GameManager : MonoBehaviour
     }
 
     #region Sound
-    private void FillStockSound(){
-        soundStock.Add(SoundType.Eat,_eatSound);
-        soundStock.Add(SoundType.LevelUp,_gainLevelSound);
-        soundStock.Add(SoundType.Hit,_hittedSound);
-        soundStock.Add(SoundType.Killed,_killedSound);
+    private void FillStockSound()
+    {
+        soundStock.Add(SoundType.Eat, _eatSound);
+        soundStock.Add(SoundType.LevelUp, _gainLevelSound);
+        soundStock.Add(SoundType.Hit, _hittedSound);
+        soundStock.Add(SoundType.Killed, _killedSound);
     }
-    public void PlaySoundClip(AudioClip clip){
+    public void PlaySoundClip(AudioClip clip)
+    {
         _source.PlayOneShot(clip);
     }
     #endregion
 
-    internal class SoundEvents : UnityEvent<AudioClip>{}
+    #region Enemy
+    public bool CanSpawnNewEnemy() => true;
+    #endregion
+
+    internal class SoundEvents : UnityEvent<AudioClip> { }
 }
-internal enum SoundType{Eat,LevelUp,Hit,Killed}
+internal enum SoundType { Eat, LevelUp, Hit, Killed }
 
 internal enum AccesMat { Sol, Mur };

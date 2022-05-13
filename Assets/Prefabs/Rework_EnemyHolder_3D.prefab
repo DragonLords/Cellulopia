@@ -642,10 +642,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5356448924375796927}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cc00eac78c012f4a9aee8528a73cfe1, type: 3}
+  m_Script: {fileID: 11500000, guid: 35b6ff72e74f5ca4396cbc30e9a27c69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tester: {fileID: 0}
+  tester: {fileID: 795752169}
   agent: {fileID: 5133186151989874622}
   foodLayer:
     serializedVersion: 2
@@ -660,7 +660,7 @@ MonoBehaviour:
   _delayTickHunger: 1
   _aggressivityLevel: 0
   actions: []
-  currentAction: {fileID: 2669511016117513236}
+  currentAction: {fileID: 0}
   currentSubGoal:
     remove: 0
   acts: []
@@ -1069,17 +1069,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
---- !u!114 &2669511016117513236 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2669511015885689056, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}
-  m_PrefabInstance: {fileID: 242679028}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2669511016117513238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7848fe47b5c48b6428edc2a732395730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2669511016117513237 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2669511015885689057, guid: 8714257dc4b06384ebb7c046d45ea74f, type: 3}

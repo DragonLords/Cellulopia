@@ -16,8 +16,6 @@ public class GoapSpawner : MonoBehaviour
     HolderGOAP goapHolder;
     [SerializeField] Transform holderFood;
     // string keyGOAP="EnemyHolder_3D";
-    string keyGOAP="Rework_EnemyHolder_3D";
-    string keyFood="Food3D";
     public List<GameObject> enemies=new();
     public List<GameObject> foods=new();
     public int numberToSpawnOnStartEnemies=10;
@@ -32,7 +30,7 @@ public class GoapSpawner : MonoBehaviour
         {
             enemies.RemoveAll(item=>item==null);
             if(enemies.Count<_maxEnemyInLevel){
-                var go=Addressables.InstantiateAsync(keyGOAP,RandomPosFinal(),Quaternion.identity,goapHolder.transform);
+                var go=Addressables.InstantiateAsync(AddressablePath.Food,RandomPosFinal(),Quaternion.identity,goapHolder.transform);
                 // Instantiate(prefabs,RandomPos(),Quaternion.identity,goapHolder.transform);
                 enemies.Add(go.WaitForCompletion());
             }
@@ -45,7 +43,7 @@ public class GoapSpawner : MonoBehaviour
         {
             foods.RemoveAll(item=>item==null);
             if(foods.Count<_maxFoodsInLevel){
-                var go=Addressables.InstantiateAsync(keyFood,RandomPosFinal(),Quaternion.identity,holderFood);
+                var go=Addressables.InstantiateAsync(AddressablePath.Food,RandomPosFinal(),Quaternion.identity,holderFood);
                 foods.Add(go.WaitForCompletion());
             }
             yield return wsFood;
@@ -89,7 +87,7 @@ public class GoapSpawner : MonoBehaviour
     void SpawnOnStartEn(){
         for (int i = 0; i < numberToSpawnOnStartEnemies; i++)
         {
-            var go=Addressables.InstantiateAsync(keyGOAP,RandomPosFinal(),Quaternion.identity,goapHolder.transform);
+            var go=Addressables.InstantiateAsync(AddressablePath.enemy,RandomPosFinal(),Quaternion.identity,goapHolder.transform);
             enemies.Add(go.WaitForCompletion());
         }
         GameManager.Instance.enemies=new(enemies);
@@ -98,7 +96,7 @@ public class GoapSpawner : MonoBehaviour
     void SpawnOnStartFood(){
         for (int i = 0; i < numberToSpawnOnStartFoods; i++)
         {
-            var go=Addressables.InstantiateAsync(keyFood,RandomPosFinal(),Quaternion.identity,holderFood);
+            var go=Addressables.InstantiateAsync(AddressablePath.Food,RandomPosFinal(),Quaternion.identity,holderFood);
             foods.Add(go.WaitForCompletion());
             go.WaitForCompletion();
             go.Result.transform.rotation = new(-90f, 0, 0,0);
@@ -107,7 +105,7 @@ public class GoapSpawner : MonoBehaviour
     }
 
     public void SpawnNewEnemy(){
-        var go=Addressables.InstantiateAsync(keyGOAP,RandomPosFinal(),Quaternion.identity,goapHolder.transform);
+        var go=Addressables.InstantiateAsync(AddressablePath.enemy,RandomPosFinal(),Quaternion.identity,goapHolder.transform);
         enemies.Add(go.WaitForCompletion());
         GameManager.Instance.enemies.Add(go.WaitForCompletion());
     }

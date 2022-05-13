@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class GoapDanger : MonoBehaviour
 {
-    GOAPTester tester;
+    GOAPAgent tester;
     // Start is called before the first frame update
     void Start()
     {
-        tester=GetComponentInParent<GOAPTester>();
+        tester=GetComponentInParent<GOAPAgent>();
     }
 
     /// <summary>

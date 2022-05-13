@@ -111,7 +111,7 @@ namespace Player.Rework
             InitEvent();
             InitializeValue();
             GetEvolutionGrade(0);
-            Debug.Log(EvolutionPoints);
+            // Debug.Log(EvolutionPoints);
         }
 
         private void InitEvent()
@@ -202,8 +202,8 @@ namespace Player.Rework
             SkillPoint -= skillTemplate.skillCost;
             playerStat.SkillPoint=SkillPoint;
             _textPoint.text = SkillPoint>1?($"{SkillPoint} Points"):($"{SkillPoint} Point");
-            Debug.Log($"{EvolutionPoints},{levelSettings.levelRequirement[level]}");
-            
+            // Debug.Log($"{EvolutionPoints},{levelSettings.levelRequirement[level]}");
+            GameManager.Instance.SaveData();
             // ChangeSpeed(skillTemplate.statEffectValue);
         }
 
@@ -423,18 +423,13 @@ namespace Player.Rework
                 _rb.velocity=Vector3.zero;
                 _rb.isKinematic=true;
             }
-
-            // if (Keyboard.current.escapeKey.wasPressedThisFrame)
-            // {
-            //     GameManager.Instance.PauseGame();
-            // }
         }
 
         void MoveCharacter()
         {
             if (moveInput != Vector2.zero)
             {
-                GameManager.Instance.gameSetup.PlayerHasMoved=true;
+                playerStat.hasMove=true;
                 // Debug.Log("if");
                 _speed = _moveSpeed;
                 force = new((mousePosWorld[0] - transform.position[0]) * _speed, 0f, (mousePosWorld[2] - transform.position[2]) * _speed);
@@ -484,9 +479,10 @@ namespace Player.Rework
             StartCoroutine(ShowingControl());
             IEnumerator ShowingControl(){
                 mouseAnim.SetActive(true);
+                StartCoroutine(mouseAnim.GetComponent<Mouse_anim>().Start());
                 do
                 {
-                    Debug.Log("move the fuck up");
+                    // Debug.Log("move the fuck up");
                     yield return null;
                 } while (moveInput==Vector2.zero);
                 mouseAnim.SetActive(false);
