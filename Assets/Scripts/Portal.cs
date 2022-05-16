@@ -14,6 +14,6 @@ public class Portal : MonoBehaviour
 
 
     public void TriggerBossFight(){
-        SceneManager.LoadScene(2,LoadSceneMode.Single);
+        throw new System.NotImplementedException("will nedd to make the boss appear here");
     }
 }

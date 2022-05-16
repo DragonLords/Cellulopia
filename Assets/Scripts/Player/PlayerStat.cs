@@ -17,6 +17,7 @@ public class PlayerStat : ScriptableObject
     public float Life=100f;
     public float MaxLife=100f;
     public bool hasMove=false;
+    public MapSize WorldSize;
 
     public void Stack(GameSetup setup){
         Level=setup.PlayerLevel;
@@ -29,6 +30,7 @@ public class PlayerStat : ScriptableObject
         Life=setup.PlayerLife;
         MaxLife=setup.PlayerMaxLife;
         hasMove=setup.PlayerHasMoved;
+        WorldSize=setup.worldSize;
     }
 
     public void UnStack(GameSetup setup){
@@ -42,5 +44,6 @@ public class PlayerStat : ScriptableObject
         setup.PlayerLife=Life;
         setup.PlayerMaxLife=MaxLife;
         setup.PlayerHasMoved=hasMove;
+        setup.worldSize=WorldSize;       
     }
 }

@@ -26,16 +26,26 @@ namespace Generator
         [Range(0, 10)] public int polissageCarte = 1;
         public bool forceMur = true;
         public List<Vector2Int> emptyTiles = new();
-
+        public bool HasMap=false;
         public void Start()
         {
-            RemplirCarte();
-            Generate3DMap();
+            if(HasMap){
+                LoadMap();
+            }else{
+                dimension=MapDimension.Instance.mapDimension;
+                RemplirCarte();
+                Generate3DMap();
+            }
             var player=FindObjectOfType<Player.Rework.Player>();
             GameManager.Instance.emptyTiles=new(emptyTiles);
             GameManager.Instance.map=carte;
             //place player
             // FindObjectOfType<EntitiesPlacer>().OnStart();
+        }
+
+        private void LoadMap()
+        {
+            throw new System.NotImplementedException();
         }
 
         int[,] RemplirCarte()
@@ -152,26 +162,13 @@ namespace Generator
                         cube.GetComponent<Renderer>().material=materials[1];
                         cube.name=$"Wall_{x}_{z}";
                         cube.tag=mapTag;
+                        WorldData wd=new(x,0,z,TileType.Fill);
+                        SaveManager.setup.worldData.Add(wd);
                     }
                     //generate the ground
                     else
                     {
-                        // GameObject go=new("new");
-                        // go.transform.SetParent(empty.transform);
-                        // var render=go.AddComponent<MeshRenderer>();
-                        // var filter=go.AddComponent<MeshFilter>();
-                        // var mesh=new Mesh{name="dsfhsd"};
-                        // mesh.vertices=TriangleGen();
-                        // mesh.triangles=new int[]{0,1,2,3,4,5};
-                        // filter.mesh=mesh;
-                        // var coll=go.AddComponent<MeshCollider>();
-                        // coll.sharedMesh=mesh;
-                        // render.material=materials[0];
-                        // go.transform.position=new(x,0f,z);
-
-                            GameObject quad=GameObject.CreatePrimitive(PrimitiveType.Cube);
-
-                        // GameObject quad=Instantiate(Quad,new(x,0,z),Quaternion.identity);
+                        GameObject quad=GameObject.CreatePrimitive(PrimitiveType.Cube);
                         quad.transform.position=new(x,0,z);
                         quad.transform.parent = this.empty.transform;
                         quad.transform.rotation=new(-90f,0f,0f,0f);
@@ -180,6 +177,8 @@ namespace Generator
                         quad.layer=empty.layer;
                         quad.name=$"Ground_{x}_{z}";
                         quad.tag=mapTag;
+                        WorldData wd=new(x,0,z,TileType.Empty);
+                        SaveManager.setup.worldData.Add(wd);
                     }
                     // carte[x,z]==1?
                 }

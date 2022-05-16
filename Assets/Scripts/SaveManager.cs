@@ -17,6 +17,7 @@ public static class SaveManager
         JsonConvert.DeserializeObject<GameSetup>(File.ReadAllText(pathFile));
 
     public static void SaveGame(){
+        // setup.map=GameManager.Instance.mapData;
         string json=JsonConvert.SerializeObject(setup,Formatting.Indented);
         File.WriteAllText(pathFile,json);
     }

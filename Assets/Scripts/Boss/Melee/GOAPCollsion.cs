@@ -6,7 +6,7 @@ public class GOAPCollsion : MonoBehaviour
 {
     [SerializeField] GOAPAgent tester;
     internal int foodSaturation;
-
+    internal string tagParent;
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -14,6 +14,7 @@ public class GOAPCollsion : MonoBehaviour
     {
         tester=GetComponentInParent<GOAPAgent>();
         foodSaturation=tester.foodSaturation;
+        tagParent=transform.root.tag;
     }
 
     public bool TakeDamage(int value){

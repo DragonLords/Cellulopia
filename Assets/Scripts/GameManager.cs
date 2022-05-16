@@ -12,7 +12,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using Newtonsoft.Json;
+using Newtonsoft;
 using UnityEditor;
+using Newtonsoft.Json.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -85,7 +87,6 @@ public class GameManager : MonoBehaviour
         LoadSave();
     }
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -130,7 +131,7 @@ public class GameManager : MonoBehaviour
     {
         player.playerStat.UnStack(SaveManager.setup);
         SaveManager.SaveGame();
-        // Debug.Log("aaa");
+        Debug.Log("<color=cyan>Game Saved!</color>");
     }
 
     void CheckIfSaveExist()

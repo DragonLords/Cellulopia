@@ -64,7 +64,7 @@ namespace Player.Rework.Danger
                 player.PlayerGiveFood.Invoke(food.FoodSaturation);
                 GameManager.Instance.PlayerGiveEXP.Invoke(food.XpGiven);
                 //Debug.Log("got food");
-                player.QuestItem(other.gameObject);
+                player.QuestItem(other.gameObject,food.tagParent);
                 Destroy(other.gameObject);
                 //play sound of eating food
                 refGameManager.PlaySoundClip(refGameManager.soundStock[SoundType.Eat]);
@@ -73,11 +73,10 @@ namespace Player.Rework.Danger
                 Debug.Log("Enemy");
                 var enemy=other.gameObject.GetComponent<GOAPCollsion>();
                 if(!enemy.TakeDamage(player.DamageValue)){
-                    player.QuestItem(other.gameObject);
+                    player.QuestItem(other.gameObject,enemy.tagParent);
                     player.PlayerGiveFood.Invoke(enemy.foodSaturation);
                     refGameManager.PlaySoundClip(refGameManager.soundStock[SoundType.Killed]);
                 }else{
-                    //we didnt kill the enemy
                     refGameManager.PlaySoundClip(refGameManager.soundStock[SoundType.Hit]);
                 }
             }else if(other.gameObject.CompareTag(player.portalTag)){
@@ -130,18 +129,4 @@ namespace Player.Rework.Danger
             Gizmos.color=Color.magenta;
         }
     }
-
-#if UNITY_EDITOR
-
-    [CustomEditor(typeof(PlayerDanger))]
-    class PlayerDangerEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            PlayerDanger danger= (PlayerDanger)target;
-
-            base.OnInspectorGUI();
-        }
-    }
-#endif
 }

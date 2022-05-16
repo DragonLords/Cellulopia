@@ -1,9 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.AddressableAssets;
+using Newtonsoft.Json;
+using System.IO;
+using System.Text;
 
 public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -15,7 +19,10 @@ public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoin
     [SerializeField] float speedClick=3f;
     [SerializeField] bool needSave=false;
     [SerializeField] bool resetSave=false;
+    [SerializeField] bool quit=false;
+    [SerializeField] bool test=false;
     [SerializeField,Tooltip("Asset de la scene à charger")] AssetReference _sceneToLoad;
+    Coroutine routineAnim=null;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,28 +36,43 @@ public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoin
     public void OnPointerClick(PointerEventData eventData)
     {
         // txt.color=_clickedColor;
-        StartCoroutine(ChangeColor(txt.color,_clickedColor,true));
-        
-        if(_sceneToLoad is not null){
-            try{
-                _sceneToLoad.LoadSceneAsync(LoadSceneMode.Single,true,100);
-            }catch{
-                Debug.LogError("L'asset doit être une Scene");
-            // Debug.Log(_sceneToLoad.GetType());
-            }
-            
+        if(routineAnim!=null){
+            StopCoroutine(routineAnim);
+            routineAnim=null;
         }
-        
+        routineAnim=StartCoroutine(ChangeColor(txt.color,_clickedColor,true));
+        if(quit){
+            Application.Quit();
+        }
+        else if(test){
+            LoaderScene.Instance.SetSceneToLoad(AddressablePath.testLoad);
+        }
+        else if(resetSave){
+            SaveManager.ResetSave();
+            LoaderScene.Instance.SetSceneToLoad(AddressablePath.GameScene);
+        }else{
+            LoaderScene.Instance.SetSceneToLoad(AddressablePath.GameScene);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        StartCoroutine(ChangeColor(txt.color,_hoverColor));
+        if(routineAnim!=null){
+            StopCoroutine(routineAnim);
+            routineAnim=null;
+        }
+        routineAnim=StartCoroutine(ChangeColor(txt.color,_hoverColor));
+        // Debug.Log("enter");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        StartCoroutine(ChangeColor(txt.color,_normalColor));
+        if(routineAnim!=null){
+            StopCoroutine(routineAnim);
+            routineAnim=null;
+        }
+        routineAnim=StartCoroutine(ChangeColor(txt.color,_normalColor));
+        // Debug.Log("exit");
     }
 
     IEnumerator ChangeColor(Color start,Color target,bool cliked=false){
@@ -65,10 +87,41 @@ public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoin
             txt.color=finalColor;
             yield return null;
         } while (txt.color!=target);
+        routineAnim=null;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         
     }
+
+
+    public static Dictionary<string,int> bob=new(){
+        {"Bob",21783},{"shguidf",23487234},{"edioufgsdgu",234863245},{"dfjhdsf",382463246}
+    };
+    void Init(){
+        string path=$"{Application.dataPath}/Data/Test.json";
+        using(FileStream fs=new(path,FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.ReadWrite)){
+            Data data=new(bob:bob);
+            string json=JsonConvert.SerializeObject(data,Formatting.Indented);
+            Debug.Log(json);
+            byte[] bytes=new UTF8Encoding(true).GetBytes(json);
+            fs.Write(bytes);
+            fs.Close();
+        }
+    }
 }
+
+internal static class Test{
+    public static void Init(){
+        
+    }
+}
+public class Data{
+    public Dictionary<string,int> bob;
+
+    public Data(Dictionary<string,int> bob)
+    {
+        this.bob=bob;
+    }
+} 

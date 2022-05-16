@@ -17,9 +17,10 @@ MonoBehaviour:
   QuestName: Manger 2 ennemies
   nameRun: Eat Enemy
   QuestDescription: Manger 2 ennemies
-  objectToCollect: {fileID: 2978920762297125082, guid: 8f09a356463f9a64a98e506e05c7bc98, type: 3}
+  objectToCollect: {fileID: 5133186151989874620, guid: e06dbf65260b125499535e8f9059c8bf, type: 3}
   xpReward: 500
   numberToCollect: 2
   numberCollected: 0
+  _imageObjectToCollect: {fileID: 0}
   IsSkillQuest: 0
   PortalQuest: 0

@@ -43,8 +43,9 @@ public class GoapSpawner : MonoBehaviour
         {
             foods.RemoveAll(item=>item==null);
             if(foods.Count<_maxFoodsInLevel){
-                var go=Addressables.InstantiateAsync(AddressablePath.Food,RandomPosFinal(),Quaternion.identity,holderFood);
+                var go=Addressables.InstantiateAsync(AddressablePath.Food,RandomPosFinal(),Quaternion.identity);
                 foods.Add(go.WaitForCompletion());
+                go.Result.transform.SetParent(holderFood);
             }
             yield return wsFood;
         } while (true);
@@ -87,8 +88,9 @@ public class GoapSpawner : MonoBehaviour
     void SpawnOnStartEn(){
         for (int i = 0; i < numberToSpawnOnStartEnemies; i++)
         {
-            var go=Addressables.InstantiateAsync(AddressablePath.enemy,RandomPosFinal(),Quaternion.identity,goapHolder.transform);
+            var go=Addressables.InstantiateAsync(AddressablePath.enemy,RandomPosFinal(),Quaternion.identity);
             enemies.Add(go.WaitForCompletion());
+            go.Result.transform.SetParent(goapHolder.transform);
         }
         GameManager.Instance.enemies=new(enemies);
         enemies.RemoveAll(item=>item==null);
@@ -96,18 +98,20 @@ public class GoapSpawner : MonoBehaviour
     void SpawnOnStartFood(){
         for (int i = 0; i < numberToSpawnOnStartFoods; i++)
         {
-            var go=Addressables.InstantiateAsync(AddressablePath.Food,RandomPosFinal(),Quaternion.identity,holderFood);
+            var go=Addressables.InstantiateAsync(AddressablePath.Food,RandomPosFinal(),Quaternion.identity);
             foods.Add(go.WaitForCompletion());
             go.WaitForCompletion();
             go.Result.transform.rotation = new(-90f, 0, 0,0);
+            go.Result.transform.SetParent(holderFood);
         }
         foods.RemoveAll(item=>item==null);
     }
 
     public void SpawnNewEnemy(){
-        var go=Addressables.InstantiateAsync(AddressablePath.enemy,RandomPosFinal(),Quaternion.identity,goapHolder.transform);
+        var go=Addressables.InstantiateAsync(AddressablePath.enemy,RandomPosFinal(),Quaternion.identity);
         enemies.Add(go.WaitForCompletion());
         GameManager.Instance.enemies.Add(go.WaitForCompletion());
+        go.Result.transform.SetParent(goapHolder.transform);
     }
 
     void InitPos(){

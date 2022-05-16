@@ -27,7 +27,6 @@ public class GOAPAgent : GOAPManager
     internal int increaseDanger = 2;
     public int foodSaturation = 30;
     public List<GameObject> groupMembers = new();
-
     public void BornFromDuplication(GOAPAgent daddy)
     {
         //well just clean the list before assigningit so that way if people of a group died well forget about them
@@ -42,6 +41,7 @@ public class GOAPAgent : GOAPManager
     {
         GameManager.Instance.enemies.Add(GreatestParent);
         BornFromDuplication(this);
+        SelectAction();
         //if its the first one of the group then add itself to the group
         if (groupMembers.Count == 0)
             groupMembers.Add(transform.root.gameObject);
@@ -55,9 +55,8 @@ public class GOAPAgent : GOAPManager
         base.OnStart();
         objectives[(int)actionEnum].SetActive(true);
 
-
-        NewSelectionAction();
-        // Init();
+        // NewSelectionAction();
+        Init();
     }
 
     /// <summary>
@@ -139,9 +138,9 @@ public class GOAPAgent : GOAPManager
     //make the ultimate fallback is to be in idling
     void SelectAction()
     {
-        Debug.Log("selct");
-        foreach (var objective in objectives)
-            objective.SetActive(false);
+        // Debug.Log("selct");
+        // foreach (var objective in objectives)
+        //     objective.SetActive(false);
         bool couldAttack = Random.Range(0, 100) < AggressivityLevel;
         int selected = Random.Range(0, objectives.Length);
         ValidateAction(selected);
@@ -240,7 +239,7 @@ public class GOAPAgent : GOAPManager
             goals.Add(s1, 5);
             subs.Add(s1);
         }
-        Debug.LogFormat("{0},{1}", actions.Count, goals.Count);
+        // Debug.LogFormat("{0},{1}", actions.Count, goals.Count);
     }
 
     bool ValidateAction(int actionSelected)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -216,7 +217,7 @@ namespace Player.Rework
         void UpgradeAttack(int value,float reduction)
         {
             DamageValue += value;
-            playerStat.DelayAttack-=reduction;
+            playerStat.DelayAttack+=reduction;
             playerStat.DamageValue=DamageValue;
         }
 
@@ -291,29 +292,12 @@ namespace Player.Rework
             hasQuest = true;
         }
 
-        internal void QuestItem(GameObject objCollected)
+        internal void QuestItem(GameObject objCollected,string tag)
         {
-
-            // foreach(var quest in questActive){
-            //     Debug.LogFormat("tag target:{0} quest:{2} n:{1}",objCollected.tag,questActive.Count,quest.objectToCollect.tag);
-            //     if(quest.objectToCollect.CompareTag(objCollected.tag)){
-            //         quest.NumberCollected++;
-            //     }
-            //     else 
-            //         continue;
-            // }
-
-            // for (int i = 0; i < questActive.Count; i++)
-            // {
-            //     if(questActive[i].objectToCollect.CompareTag(objCollected.tag)){
-            //         questActive[i].NumberCollected++;
-            //     }
-            //     else 
-            //         continue;
-            // }
             if (!activeQuest.IsSkillQuest)
             {
-                if (activeQuest.objectToCollect.CompareTag(objCollected.tag))
+                // Debug.LogFormat("target:{0} coll:{1}",activeQuest.objectToCollect.transform.root.name,nameObj);
+                if (activeQuest.objectToCollect.CompareTag(tag))
                 {
                     ++activeQuest.NumberCollected;
                 }
@@ -335,14 +319,6 @@ namespace Player.Rework
             {
                 GameManager.Instance.SpawnPortal();
             }
-            else
-            {
-                // Debug.Log("All quest finished");
-                ///spawn portal to boss here
-                //GameManager.Instance.SpawnPortal();
-            }
-            // hasQuest=questActive.Count>0;
-            // Debug.LogFormat("{0} completed", quest.QuestName);
         }
 
         internal void SkillQuest()
@@ -491,6 +467,8 @@ namespace Player.Rework
         }
 
         public void PlayAnimEat(){
+            if(playerStat.DelayAttack==0)
+                return;
             _anim.SetFloat(eatingSpeedParam,CalculateMultiplier(playerStat.DelayAttack));
             _anim.SetTrigger(_eatAnimID);
         }

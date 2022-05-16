@@ -15,7 +15,7 @@ public class ButtonHandler : MonoBehaviour
     public Button button;
     public Player.Skill.SkillTemplate skill;
     public SkillTreeHandler skillTreeHandler;
-
+    [SerializeField] Player.Rework.Player player;
     public void Init(int value,Button button){
         text.text=skill.skillName;
         this.button=button;
@@ -42,12 +42,31 @@ public class ButtonHandler : MonoBehaviour
         for (int i = 0; i < strings.Count; i++)
         {
             textOldStats[i].text = strings[i];
-            int newStat = 0;
+            float newStat = 0;
             var r = Regex.Match(strings[i], @"\d+").Value;
-            if (System.Int32.TryParse(r, out newStat))
+            if (float.TryParse(r, out newStat))
             {
-                newStat = newStat + skill.statEffectValue;
-                textNewStats[i].text = $"{newStat}";
+                Debug.Log(newStat);
+                if(skill.statEffect==Player.Skill.SkillTemplate.StatEffect.Attack&&i==1){
+                    newStat=player.playerStat.DelayAttack+skill.AttackDelayReduction;
+                    //on clamp le nombre pourne pas afficher un nombre en negatif et la raison du 10 est toute simple assez elever pour ne pas empecher de bloquer le nombre max sans pour autant etre abusurdement elever
+                    newStat=Mathf.Clamp(newStat,0,10f);
+                }else{
+                    newStat = newStat + skill.statEffectValue;
+                }
+                string newStatStringify;
+                bool isInt=newStat==(int)newStat;
+                //verifie sil y a des decimal
+                // if(!(newStat%1==0)){
+                if(!(isInt)){
+                    //sil y en a pas alors on larrondie en int (evite les nombre a virgule .00f)
+                    newStatStringify=newStat.ToString("n2");
+                    textNewStats[i].text = $"{newStatStringify}";
+                }else{
+                    //sinon on garde son nombre a virgule avec 2 decimal (nb.01f)
+
+                    textNewStats[i].text = $"{newStat}";
+                }
             }
         }
     }

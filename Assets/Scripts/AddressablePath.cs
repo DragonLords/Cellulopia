@@ -16,9 +16,11 @@ public static class AddressablePath
     public static string Boss="Boss";
     public static string Minion="Minion";
     #region Scene
-    public static string introScene="Itro_scene";
+    public static string introScene="Intro_scene";
     public static string GameScene="Game_scene";
     public static string BossScene="Boss_scene";
+    public static string LoadingScene="Loading_Screen";
+    public static string testLoad="LOad_mpa";
     #endregion
     #region Animation
     public static string PlayerEat="eat_anim_player";

@@ -139,7 +139,7 @@ public class GOAPManager : MonoBehaviour
             if(transform.root!=item.transform.root){
                 if(!tester.groupMembers.Contains(transform.root.gameObject)){
                     colliders.Add(item);
-                    Debug.LogFormat("<color=orange>Conatins:{0}</color>",tester.groupMembers.Contains(transform.root.gameObject));
+                    // Debug.LogFormat("<color=orange>Conatins:{0}</color>",tester.groupMembers.Contains(transform.root.gameObject));
                 }
             }
                 
@@ -176,6 +176,7 @@ public class GOAPManager : MonoBehaviour
         // Debug.LogFormat("target found:{0}",currentAction.PrePerform(this));
         if (currentAction.PrePerform(this))
         {
+            Debug.Log("aaaaaaaa");
             if(currentAction.target != null){
                 do
                 {
@@ -187,7 +188,7 @@ public class GOAPManager : MonoBehaviour
                 } while (agent.remainingDistance>1f||!currentAction.Achieved);
             }
         }
-        Debug.LogFormat("finished the action {0}",currentAction.actionName);
+        // Debug.LogFormat("finished the action {0}",currentAction.actionName);
         // UnityEditor.EditorApplication.isPaused=true;
         doingAction = false;
         yield return StartCoroutine(ActionFinished());
@@ -202,11 +203,11 @@ public class GOAPManager : MonoBehaviour
             actions.Remove(currentAction);
             // currentAction.PostPerform();
             goals.Remove(currentSubGoal);
-            Debug.Log("removed");
+            // Debug.Log("removed");
         }
         if (actionQueue.Count == 0)
         {
-            Debug.Log("need new queue");
+            // Debug.Log("need new queue");
             // StartCoroutine(tester.Redo());
             StartCoroutine(RedoIntern());
         }
@@ -231,12 +232,12 @@ public class GOAPManager : MonoBehaviour
             }
             if (actionQueue is null)
             {
-                Debug.Log("Queue is null");
+                // Debug.Log("Queue is null");
                 
             }
             else
             {
-                Debug.Log(actionQueue.Count);
+                // Debug.Log(actionQueue.Count);
             }
         }
         
@@ -264,11 +265,11 @@ public class GOAPManager : MonoBehaviour
                 }
                 if (actionQueue is null)
                 {
-                    Debug.Log("Queue is null");
+                    // Debug.Log("Queue is null");
                 }
                 else
                 {
-                    Debug.Log(actionQueue.Count);
+                    // Debug.Log(actionQueue.Count);
                 }
             }
 
