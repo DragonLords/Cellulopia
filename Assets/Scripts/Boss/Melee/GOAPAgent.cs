@@ -14,24 +14,28 @@ public class GOAPAgent : GOAPManager
     private int _life = 2;
     public int maxLife = 2;
     public int Life { get => _life; set { _life = Mathf.Clamp(value, 0, maxLife); } }
-    [SerializeField] bool Move = true;
     [TagSelector, SerializeField] internal string foodTag;
     [TagSelector, SerializeField] internal string enemyTag;
-    public int hunger;
+    [TagSelector, SerializeField] internal string playerTag;
+    [SerializeField] internal LayerMask dangerLayer;
+    [SerializeField] internal float radiusDanger = 10f;
     List<SubGoal> subs = new();
     public Vector3 offset = new(1, 1, 1);
     WaitForSeconds wsSocial = new(10);
     public ActionEnum actionEnum;
     public bool ohFuck = false;
-    public float RangeDetectionFoodDanger = 2;
     internal int increaseDanger = 2;
     public int foodSaturation = 30;
     public List<GameObject> groupMembers = new();
+    public GoapContainer container;
+    public int IncreaseOfAggresivityInDanger=2;
     public void BornFromDuplication(GOAPAgent daddy)
     {
         //well just clean the list before assigningit so that way if people of a group died well forget about them
         daddy.groupMembers.RemoveAll(item => item == null);
         groupMembers = new(daddy.groupMembers);
+        container.groupType = daddy.container.groupType;
+        GOAPGroupManager.AddToSpecificGroup(container.groupType, container);
     }
 
     /// <summary>
@@ -39,24 +43,72 @@ public class GOAPAgent : GOAPManager
     /// </summary>
     void Start()
     {
-        GameManager.Instance.enemies.Add(GreatestParent);
-        BornFromDuplication(this);
-        SelectAction();
+        if (container == null)
+            container = GetComponentInParent<GoapContainer>();
         //if its the first one of the group then add itself to the group
         if (groupMembers.Count == 0)
             groupMembers.Add(transform.root.gameObject);
-        RangeDetectionFoodDanger *= radiusFoodDetection;
-        GetActions();
-        // SelectAction();
-        foreach (var act in acts)
-            actions.Add(act);
-        hunger = base.Hunger;
-        tester = this;
-        base.OnStart();
-        objectives[(int)actionEnum].SetActive(true);
 
-        // NewSelectionAction();
-        Init();
+        StartCoroutine(StartDoingAction());
+        StartCoroutine(DetectDangerClose());
+    }
+
+    IEnumerator DetectDangerClose()
+    {
+        do
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radius: radiusDanger, dangerLayer);
+            ArrayList alreadyVerified = new();
+            foreach (Collider collider in colliders)
+            {
+                if (collider.gameObject.CompareTag(playerTag)&&!alreadyVerified.Contains(collider.transform.root))
+                {
+                    AggressivityLevel+=IncreaseOfAggresivityInDanger;
+                    alreadyVerified.Add(collider.transform.root);
+                }
+                else if (collider.gameObject.CompareTag(enemyTag))
+                {
+                    var cont=collider.gameObject.GetComponentInParent<GoapContainer>();
+                    if(!alreadyVerified.Contains(cont)){
+                        AggressivityLevel+=IncreaseOfAggresivityInDanger;
+                        alreadyVerified.Add(cont);
+                    }
+                }
+            }
+            yield return new WaitForSeconds(.5f);
+        } while (alive);
+    }
+
+
+    internal IEnumerator StartDoingAction()
+    {
+        yield return StartCoroutine(NewSelectionAction());
+        acts = goapActionHolder.GetComponentsInChildren<Action>();
+        foreach (var item in acts)
+        {
+            actions.Add(item);
+        }
+        base.OnStart();
+        for (int i = 0; i < actions.Count; i++)
+        {
+            SubGoal sg = new($"obj{i}", Mathf.RoundToInt(actions[i].ActionCost), true);
+            goals.Add(sg, Mathf.RoundToInt(actions[i].ActionCost));
+        }
+        Debug.LogFormat("sg:{0}", goals.Count);
+        yield return StartCoroutine(InitQueue());
+        yield return StartCoroutine(StartAction());
+    }
+
+    private IEnumerator TestAction()
+    {
+        actionEnum = ActionEnum.Hungry;
+        int selected = (int)actionEnum;
+        foreach (var item in objectives)
+        {
+            item.SetActive(false);
+        }
+        yield return new WaitForSeconds(1.7f);
+        objectives[selected].SetActive(true);
     }
 
     /// <summary>
@@ -82,36 +134,31 @@ public class GOAPAgent : GOAPManager
     }
 
 
-    void NewSelectionAction()
+    IEnumerator NewSelectionAction()
     {
-        foreach (var objective in objectives)
-            objective.SetActive(false);
-        int selected = Random.Range(0, objectives.Length);
-        actionEnum = (ActionEnum)selected;
-        //if we cant have an action then we do a recursive call to get one
-        if (!FinalValidationAction())
-            NewSelectionAction();
-        // else
-        // {
-            actionEnum=ActionEnum.Hungry;
-            selected=(int)actionEnum;
-            if (routineLoopAction is not null)
-                StopCoroutine(routineLoopAction);
-            actions.Clear();
-            goals.Clear();
-            acts = goapActionHolder.GetComponentsInChildren<Action>();
-            foreach (var a in acts)
+        bool couldAttack = Random.Range(0, 101) < AggressivityLevel;
+        int selected = 0;
+        if (isHungry)
+        {
+            if (couldAttack)
             {
-                actions.Add(a);
+                actionEnum = ActionEnum.Attack;
+                selected = (int)actionEnum;
             }
-            for (int i = 0; i < actions.Count; i++)
+            else
             {
-                SubGoal sg = new($"obj{i}", Mathf.RoundToInt(actions[i].ActionCost), true);
-                goals.Add(sg, Mathf.RoundToInt(actions[i].ActionCost));
+                actionEnum = ActionEnum.Hungry;
+                selected = (int)actionEnum;
             }
-            StartCoroutine(InitQueue());
-            routineLoopAction = StartCoroutine(FinalDetection());
-        // }
+        }
+
+
+        foreach (var item in objectives)
+        {
+            item.SetActive(false);
+        }
+        yield return new WaitForSeconds(1.7f);
+        objectives[selected].SetActive(true);
     }
 
     bool canAttack = false;
@@ -186,7 +233,7 @@ public class GOAPAgent : GOAPManager
     }
     void GetActions()
     {
-        acts = goapActionHolder.GetComponentsInChildren<Action>(true);
+        acts = goapActionHolder.GetComponentsInChildren<Action>();
         // Debug.Log(acts.Length);
     }
 
@@ -228,7 +275,7 @@ public class GOAPAgent : GOAPManager
         actions.Clear();
         goals.Clear();
         // Debug.Log(goals.Count);
-        acts = goapActionHolder.GetComponentsInChildren<Action>(true);
+        acts = goapActionHolder.GetComponentsInChildren<Action>();
         foreach (var a in acts)
         {
             actions.Add(a);
@@ -363,7 +410,8 @@ public class GOAPAgent : GOAPManager
     {
         Vector3 pos = new(Random.Range(transform.position.x - 5f, transform.position.x + 6f), transform.position.y, Random.Range(transform.position.z - 5f, transform.position.z + 6f));
         var born = Addressables.InstantiateAsync(AddressablePath.enemy, pos, Quaternion.identity).WaitForCompletion();
-        groupMembers.Add(born.transform.root.gameObject);
+        groupMembers.Add(born.gameObject);
+
         born.GetComponentInChildren<GOAPAgent>().BornFromDuplication(this);
     }
 
@@ -396,10 +444,19 @@ public class GOAPAgent : GOAPManager
         Gizmos.DrawWireSphere(transform.position, 3);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawRay(new(transform.position, transform.forward * 500));
+        // Gizmos.DrawRay(new(transform.position, transform.forward * 500));
+        Gizmos.DrawWireSphere(transform.position, radiusFoodDetection);
+
+        Gizmos.color = new(255, 0, 155);
+        Gizmos.DrawWireSphere(transform.position, radiusDanger);
     }
     #endregion
 }
-
+public enum GroupType
+{
+    A,
+    B,
+    C
+}
 
 public enum ActionEnum { Hungry, Attack, Reprod, Idling }

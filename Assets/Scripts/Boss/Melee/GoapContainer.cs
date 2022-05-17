@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GoapContainer : MonoBehaviour
 {
+    public GroupType groupType;
     // Start is called before the first frame update
     void Start()
     {

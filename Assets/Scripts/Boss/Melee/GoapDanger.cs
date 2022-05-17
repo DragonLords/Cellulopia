@@ -20,11 +20,17 @@ public class GoapDanger : MonoBehaviour
     {
         if(other.gameObject==null)
             return;
-        if(other.gameObject.CompareTag(tester.enemyTag)){
+        if(other.gameObject.CompareTag(tester.enemyTag)&&tester.isAttacking){
             if(other.gameObject.TryGetComponent(out GOAPCollsion coll)){
                 coll.TakeDamage(tester.damage);
                 // other.gameObject.GetComponent<GOAPCollsion>().TakeDamage(tester.damage);
             }
+        }else if(other.gameObject.CompareTag(tester.playerTag)&&tester.isAttacking){
+            if(other.gameObject.TryGetComponent(out Player.Rework.PlayerCollision coll)){
+                coll.TakeDamage(tester.damage);
+            }
+        }else if(other.gameObject.CompareTag(tester.foodTag)){
+            tester.CollisionFood(other);
         }
     }
 }

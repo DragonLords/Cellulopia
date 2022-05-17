@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 969607146}
   m_Layer: 7
   m_Name: Cube
-  m_TagString: Minion
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -298,9 +298,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2885801352581762988}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Empty
-  m_TagString: Ennemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -594,6 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca635cab3e05e5429561dc9c2640cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groupType: 0
 --- !u!1 &5356448924375796927
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,6 +675,7 @@ MonoBehaviour:
   isSocializing: 0
   isAttacking: 0
   canSocialize: 1
+  active: 0
   goapActionHolder: {fileID: 4882768145171261192}
   damage: 1
   GreatestParent: {fileID: 5133186151989874620}
@@ -681,6 +683,11 @@ MonoBehaviour:
   Move: 1
   foodTag: Nourriture
   enemyTag: Ennemy
+  playerTag: Player
+  dangerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  radiusDanger: 10
   hunger: 0
   offset: {x: 1, y: 1, z: 1}
   actionEnum: 0
@@ -688,6 +695,7 @@ MonoBehaviour:
   RangeDetectionFoodDanger: 2
   foodSaturation: 30
   groupMembers: []
+  container: {fileID: 0}
 --- !u!1 &5555444914122015626
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,7 +820,7 @@ GameObject:
   - component: {fileID: 5904120160416253315}
   - component: {fileID: 723960668}
   - component: {fileID: 723960669}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Danger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -982,7 +990,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8276669709132836390}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Empty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1183,11 +1191,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.43000004
+      value: 0.4300001
       objectReference: {fileID: 0}
     - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.43000004
+      value: 0.4300001
       objectReference: {fileID: 0}
     - target: {fileID: 8066341439948161846, guid: 51a05e9c9f5ba4349999360138588b23, type: 3}
       propertyPath: m_LocalPosition.x

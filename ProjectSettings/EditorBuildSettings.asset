@@ -5,18 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/_Beta/Intro.unity
     guid: 9aa2f555ad1b7874eb7efd95aa583118
-  - enabled: 0
-    path: Assets/Scenes/_Beta/Game_3D_Final.unity
-    guid: 41e25b0afec81f9468c7b15ef3d7746b
-  - enabled: 0
-    path: Assets/Scenes/_Beta/Boss.unity
-    guid: e18dfb0bdbc28a940a1bede1090d0f4b
-  - enabled: 1
-    path: Assets/Scenes/PhotoShoot.unity
-    guid: 11976ad9148cf4b47869d5a4a230a9f8
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: ad5ee14561a3f694387af7adecd4e246, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 73bf306ba692de241adbcd4c11c855cf, type: 2}

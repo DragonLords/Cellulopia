@@ -8,8 +8,6 @@ public class GetFood : Action
     GOAPManager caller;
     public override bool PostPerform()
     {
-        StartCoroutine(caller.tester.CoolDownSocializing());
-        StartCoroutine(caller.ActionFinished());
         // Destroy(this.gameObject);
         return true;
     }
@@ -23,9 +21,20 @@ public class GetFood : Action
         var potentials=Physics.OverlapSphere(caller.transform.position,caller.radiusFoodDetection,caller.foodLayer);
         bool found=potentials.Length>0;
         if(found){
-            base.target=potentials.First().gameObject;
+            float dst=float.MaxValue;
+            int selected=0;
+            for(int i=0;i<potentials.Length;++i){
+                float distance=Vector3.Distance(caller.transform.position,potentials[i].transform.position);
+                if(distance<dst){
+                    selected=i;
+                    dst=distance;
+                }
+            }
+            base.target=potentials[selected].gameObject;
             target=base.target;
         }
+        //FIXME: make the target beeing the closest one
+        Debug.Log(potentials.Length);
         // Debug.LogFormat("found:{0} target:{1}",found,base.target);
         // return true;
         return found;

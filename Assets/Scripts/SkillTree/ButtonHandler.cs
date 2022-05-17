@@ -46,7 +46,7 @@ public class ButtonHandler : MonoBehaviour
             var r = Regex.Match(strings[i], @"\d+").Value;
             if (float.TryParse(r, out newStat))
             {
-                Debug.Log(newStat);
+                // Debug.Log(newStat);
                 if(skill.statEffect==Player.Skill.SkillTemplate.StatEffect.Attack&&i==1){
                     newStat=player.playerStat.DelayAttack+skill.AttackDelayReduction;
                     //on clamp le nombre pourne pas afficher un nombre en negatif et la raison du 10 est toute simple assez elever pour ne pas empecher de bloquer le nombre max sans pour autant etre abusurdement elever

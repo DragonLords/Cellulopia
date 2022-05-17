@@ -8,7 +8,6 @@ public class GoapSpawner : MonoBehaviour
 {
     [SerializeField] int _maxEnemyInLevel=3;
     [SerializeField] int _maxFoodsInLevel=20;
-    [SerializeField] GameObject prefabs;
     [SerializeField] GameObject plane;
     [SerializeField] WaitForSeconds ws=new(5);
     [SerializeField] WaitForSeconds wsFood=new(3);
@@ -24,7 +23,7 @@ public class GoapSpawner : MonoBehaviour
     public bool spawnFood=true;
     public bool SpawnEnemy = false;
     public Generator.Gen3D gen;
-
+    public Transform[] GOAPGroupHolder;
     IEnumerator Spawn(){
         do
         {
@@ -58,6 +57,9 @@ public class GoapSpawner : MonoBehaviour
             gen=FindObjectOfType<Generator.Gen3D>();
         CapperEntities.Start();
         goapHolder=FindObjectOfType<HolderGOAP>();
+
+        GOAPGroupManager.CreateGroups();
+
         if (SpawnEnemy)
         {
             SpawnOnStartEn();
@@ -90,7 +92,10 @@ public class GoapSpawner : MonoBehaviour
         {
             var go=Addressables.InstantiateAsync(AddressablePath.enemy,RandomPosFinal(),Quaternion.identity);
             enemies.Add(go.WaitForCompletion());
-            go.Result.transform.SetParent(goapHolder.transform);
+            GoapContainer container=go.WaitForCompletion().GetComponent<GoapContainer>();
+            container.groupType=GOAPGroupManager.AddToRandomGroup(container);
+
+            // go.Result.transform.SetParent(goapHolder.transform);
         }
         GameManager.Instance.enemies=new(enemies);
         enemies.RemoveAll(item=>item==null);
@@ -111,7 +116,9 @@ public class GoapSpawner : MonoBehaviour
         var go=Addressables.InstantiateAsync(AddressablePath.enemy,RandomPosFinal(),Quaternion.identity);
         enemies.Add(go.WaitForCompletion());
         GameManager.Instance.enemies.Add(go.WaitForCompletion());
-        go.Result.transform.SetParent(goapHolder.transform);
+        GoapContainer container=go.WaitForCompletion().GetComponent<GoapContainer>();
+        container.groupType=GOAPGroupManager.AddToRandomGroup(container);
+        // go.Result.transform.SetParent(goapHolder.transform);
     }
 
     void InitPos(){
@@ -125,4 +132,5 @@ public class GoapSpawner : MonoBehaviour
         return new(gen.emptyTiles[rnd].x,1f,gen.emptyTiles[rnd].y);
     }
 
+    int GetIndexGroupType(GameObject goap)=>(int)goap.GetComponent<GoapContainer>().groupType;
 }

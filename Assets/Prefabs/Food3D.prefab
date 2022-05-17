@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodSaturation: 15
+  XpGiven: 5
 --- !u!1 &8538595785919922663
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +124,7 @@ GameObject:
   - component: {fileID: 8538595785919922659}
   - component: {fileID: 7619291265642036121}
   - component: {fileID: 5950102160006735515}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Food3D
   m_TagString: Nourriture
   m_Icon: {fileID: 0}
@@ -159,6 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodSaturation: 15
+  XpGiven: 5
 --- !u!65 &5950102160006735515
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class Food : MonoBehaviour
     void Awake()
     {
         tagParent=transform.root.tag;
-        Debug.Log(tagParent);
+        // Debug.Log(tagParent);
     }
 
 }

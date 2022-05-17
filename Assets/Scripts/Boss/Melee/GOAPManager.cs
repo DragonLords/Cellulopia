@@ -4,15 +4,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
-using Enemy;
-using TMPro;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
-using Microsoft.Win32.SafeHandles;
-using System.Runtime.InteropServices;
+
 
 public class GOAPManager : MonoBehaviour
 {
@@ -180,12 +173,11 @@ public class GOAPManager : MonoBehaviour
             if(currentAction.target != null){
                 do
                 {
-                    if(currentAction.target==null)
-                        break;
                     agent.SetDestination(currentAction.target.transform.position);
                     // yield return null;
                     yield return new WaitUntil(() => agent.remainingDistance < 1f||currentAction.Achieved||currentAction.target==null);
-                } while (agent.remainingDistance>1f||!currentAction.Achieved);
+                } while (agent.remainingDistance>1f&&!currentAction.Achieved);
+                Debug.Log("exit");
             }
         }
         // Debug.LogFormat("finished the action {0}",currentAction.actionName);
@@ -232,17 +224,70 @@ public class GOAPManager : MonoBehaviour
             }
             if (actionQueue is null)
             {
-                // Debug.Log("Queue is null");
+                Debug.Log("Queue is null");
                 
             }
             else
             {
-                // Debug.Log(actionQueue.Count);
+                Debug.Log(actionQueue.Count);
             }
         }
         
         yield return null;
     }
+
+    internal IEnumerator StartAction(){
+        do
+        {
+            if(actionQueue.Count>0){
+                yield return StartCoroutine(DoActionRework());
+                yield return new WaitWhile(() => doingAction == true);
+            }
+            yield return null;
+        } while (alive);
+    }
+
+    private IEnumerator DoActionRework()
+    {
+        agent.isStopped=true;
+        doingAction=true;
+        currentAction=actionQueue.Dequeue();
+        agent.isStopped=false;
+        if(tester.actionEnum==ActionEnum.Reprod){
+            //TODO: uncomment here when finished
+            tester.Duplicate();
+        }else{
+            if(currentAction.PrePerform(this)){
+                do
+                {
+                    agent.SetDestination(currentAction.target.transform.position);
+                    yield return new WaitUntil(()=>agent.remainingDistance<1f||currentAction.Achieved||currentAction.target==null||!tester.alive);
+                } while (currentAction.target!=null&&agent.remainingDistance>1f&&!currentAction.Achieved&&tester.alive);
+            }
+        }
+        // Debug.LogFormat("Can do action:{0}",currentAction.PrePerform(this));
+        yield return null;
+        doingAction=false;
+        currentAction.PostPerform();
+        yield return StartCoroutine(ActionFinishedRework());
+    }
+
+    IEnumerator ActionFinishedRework(){
+        yield return null;
+        if(currentAction != null){
+            actions.Remove(currentAction);
+            goals.Remove(currentSubGoal);
+            tester.acts=null;
+            currentAction=null;
+        }
+        if(actionQueue.Count==0){
+            Debug.Log("All action in queue completed will need to restart the loop");
+            planner=null;
+            yield return StartCoroutine(tester.StartDoingAction());
+        }
+    }
+
+
 
     internal IEnumerator FinalDetection()
     {
@@ -441,298 +486,3 @@ public class GOAPManager : MonoBehaviour
     }
 }
 public enum Goal { Eat, Attack, Flee, Social }
-
-
-
-[System.Serializable]
-public class SubGoal
-{
-    public Dictionary<string, int> subGoals;
-    public bool remove;
-
-    public SubGoal(string key, int value, bool remove)
-    {
-        this.subGoals = new();
-        this.subGoals.Add(key, value);
-        this.remove = remove;
-    }
-}
-
-[System.Serializable]
-public class ActionResult
-{
-    public bool result;
-}
-
-[System.Serializable]
-public class Node
-{
-    public Node parent;
-    public float cost;
-    public Dictionary<string, int> state;
-    public Action action;
-
-    public Node(Node parent, float cost, Dictionary<string, int> state, Action action)
-    {
-        this.parent = parent;
-        this.cost = cost;
-        this.state = new(state);
-        this.action = action;
-    }
-}
-
-[System.Serializable]
-public class Planner
-// : System.IDisposable
-{
-    // System.Runtime.InteropServices.SafeHandle _safeHandle = new SafeFileHandle(System.IntPtr.Zero, true);
-    // private bool disposedValue;
-    public Queue<Action> plan(List<Action> actions, Dictionary<string, int> goal, WorldStates states)
-    {
-        List<Action> usableActions = new();
-        foreach (var action in actions)
-        {
-            if (action.IsAchievable())
-            {
-                usableActions.Add(action);
-            }
-        }
-        List<Node> leaves = new();
-        Node start = new(null, 0, World.Instance.GetWorld().GetStates(), null);
-        bool success = BuildGraph(start, leaves, usableActions, goal);
-        if (!success)
-        {
-            // Debug.LogFormat("node:{0} cost:{1} value:{2} action:{3}", start.parent, start.cost, start.state.First().Value, start.action);
-            // Debug.Log("<color=red>No Plan!</color>");
-            return null;
-        }
-        Node cheapest = null;
-        foreach (Node leaf in leaves)
-        {
-            if (cheapest is null)
-            {
-                cheapest = leaf;
-            }
-            else
-            {
-                if (leaf.cost < cheapest.cost)
-                {
-                    cheapest = leaf;
-                }
-            }
-        }
-        List<Action> result = new();
-        Node n = cheapest;
-        while (n != null)
-        {
-            if (n.action != null)
-            {
-                result.Insert(0, n.action);
-            }
-            n = n.parent;
-        }
-        Queue<Action> queue = new();
-        foreach (var action in actions)
-        {
-            queue.Enqueue(action);
-        }
-        // Debug.Log("the plan is: ");
-        foreach (var item in queue)
-        {
-            // Debug.Log("Q "+item.actionName);
-        }
-        return queue;
-    }
-
-    private bool BuildGraph(Node start, List<Node> leaves, List<Action> usableActions, Dictionary<string, int> goal)
-    {
-        // Debug.LogFormat("leaves:{0} actions:{1} goals:{2}",leaves.Count,usableActions.Count,goal.Count);
-        bool foundPath = false;
-        if(!foundPath){
-            foreach (var action in usableActions)
-            {
-                if (action.IsAchievableGiven(start.state))
-                {
-                    // Debug.LogFormat("achgiv:{0}",action.IsAchievableGiven(start.state));
-                    Dictionary<string, int> currentState = new(start.state);
-                    // Debug.LogFormat("curr state:{0} ___effects:{1}___",currentState.Count,action.effects.Count);
-                    foreach (var kvp in action.effects)
-                    {
-                        if (!currentState.ContainsKey(kvp.Key))
-                            currentState.Add(kvp.Key, kvp.Value);
-                    }
-                    Node node = new(start, start.cost + action.ActionCost, currentState, action);
-
-                    // Debug.LogFormat("<color=pink>goal:{0} curr:{1} </color>",goal.First().Value,currentState.First().Value);
-
-                    if (GoalAchieved(goal, currentState))
-                    {
-                        // Debug.Log("here");
-                        leaves.Add(node);
-                        foundPath = true;
-                    }
-                    else
-                    {
-                        List<Action> subset = ActionSubset(usableActions, action);
-                        // Debug.LogFormat("subset:{0}",subset.Count);
-                        //create a recusive call to find the final plan
-                        bool found = BuildGraph(node, leaves, subset, goal);
-                        // Debug.LogFormat("found:{0}",found);
-                        if (found)
-                        {
-                            foundPath = true;
-                            // Debug.Log("it will be true");
-                        }
-                    }
-                }
-                // Debug.LogFormat("found Path:{0}",foundPath);
-            }
-        }
-        return foundPath;
-        // return true;
-    }
-
-    //will not add the action to the next subset
-    private List<Action> ActionSubset(List<Action> usableActions, Action action)
-    {
-        List<Action> subset = new();
-        foreach (var item in usableActions)
-        {
-            if (!item.Equals(action))
-            {
-                subset.Add(item);
-            }
-        }
-        return subset;
-    }
-
-    private bool GoalAchieved(Dictionary<string, int> goal, Dictionary<string, int> currentState)
-    {
-        foreach (var kvp in goal)
-        {
-            if (currentState.ContainsKey(kvp.Key))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    #region Dispose
-    // protected virtual void Dispose(bool disposing)
-    // {
-    //     if (!disposedValue)
-    //     {
-    //         if (disposing)
-    //         {
-    //             // TODO: supprimer l'état managé (objets managés)
-    // Debug.Log("dispose started");
-    //             _safeHandle.Dispose();
-    //         }
-
-    //         // TODO: libérer les ressources non managées (objets non managés) et substituer le finaliseur
-    //         // TODO: affecter aux grands champs une valeur null
-    //         disposedValue = true;
-    // Debug.Log("disposing");
-    //     }
-    // }
-
-    // // // TODO: substituer le finaliseur uniquement si 'Dispose(bool disposing)' a du code pour libérer les ressources non managées
-    // ~Planner()
-    // {
-    //     // Ne changez pas ce code. Placez le code de nettoyage dans la méthode 'Dispose(bool disposing)'
-    // Debug.Log("disposed");
-    //     Dispose(disposing: false);
-    // }
-
-    // public void Dispose()
-    // {
-    //     // Ne changez pas ce code. Placez le code de nettoyage dans la méthode 'Dispose(bool disposing)'
-    //     Dispose(disposing: true);
-    //     System.GC.SuppressFinalize(this);
-    // }
-    #endregion
-}
-
-[System.Serializable]
-public class WorldState
-{
-    public string Key;
-    public int Value;
-}
-
-[System.Serializable]
-public class WorldStates
-{
-    public Dictionary<string, int> states;
-
-    public WorldStates()
-    {
-        this.states = new();
-    }
-
-    public bool HasState(string Key)
-    {
-        return states.ContainsKey(Key);
-    }
-
-    void AddStates(string key, int value)
-    {
-        states.Add(key, value);
-    }
-
-    public void ModifyState(string key, int value)
-    {
-        if (HasState(key))
-        {
-            states[key] += value;
-        }
-        else
-        {
-            AddStates(key, value);
-        }
-    }
-
-    public void RemoveState(string key)
-    {
-        if (HasState(key))
-        {
-            states.Remove(key);
-        }
-    }
-
-    public void SetState(string key, int value)
-    {
-        if (HasState(key))
-        {
-            states[key] += value;
-            if (states[key] <= 0)
-                RemoveState(key);
-        }
-        else
-        {
-            AddStates(key, value);
-        }
-    }
-
-    public Dictionary<string, int> GetStates() => states;
-}
-
-public sealed class World
-{
-    private static readonly World instance = new();
-    private static WorldStates world;
-    static World()
-    {
-        world = new();
-    }
-
-    private World()
-    {
-
-    }
-
-    public static World Instance { get => instance; }
-
-    public WorldStates GetWorld() => world;
-}
