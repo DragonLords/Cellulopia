@@ -831,7 +831,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428501821}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 30.5, z: 0.9147272}
+  m_LocalPosition: {x: 0, y: 30.5, z: 0.91472733}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2900,6 +2900,7 @@ MonoBehaviour:
   button: {fileID: 4540759353021183381}
   skill: {fileID: 11400000, guid: e5861cf516d15ad4580ec1d43c9611b0, type: 2}
   skillTreeHandler: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &512955024676430499
 GameObject:
   m_ObjectHideFlags: 0
@@ -4622,7 +4623,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4304855287519580307}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 30.5, z: 0.9147272}
+  m_LocalPosition: {x: 0, y: 30.5, z: 0.91472733}
   m_LocalScale: {x: 0.54995435, y: 0.43004566, z: 0.55}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4659,7 +4660,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7774799, y: 1}
+    m_SensorSize: {x: 1.778607, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4770,6 +4771,7 @@ MonoBehaviour:
   button: {fileID: 4540759352357196602}
   skill: {fileID: 11400000, guid: a27ec2bf0db8cef4aa0861fd509714fc, type: 2}
   skillTreeHandler: {fileID: 0}
+  player: {fileID: 0}
 --- !u!114 &1906502497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5089,7 +5091,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4540759352111626920}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.28202, y: 3.7570312, z: 1.3624}
   m_ConstrainProportionsScale: 0
@@ -5101,7 +5103,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 618, y: -504.5}
+  m_AnchoredPosition: {x: 617.9999, y: -504.50012}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4540759352111626922
@@ -5615,6 +5617,7 @@ MonoBehaviour:
   button: {fileID: 4540759352357196602}
   skill: {fileID: 11400000, guid: a27ec2bf0db8cef4aa0861fd509714fc, type: 2}
   skillTreeHandler: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &4540759352370287386
 GameObject:
   m_ObjectHideFlags: 0
@@ -6292,6 +6295,7 @@ MonoBehaviour:
   button: {fileID: 4540759353021183381}
   skill: {fileID: 11400000, guid: e5861cf516d15ad4580ec1d43c9611b0, type: 2}
   skillTreeHandler: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &4540759353088775321
 GameObject:
   m_ObjectHideFlags: 0
@@ -6569,6 +6573,7 @@ MonoBehaviour:
   button: {fileID: 4540759353141859030}
   skill: {fileID: 11400000, guid: 7fc71594f8f545a4c84517b5a01b28bb, type: 2}
   skillTreeHandler: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &4540759353151335927
 GameObject:
   m_ObjectHideFlags: 0
@@ -7883,6 +7888,7 @@ MonoBehaviour:
   button: {fileID: 4540759353141859030}
   skill: {fileID: 11400000, guid: 7fc71594f8f545a4c84517b5a01b28bb, type: 2}
   skillTreeHandler: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &8662132541346958804
 GameObject:
   m_ObjectHideFlags: 0

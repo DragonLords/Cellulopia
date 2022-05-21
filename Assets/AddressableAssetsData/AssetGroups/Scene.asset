@@ -29,6 +29,10 @@ MonoBehaviour:
     m_Address: Loading_Screen
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: c3811011c4613e449a325afceed1f960
+    m_Address: Introduction_txt_scene
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: fa7730bc219dbc2428b9094001801031, type: 2}
   m_SchemaSet:

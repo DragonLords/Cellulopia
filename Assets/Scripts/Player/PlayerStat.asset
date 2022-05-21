@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: PlayerStat
   m_EditorClassIdentifier: 
   DamageValue: 1
-  delayReduction: 0.59
+  delayReduction: 11.33
   MoveSpeed: 5
   SkillPoint: 0
   Level: 0
   XP: 45
+  nextLevelXP: 100
   Life: 100
   MaxLife: 100
+  hasMove: 0
+  WorldSize: 0

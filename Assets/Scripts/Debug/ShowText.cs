@@ -9,7 +9,11 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Text;
 
-public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
+/// <summary>
+/// Classe qui sert a donner linteraction hover et onclick sur du TextMeshPro
+/// lorsque la classe herite de IPointerClickHandler, IPointerEnterHandler et IPointerExitHandler nous donne access a 3 fonction qui seront appeler lors de leur evenement declencher
+/// </summary>
+public class ShowText : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] TextMeshProUGUI txt;
     [SerializeField] Color _hoverColor;
@@ -21,7 +25,11 @@ public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoin
     [SerializeField] bool resetSave=false;
     [SerializeField] bool quit=false;
     [SerializeField] bool test=false;
+    [SerializeField] bool skipIntro = false;
     [SerializeField,Tooltip("Asset de la scene à charger")] AssetReference _sceneToLoad;
+    /// <summary>
+    /// Sert a garder une reference interne de la coroutine qui sert a creer une effet progressif de changement de couleur sur le texte
+    /// </summary>
     Coroutine routineAnim=null;
     // Start is called before the first frame update
     void Start()
@@ -33,6 +41,10 @@ public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoin
         txt.color=_normalColor;
     }
 
+    /// <summary>
+    /// Sert a detecter lorsquon clique sur lelement de UI
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
         // txt.color=_clickedColor;
@@ -41,15 +53,20 @@ public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoin
             routineAnim=null;
         }
         routineAnim=StartCoroutine(ChangeColor(txt.color,_clickedColor,true));
+
         if(quit){
             Application.Quit();
+        }
+        else if (skipIntro)
+        {
+            LoaderScene.Instance.SetSceneToLoad(AddressablePath.GameScene);
         }
         else if(test){
             LoaderScene.Instance.SetSceneToLoad(AddressablePath.testLoad);
         }
         else if(resetSave){
             SaveManager.ResetSave();
-            LoaderScene.Instance.SetSceneToLoad(AddressablePath.GameScene);
+            LoaderScene.Instance.SetSceneToLoad(AddressablePath.IntroTxtScene);
         }else{
             LoaderScene.Instance.SetSceneToLoad(AddressablePath.GameScene);
         }
@@ -89,39 +106,4 @@ public class ShowText : MonoBehaviour, IPointerClickHandler, IDragHandler, IPoin
         } while (txt.color!=target);
         routineAnim=null;
     }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        
-    }
-
-
-    public static Dictionary<string,int> bob=new(){
-        {"Bob",21783},{"shguidf",23487234},{"edioufgsdgu",234863245},{"dfjhdsf",382463246}
-    };
-    void Init(){
-        string path=$"{Application.dataPath}/Data/Test.json";
-        using(FileStream fs=new(path,FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.ReadWrite)){
-            Data data=new(bob:bob);
-            string json=JsonConvert.SerializeObject(data,Formatting.Indented);
-            Debug.Log(json);
-            byte[] bytes=new UTF8Encoding(true).GetBytes(json);
-            fs.Write(bytes);
-            fs.Close();
-        }
-    }
 }
-
-internal static class Test{
-    public static void Init(){
-        
-    }
-}
-public class Data{
-    public Dictionary<string,int> bob;
-
-    public Data(Dictionary<string,int> bob)
-    {
-        this.bob=bob;
-    }
-} 

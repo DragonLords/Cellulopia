@@ -18,7 +18,7 @@ public class LoaderScene : MonoBehaviour
         Instance=this;
         DontDestroyOnLoad(gameObject);
         loadScreenScene=AddressablePath.LoadingScene;
-        SetSceneToLoad(AddressablePath.GameScene);
+        //SetSceneToLoad(AddressablePath.GameScene);
     }
 
     /// <summary>
