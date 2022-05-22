@@ -33,14 +33,6 @@ MonoBehaviour:
     m_Address: FoodPath
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 08dbe1035aee6de42ab1bda4f88410c8
-    m_Address: Enemy
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: d4c2e2dd141f83f469433eeec0f6a37e
-    m_Address: Assets/Prefabs/Enemy 1.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 889c2e8ea77203549b1f67b7bb7f507e
     m_Address: Food3D
     m_ReadOnly: 0
@@ -51,10 +43,6 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 51a05e9c9f5ba4349999360138588b23
     m_Address: Get_Food
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 4b4389393838f6f49a0d1d3d8b1b4d8c
-    m_Address: EnemyHolder_3D
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 3cd5812eb460dc74a90549952d956a97

@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 5883499828930219203}
   - component: {fileID: 5883499828930219200}
   - component: {fileID: 5883499828930219201}
-  - component: {fileID: 5883499828930219202}
+  - component: {fileID: 1593993314712592073}
   m_Layer: 0
   m_Name: QuestButton
   m_TagString: Untagged
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5883499828930219202
+--- !u!114 &1593993314712592073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,11 +246,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5883499828930219207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b845d547901d1246b3f75c8047860fe, type: 3}
+  m_Script: {fileID: 11500000, guid: a238b1eaee7fcb54a9195ddc8c21f889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   questHolder: {fileID: 0}
-  quest: {fileID: 11400000, guid: a405a0b67b9f5e94890155b31e8a6fce, type: 2}
+  quest: {fileID: 0}
   progress: {fileID: 5883499829826697056}
 --- !u!1 &5883499829092193330
 GameObject:

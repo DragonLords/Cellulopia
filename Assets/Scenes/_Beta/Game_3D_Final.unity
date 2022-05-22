@@ -332,12 +332,13 @@ MonoBehaviour:
   enemies: []
   emptyTiles: []
   entitiesPlacer: {fileID: 0}
-  offsetSpawnPos: {x: 10, y: 10}
-  _source: {fileID: 0}
-  _hittedSound: {fileID: 0}
-  _eatSound: {fileID: 0}
-  _gainLevelSound: {fileID: 0}
-  _killedSound: {fileID: 0}
+  offsetSpawnPos: {x: 20, y: 20}
+  _source: {fileID: 4304855286340742785}
+  _hittedSound: {fileID: 8300000, guid: c921135226cc16947b7b31a31f76cad7, type: 3}
+  _eatSound: {fileID: 8300000, guid: c921135226cc16947b7b31a31f76cad7, type: 3}
+  _gainLevelSound: {fileID: 8300000, guid: 37170e7d5ef01fc47bc02a8ea9a3efd2, type: 3}
+  _killedSound: {fileID: 8300000, guid: 37170e7d5ef01fc47bc02a8ea9a3efd2, type: 3}
+  _bossMusic: {fileID: 0}
   limitEnemies: 50
 --- !u!4 &478126588
 Transform:
@@ -1371,6 +1372,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 4304855286340742784}
+    - target: {fileID: 3998214341410308215, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
+      propertyPath: _anim
+      value: 
+      objectReference: {fileID: 4304855286340742787}
+    - target: {fileID: 3998214341410308215, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
+      propertyPath: GreatestParent
+      value: 
+      objectReference: {fileID: 4304855286340742786}
     - target: {fileID: 4304855285885163417, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -1439,6 +1448,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4540759352868120597, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
+      propertyPath: questDesciptionGO
+      value: 
+      objectReference: {fileID: 4304855286340742788}
+    - target: {fileID: 4540759352868120597, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
+      propertyPath: queueQuest.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4540759352868120683, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1468,6 +1485,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b462c2465745a4f83a9bef3e08d1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &4304855286340742785 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 359915220, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
+  m_PrefabInstance: {fileID: 4304855286340742783}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4304855286340742786 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4304855285885163418, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
+  m_PrefabInstance: {fileID: 4304855286340742783}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4304855286340742787 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4305139187345837744, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
+  m_PrefabInstance: {fileID: 4304855286340742783}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4304855286340742788 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 831677833, guid: a2fa8cf2ff80086468bcd99d68953ed2, type: 3}
+  m_PrefabInstance: {fileID: 4304855286340742783}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6646065563218866619
 PrefabInstance:
   m_ObjectHideFlags: 0

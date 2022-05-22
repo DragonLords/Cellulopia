@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Classe qui sert a montrer le panneau de competence
+/// </summary>
 public class ShowSkillTree : MonoBehaviour
 {
     public Button button;

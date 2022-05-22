@@ -11,6 +11,7 @@ public class SaveData : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        //donne les chemins pour la sauvegarde
         SaveManager.dirPath=$"{Application.dataPath}/Data/";
         SaveManager.pathFile=$"{SaveManager.dirPath}Save.json";
     }

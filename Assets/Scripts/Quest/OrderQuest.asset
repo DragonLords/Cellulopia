@@ -15,6 +15,7 @@ MonoBehaviour:
   orderQuest:
   - {fileID: 11400000, guid: a405a0b67b9f5e94890155b31e8a6fce, type: 2}
   - {fileID: 11400000, guid: 3d721e2c158df074798783147fe223ab, type: 2}
+  - {fileID: 11400000, guid: 8ab22bfb8ac2606468a90c889ed21507, type: 2}
   - {fileID: 11400000, guid: 3c3f2e882b92b0d48bd5fd839a2468c1, type: 2}
   - {fileID: 11400000, guid: e8bdaa9b9ef00464a93edd5b587227ae, type: 2}
   - {fileID: 11400000, guid: e4b6025e19ebd7f4999706d03ab68d08, type: 2}

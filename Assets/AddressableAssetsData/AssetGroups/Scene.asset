@@ -33,6 +33,10 @@ MonoBehaviour:
     m_Address: Introduction_txt_scene
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: c4defe742004d934085c5eda1b6f94cf
+    m_Address: Fin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: fa7730bc219dbc2428b9094001801031, type: 2}
   m_SchemaSet:

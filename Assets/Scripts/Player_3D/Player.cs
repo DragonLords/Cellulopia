@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 namespace Player.Rework
 {
+    /// <summary>
+    /// classe qui sert a linteraction du joueur 
+    /// </summary>
     public class Player : MonoBehaviour
     {
         [SerializeField] Animator _anim;
@@ -112,13 +115,24 @@ namespace Player.Rework
             InitEvent();
             InitializeValue();
             GetEvolutionGrade(0);
-            // Debug.Log(EvolutionPoints);
         }
 
+        /// <summary>
+        /// sert a initialiser les evenements
+        /// </summary>
         private void InitEvent()
         {
-            //FIXME: not found the event
             PlayerGiveFood.AddListener(GiveFood);
+        }
+
+        /// <summary>
+        /// sert a redonner de la nourriture au joueur 
+        /// </summary>
+        /// <param name="value">la valeur a donner</param>
+        internal void GiveFood(float value)
+        {
+            Faim += value;
+            UpdateSlider();
         }
 
         void InitializeValue()
@@ -140,16 +154,10 @@ namespace Player.Rework
         }
 
 
-        internal void GiveFood(float value)
-        {
-            Faim += value;
-            if (Faim == 0 && !hungry)
-                LoopHungry().ConfigureAwait(false);
-            else if (Faim > 1 && hungry)
-                hungry = false;
-            UpdateSlider();
-        }
-
+        /// <summary>
+        /// sert a donner des points de competence et xp au joueur 
+        /// </summary>
+        /// <param name="value"></param>
         internal void GetEvolutionGrade(int value)
         {
             if (level == MaxLevel)
@@ -173,12 +181,10 @@ namespace Player.Rework
             UpdateSliderXP();
         }
 
-        internal void GiveSkillPoint(int value)
-        {
-            SkillPoint += value;
-            playerStat.SkillPoint=SkillPoint;
-        }
-
+        /// <summary>
+        /// sert a augmenter une stat du joueur
+        /// </summary>
+        /// <param name="skillTemplate"></param>
         internal void UpgradeStats(Skill.SkillTemplate skillTemplate)
         {
             switch (skillTemplate.statEffect)
@@ -208,12 +214,21 @@ namespace Player.Rework
             // ChangeSpeed(skillTemplate.statEffectValue);
         }
 
+        /// <summary>
+        /// sert a augmenter la vitesse du joueur 
+        /// </summary>
+        /// <param name="Value"></param>
         void ChangeSpeed(float Value)
         {
             _moveSpeed += Value;
             playerStat.MoveSpeed=_moveSpeed;
         }
 
+        /// <summary>
+        /// sert a augmenter lattque du joueur 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="reduction"></param>
         void UpgradeAttack(int value,float reduction)
         {
             DamageValue += value;
@@ -221,6 +236,7 @@ namespace Player.Rework
             playerStat.DamageValue=DamageValue;
         }
 
+        //sert a augementer la vie du joueur
         void UpgradeSurv(int value)
         {
             _maxLife += value;
@@ -229,16 +245,22 @@ namespace Player.Rework
             playerStat.Life=Life;
         }
 
+        /// <summary>
+        /// sert a quand le joueur prend des degats
+        /// </summary>
+        /// <param name="value"></param>
         internal void TakeDamage(int value)
         {
             Life -= value;
             UpdateSlider();
-            // if(Life==0)
-            //     PlayerDeath().ConfigureAwait(false);
+            if (Life == 0)
+                PlayerDeath().ConfigureAwait(false);
         }
 
 
-
+        /// <summary>
+        /// sert a actuliser les valeurs des sliders
+        /// </summary>
         void UpdateSlider()
         {
             _sliderFaim.gameObject.SetActive(false);
@@ -249,6 +271,9 @@ namespace Player.Rework
             // _sliderFaim.gameObject.SetActive(false);
         }
 
+        /// <summary>
+        /// sert a actuliser les valeurs des sliders
+        /// </summary>
         void UpdateSliderXP()
         {
             // _sliderXP.value = EvolutionPoints;
@@ -264,34 +289,32 @@ namespace Player.Rework
 
         }
 
-        internal async Task LoopHungry()
-        {
-            hungry = true;
-            do
-            {
-                GiveLife(penalityHunger);
-                await Task.Delay(TickHungry);
-            } while (hungry);
-        }
-
+        /// <summary>
+        /// sert a donner de la vie au joueur 
+        /// </summary>
+        /// <param name="value"></param>
         void GiveLife(int value)
         {
             Life += value;
             UpdateSlider();
         }
 
+        /// <summary>
+        /// sert a quand le joueur meurt
+        /// </summary>
+        /// <returns></returns>
         async Task PlayerDeath()
         {
             await Task.Yield();
             Destroy(GreatestParent);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Intro");
         }
 
-        public void SetQuest(List<Quest.QuestTemplate> quests)
-        {
-            questActive = quests;
-            hasQuest = true;
-        }
-
+        /// <summary>
+        /// sert a ajouter lobjet collecter pour la quete
+        /// </summary>
+        /// <param name="objCollected"></param>
+        /// <param name="tag"></param>
         internal void QuestItem(GameObject objCollected,string tag)
         {
             if (!activeQuest.IsSkillQuest)
@@ -306,6 +329,10 @@ namespace Player.Rework
             // questActive.NumberCollected++;
         }
 
+        /// <summary>
+        /// sert a enlever la quete active
+        /// </summary>
+        /// <param name="quest"></param>
         internal void RemoveQuestActive(Quest.QuestTemplate quest)
         {
             questActive.Remove(quest);
@@ -321,6 +348,9 @@ namespace Player.Rework
             }
         }
 
+        /// <summary>
+        /// sert determine si la quete est lier a lachat de la competence
+        /// </summary>
         internal void SkillQuest()
         {
             if (activeQuest.IsSkillQuest)
@@ -334,6 +364,10 @@ namespace Player.Rework
             }
         }
 
+        /// <summary>
+        /// sert a mettre la quete active
+        /// </summary>
+        /// <param name="quest"></param>
         internal void SetActiveQuest(Quest.QuestTemplate quest)
         {
             activeQuest = quest;
@@ -354,11 +388,19 @@ namespace Player.Rework
         }
 
         #region InputEvent
+        /// <summary>
+        /// sert a collecter la position de la souris
+        /// </summary>
+        /// <param name="ctx"></param>
         public void ReadMovePress(InputAction.CallbackContext ctx)
         {
             KeyPress = ctx.ReadValue<Vector2>() != Vector2.zero;
             moveInput = ctx.ReadValue<Vector2>();
         }
+        /// <summary>
+        /// sert a collecter la position de la souris
+        /// </summary>
+        /// <param name="ctx"></param>
         public void ReadMousePos(InputAction.CallbackContext ctx)
         {
             if (mousePress)
@@ -372,6 +414,10 @@ namespace Player.Rework
                 moveInput = Vector2.zero;
             }
         }
+        /// <summary>
+        /// sert a collecter le clique de la souris
+        /// </summary>
+        /// <param name="ctx"></param>
         public void ReadMousePress(InputAction.CallbackContext ctx)
         {
             mousePress = ctx.phase.IsInProgress();
@@ -401,6 +447,9 @@ namespace Player.Rework
             }
         }
 
+        /// <summary>
+        /// sert a bouger le perso dans la direction de la souris
+        /// </summary>
         void MoveCharacter()
         {
             if (moveInput != Vector2.zero)
@@ -415,42 +464,18 @@ namespace Player.Rework
             }
         }
 
+        /// <summary>
+        /// sert a tourner en direction que pointe la souris
+        /// </summary>
         void RotateTowardTarget()
         {
             Vector3 dir = new Vector3(mousePosWorld.x - transform.position.x, 0f, mousePosWorld.z - transform.position.z) * -1f;
             transform.forward = dir;
         }
 
-        IEnumerator ShowClosestTarget()
-        {
-            do
-            {
-
-                yield return null;
-            } while (alive);
-        }
-
-        Transform GetClosestTarget()
-        {
-            int layerTarget = activeQuest.objectToCollect.layer;
-            var colls = Physics.OverlapSphere(transform.position, 500f, layerTarget);
-            if (colls.Length > 0)
-            {
-                float dst = float.MaxValue;
-                int selected = 0;
-                for (int i = 0; i < colls.Length; i++)
-                {
-                    float distance = Vector3.Distance(transform.position, colls[i].transform.position);
-                    if (distance < dst)
-                    {
-                        selected = i;
-                        dst = distance;
-                    }
-                }
-            }
-            return null;
-        }
-
+        /// <summary>
+        /// sert a jouer un flipbook montrant lanimation de la souris qui bouge
+        /// </summary>
         public void ShowControl(){
             StartCoroutine(ShowingControl());
             IEnumerator ShowingControl(){
@@ -466,6 +491,9 @@ namespace Player.Rework
             }
         }
 
+        /// <summary>
+        /// sert a jouer lanimation de manger du joueur 
+        /// </summary>
         public void PlayAnimEat(){
             if(playerStat.DelayAttack==0)
                 return;
@@ -473,6 +501,11 @@ namespace Player.Rework
             _anim.SetTrigger(_eatAnimID);
         }
 
+        /// <summary>
+        /// sert a caluler le multiplicateur de vitesse necessaire pour laniamtion de manger du joueur 
+        /// </summary>
+        /// <param name="targetTime"></param>
+        /// <returns></returns>
         float CalculateMultiplier(float targetTime){
             //samplerate is the number of frame in my animation
             AnimationClip clip=UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<AnimationClip>(AddressablePath.PlayerEat).WaitForCompletion();

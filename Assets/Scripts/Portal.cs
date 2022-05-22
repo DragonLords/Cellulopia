@@ -1,19 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Classe qui sert a linteraction du portail
+/// </summary>
 public class Portal : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void TriggerBossFight()
     {
-        
-    }
-
-
-    public void TriggerBossFight(){
         GameManager.Instance.SpawnNewBoss();
         Destroy(gameObject);
     }

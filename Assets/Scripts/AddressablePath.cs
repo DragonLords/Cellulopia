@@ -1,3 +1,6 @@
+/// <summary>
+/// Classe qui me sert a garder facilement accessible et dutilisation les paths des addressables
+/// </summary>
 public static class AddressablePath
 {
     public static string Sol = "Sol";
@@ -18,6 +21,7 @@ public static class AddressablePath
     public static string LoadingScene = "Loading_Screen";
     public static string testLoad = "LOad_mpa";
     public static string IntroTxtScene = "Introduction_txt_scene";
+    public static string End = "Fin";
     #endregion
     #region Animation
     public static string PlayerEat = "eat_anim_player";

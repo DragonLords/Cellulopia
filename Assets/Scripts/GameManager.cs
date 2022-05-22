@@ -16,6 +16,9 @@ using Newtonsoft;
 using UnityEditor;
 using Newtonsoft.Json.Linq;
 
+/// <summary>
+/// Classe qui sert a un paquet dutilite regrouper en tant que gamemanager
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     [SerializeField, Range(0, 5)] float TimeSpeed = 1f;
@@ -69,12 +72,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip _eatSound;
     [SerializeField] private AudioClip _gainLevelSound;
     [SerializeField] private AudioClip _killedSound;
+    [SerializeField] private AudioClip _bossMusic;
     internal Dictionary<SoundType, AudioClip> soundStock = new();
     #endregion
     public int limitEnemies = 50;
     private void Awake()
     {
-
         if (player is null)
             player = FindObjectOfType<Player.Rework.Player>();
         AddStats.AddListener(UpgradePlayerStats);
@@ -109,43 +112,29 @@ public class GameManager : MonoBehaviour
     }
 
     #region Save
-    internal async Task ResetSave()
-    {
-        //make a new save here
-        //so dleete and reset value
-        //or just recreate a new class
-        gameSetup = new();
-        string json = JsonConvert.SerializeObject(gameSetup, Formatting.Indented);
-        await File.WriteAllTextAsync(savePath, json);
-        // Debug.Log("text written");
-    }
-
+    /// <summary>
+    /// sert a charger la sauvegarde
+    /// </summary>
     void LoadSave()
     {
         gameSetup = SaveManager.LoadSave();
         player.playerStat.Stack(gameSetup);
-        // Debug.Log(gameSetup);
     }
 
+    /// <summary>
+    /// sert a sauvegarder la progression
+    /// </summary>
     public void SaveData()
     {
         player.playerStat.UnStack(SaveManager.setup);
         SaveManager.SaveGame();
-        Debug.Log("<color=cyan>Game Saved!</color>");
-    }
-
-    void CheckIfSaveExist()
-    {
-        if (!File.Exists(savePath))
-        {
-            // Debug.Log("Doesnt exist");
-            Directory.CreateDirectory(dir);
-            File.Create(savePath);
-        }
-        // Debug.Log("found");
     }
     #endregion
 
+    /// <summary>
+    /// sert a montrer une animation de souris qui bouge pour montrer les controles
+    /// </summary>
+    /// <returns></returns>
     IEnumerator WaitToShowControl()
     {
         yield return new WaitForSeconds(5);
@@ -153,6 +142,11 @@ public class GameManager : MonoBehaviour
             PlayerShowControl.Invoke();
     }
 
+    /// <summary>
+    /// sert a aller chercher les stats du joueur (utile pour les montrer dans le panneau de competence)
+    /// </summary>
+    /// <param name="statEffect"></param>
+    /// <returns></returns>
     internal List<string> GetPlayerStat(Player.Skill.SkillTemplate.StatEffect statEffect)
     {
         List<string> value = new();
@@ -171,13 +165,27 @@ public class GameManager : MonoBehaviour
 
 
     #region Upgrade Player
+    /// <summary>
+    /// dit si le joueur peut acheter uen competence
+    /// </summary>
+    /// <param name="skill"></param>
+    /// <returns></returns>
     public bool CanBuySkill(Player.Skill.SkillTemplate skill) => player.SkillPoint >= skill.skillCost;
 
+    /// <summary>
+    /// augmente la stat du joueur 
+    /// </summary>
+    /// <param name="skill"></param>
     void UpgradePlayerStats(Player.Skill.SkillTemplate skill)
     {
         player.UpgradeStats(skill);
         player.SkillQuest();
     }
+
+    /// <summary>
+    /// augemente la competence du joueur 
+    /// </summary>
+    /// <param name="skill"></param>
     void UpgradePlayerSkills(Player.Skill.SkillTemplate skill)
     {
         // player.DonnerCompetence(skill);
@@ -195,6 +203,10 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// sert a mettre le jeu en pause
+    /// </summary>
+    /// <param name="forcingPause">determine si le mode pause est forcer (tableau de competence)</param>
     public void PauseGame(bool forcingPause = false)
     {
         if (!Paused)
@@ -284,8 +296,7 @@ public class GameManager : MonoBehaviour
 
 
     /// <summary>
-    /// Will spawn the boss near the player using the variable "offsetSpawnPos"
-    /// it work using recursive call when validating if the boss is in the bounds of the map
+    /// sert a faire apparaitre le boss
     /// </summary>
     internal void SpawnNewBoss()
     {
@@ -293,10 +304,13 @@ public class GameManager : MonoBehaviour
         float rngX = UnityEngine.Random.Range(posPlayer.x - offsetSpawnPos.x, posPlayer.x + offsetSpawnPos.x + 1);
         float rngZ = UnityEngine.Random.Range(posPlayer.z - offsetSpawnPos.y, posPlayer.z + offsetSpawnPos.y + 1);
         Vector3 posToSpawn = new(rngX, posPlayer.y, rngZ);
+        //on verifie si la position est dans larene
         if (VerifiyIfInBounds(posToSpawn))
         {
             var boss = Addressables.InstantiateAsync(bossKey, posToSpawn, Quaternion.identity);
+            _source.clip = _bossMusic;
         }
+        //sinon on recommence
         else
         {
             SpawnNewBoss();
@@ -304,7 +318,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// used to verify if the boss is in bounds of the map
+    /// dit si le boss est dans larene 
     /// </summary>
     /// <param name="posToVerify"></param>
     /// <returns></returns>
@@ -315,13 +329,6 @@ public class GameManager : MonoBehaviour
             return true;
         else
             return false;
-    }
-    #endregion
-
-    #region sim
-    void Born()
-    {
-        FindObjectOfType<GOAPAgent>().Duplicate();
     }
     #endregion
 
@@ -346,10 +353,6 @@ public class GameManager : MonoBehaviour
     {
         _source.PlayOneShot(clip);
     }
-    #endregion
-
-    #region Enemy
-    public bool CanSpawnNewEnemy() => true;
     #endregion
 
     internal class SoundEvents : UnityEvent<AudioClip> { }

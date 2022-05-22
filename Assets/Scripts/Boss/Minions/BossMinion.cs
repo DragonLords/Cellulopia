@@ -1,14 +1,17 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Linq;
 
 namespace Boss.Minion
 {
+    /// <summary>
+    /// classe qui sert a linteraction du sbire du boss
+    /// </summary>
     public class BossMinion : MonoBehaviour
     {
-        [SerializeField] int xpGiven=50;
-        internal WaitForSeconds DelayBetweenAttack=new(3f);
+        [SerializeField] int xpGiven = 50;
+        internal WaitForSeconds DelayBetweenAttack = new(3f);
         [SerializeField] MinionSetting setting;
         public bool needToProtect = false;
         public Vector3 offset;
@@ -21,8 +24,8 @@ namespace Boss.Minion
         [SerializeField] Transform selfContainer;
         #region Attack
         [Header("Attack")]
-        internal bool canAttack=true;
-        [SerializeField] internal float RadiusPlayer=3f; 
+        internal bool canAttack = true;
+        [SerializeField] internal float RadiusPlayer = 3f;
         #endregion
         [SerializeField] float DelayAlive = 5f;
         WaitForSeconds wsDelayAlive;
@@ -35,6 +38,10 @@ namespace Boss.Minion
         bool alive = true;
         [SerializeField, TagSelector] internal string playerTag;
 
+        /// <summary>
+        /// fonction qui sert a garder les infos par rapport au boss
+        /// </summary>
+        /// <param name="boss"></param>
         public void SetBoss(Boss boss)
         {
             this.boss = boss;
@@ -42,35 +49,38 @@ namespace Boss.Minion
             OnStart();
         }
 
-        // Use this for initialization
+        // Fonction qui sert a donner les valeur a la naissance du sbire
         void OnStart()
         {
-            life=setting.life;
-            damage=setting.Damage;
-            agent.speed=setting.speed;
-
-
+            life = setting.life;
+            damage = setting.Damage;
+            agent.speed = setting.speed;
             wsDelayAlive = new(DelayAlive);
-            // player=FindObjectOfType<Player.Rework.Player>().transform;
             rends = GetComponentsInChildren<Renderer>();
-            // StartCoroutine(ChasePlayerToAttack());
-            // StartCoroutine(DieDelay());
-            // StartCoroutine(RotateAroundBoss());
             StartCoroutine(RotateAroundNav());
-            // StartCoroutine(CheckIfTooFarBoss());
         }
 
+        /// <summary>
+        /// Sert a prendre des degats
+        /// </summary>
+        /// <param name="value">le nombre de degat subi</param>
         public void TakeDamage(int value)
         {
             life -= value;
             if (life < 1)
             {
                 StartCoroutine(Death());
-            }else{
+            }
+            else
+            {
                 GameManager.Instance.PlaySoundClip(GameManager.Instance.soundStock[SoundType.Hit]);
             }
         }
 
+        /// <summary>
+        /// sert a effectuer les actions de mort
+        /// </summary>
+        /// <returns></returns>
         IEnumerator Death()
         {
             alive = false;
@@ -103,6 +113,10 @@ namespace Boss.Minion
             Destroy(selfContainer.gameObject);
         }
 
+        /// <summary>
+        /// sert a tourner autour du boss
+        /// </summary>
+        /// <returns></returns>
         IEnumerator RotateAroundNav()
         {
             bool positive = Random.Range(0, 2) == 1;
@@ -127,23 +141,34 @@ namespace Boss.Minion
             agent.angularSpeed = angularSpd;
         }
 
-        
-        internal IEnumerator TurnAroundPlayer(){
+        /// <summary>
+        /// sert a tourner autour du joueur 
+        /// </summary>
+        /// <returns></returns>
+        internal IEnumerator TurnAroundPlayer()
+        {
             do
             {
-                if(player!=null){
-                    offset=player.position-selfContainer.position;
+                if (player != null)
+                {
+                    offset = player.position - selfContainer.position;
                     dir = Vector3.Cross(offset, Vector3.up * _orbitSpeed);
                     final = selfContainer.position + dir;
                     finalClamped = new(Mathf.Clamp(final.x, player.position.x - RadiusPlayer, player.position.x + RadiusPlayer), final.y, Mathf.Clamp(final.z, player.position.z - RadiusPlayer, player.position.z + RadiusPlayer));
                     agent.SetDestination(finalClamped);
-                }else{
+                }
+                else
+                {
                     break;
                 }
                 yield return null;
             } while (!canAttack);
         }
 
+        /// <summary>
+        /// sert a attaquer
+        /// </summary>
+        /// <param name="player">le transfrom du joueur a attaquer</param>
         public void Attack(Transform player)
         {
             // Debug.Log("protecting is my duty");
@@ -152,6 +177,10 @@ namespace Boss.Minion
             StartCoroutine(Pursue());
         }
 
+        /// <summary>
+        /// sert a poursuivre le joueur 
+        /// </summary>
+        /// <returns></returns>
         IEnumerator Pursue()
         {
             do
@@ -172,7 +201,7 @@ namespace Boss.Minion
                     break;
                 }
                 yield return null;
-            } while (alive && needToProtect&&canAttack);
+            } while (alive && needToProtect && canAttack);
             boss.MinionReturn(selfContainer.gameObject);
             StartCoroutine(RotateAroundNav());
         }

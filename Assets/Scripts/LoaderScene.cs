@@ -8,6 +8,9 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Classe qui sert a charger les scene en mode addressable
+/// </summary>
 public class LoaderScene : MonoBehaviour
 {
     public static LoaderScene Instance;
@@ -21,19 +24,17 @@ public class LoaderScene : MonoBehaviour
         //SetSceneToLoad(AddressablePath.GameScene);
     }
 
-    /// <summary>
-    /// STEPS TO FOLLOW:
-    /// load the loading scene and enqueue
-    /// unload the old scene and unqueue
-    /// load the new scene
-    /// unload the loading scene and unqueue
-    /// </summary>
+/// <summary>
+/// sert a faire charger pregressivement et efficacement la scene en mode async
+/// </summary>
+/// <param name="sceneAdress">le chemin addressable de la scene a charger</param>
 
     public void SetSceneToLoad(string sceneAdress){
         sceneToLoad=sceneAdress;
         StartCoroutine(LoadSceneLoading());
     }
 
+    //charge la scene de charegement
     IEnumerator LoadSceneLoading(){
         AsyncOperationHandle<SceneInstance> handle=Addressables.LoadSceneAsync(loadScreenScene);
         // Debug.Log(handle.PercentComplete);
@@ -47,6 +48,7 @@ public class LoaderScene : MonoBehaviour
         StartCoroutine(LoadScene());
     }
 
+    //charge la scene
     IEnumerator LoadScene()
     {
         //add the progress of loading this scene through the progress bar
@@ -62,6 +64,7 @@ public class LoaderScene : MonoBehaviour
         StartCoroutine(UnloadOldScene());
     }
 
+    //decharge la vielle scene
     IEnumerator UnloadOldScene(){
         oldScene.Reverse();
         SceneInstance sceneToUnload=oldScene.Dequeue();

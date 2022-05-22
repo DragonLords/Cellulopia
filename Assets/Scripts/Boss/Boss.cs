@@ -11,6 +11,9 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace Boss
 {
+    /// <summary>
+    /// classe qui sert a linteraction du boss
+    /// </summary>
     public class Boss : MonoBehaviour
     {
         public int DebugLife;
@@ -46,31 +49,15 @@ namespace Boss
             DebugLife=Life;
             setting.DelaySpawnMinion=new(setting.delaySpawnMinion);
             LoadAsset();
-            // _agent = GetComponent<NavMeshAgent>();
             holderProj=new GameObject("holder_porjectile").transform;
             holderProj.SetParent(transform);
             searchingForPlayer=true;
-            // FindPlayer().ConfigureAwait(false);
             #if UNITY_EDITOR
             alive=UnityEditor.EditorApplication.isPlaying;
 #else
             alive =true;
 #endif
             rend=GetComponentsInChildren<Renderer>();
-            // Move().ConfigureAwait(false);
-            //NewRot().ConfigureAwait(false);
-            // DebugLine().ConfigureAwait(false);
-            //ChargeThePlayer().ConfigureAwait(false).GetAwaiter();
-            //AttackPlayer().ConfigureAwait(false);
-            // StartCoroutine(ShowSlider());
-            // for(int i=0;i<4;++i)
-            //     waypoints.Add(GameManager.Instance.emptyTiles[Random.Range(0,GameManager.Instance.emptyTiles.Count)]);
-            // yield return new WaitForSeconds(5f);
-            // Debug.Log("Bob");
-            // StartCoroutine(TryAttack());
-            // slider.maxValue=Life;
-            // slider.value=Life;
-            // StartCoroutine(Move());
             for (int i = 0; i < setting.MinionAtStart; i++)
                 SpawnMinion();
             yield return null;
@@ -78,6 +65,10 @@ namespace Boss
             StartCoroutine(SpawnPerma());
         }
 
+        /// <summary>
+        /// sert a faire apparaitre les minions du boss
+        /// </summary>
+        /// <returns></returns>
         IEnumerator SpawnPerma(){
             do
             {
@@ -88,12 +79,18 @@ namespace Boss
             } while (alive);
         }
 
+        /// <summary>
+        /// sert a nettoyer les listes des minions des element detruits
+        /// </summary>
         void CleanList(){
             minions.RemoveAll(item=>item==null);
             idlingMinions.RemoveAll(item=>item==null);
             attackingMinions.RemoveAll(item=>item==null);
         }
 
+        /// <summary>
+        /// sert a faire apparraitre les minions
+        /// </summary>
         void SpawnMinion()
         {
             float posX = Random.Range(BossCenter.position.x - setting.rangeMinion, (BossCenter.position.x + setting.rangeMinion) + 1);
@@ -106,6 +103,10 @@ namespace Boss
             minion.transform.SetParent(minionHolder);
         }
 
+        /// <summary>
+        /// sert a detecter si le joueur ets proches
+        /// </summary>
+        /// <returns></returns>
         IEnumerator DetectPlayerClose(){
             do
             {
@@ -119,6 +120,10 @@ namespace Boss
             } while (alive);
         }
 
+        /// <summary>
+        /// sert a envoyer les minions a lattaques
+        /// </summary>
+        /// <param name="target">la cible a attauqer</param>
         void SendMinionsToAttack(Transform target){
             if(idlingMinions.Count==0)
                 return;
@@ -132,11 +137,19 @@ namespace Boss
             minion.Attack(target);
         }
 
+        /// <summary>
+        /// sert a modifier les listes de quand les minions retourne de lattque
+        /// </summary>
+        /// <param name="minion"></param>
         public void MinionReturn(GameObject minion){
             idlingMinions.Add(minion);
             attackingMinions.Remove(minion);
         }
 
+        /// <summary>
+        /// sert a quand le boss prend des degats
+        /// </summary>
+        /// <param name="value">les degats subi</param>
         public void TakeDamage(int value)
         {
             Life -= value;
@@ -157,6 +170,10 @@ namespace Boss
             slider.gameObject.SetActive(!true);
         }
 
+        /// <summary>
+        /// sert a quand le boss meurt
+        /// </summary>
+        /// <returns></returns>
         IEnumerator Death()
         {
             Material mat = rend.First().material;
@@ -182,6 +199,7 @@ namespace Boss
                 Destroy(minion);
             }
             CleanList();
+            LoaderScene.Instance.SetSceneToLoad(AddressablePath.End);
             Destroy(GreatestParent.gameObject);
             yield return null;
         }
@@ -189,15 +207,6 @@ namespace Boss
 
         void LoadAsset(){
             Addressables.LoadAssetAsync<GameObject>(minionKey).WaitForCompletion();
-        }
-
-        async Task RotateAroundPlayer(){
-            await Task.Yield();
-            do
-            {
-                transform.RotateAround(new(player.position.x+offset.x,player.position.y,player.position.z+offset.z),Vector3.up,orbitSpeed*Time.deltaTime);
-                await Task.Yield();
-            } while (alive);
         }
        
         private void OnDrawGizmos()
